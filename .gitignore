@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+_email_preview.html
+output/
+logs/
+cloud/
+.vscode/

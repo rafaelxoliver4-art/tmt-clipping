@@ -1,0 +1,33 @@
+name: TMT News Clipping
+description: >
+  Runs the TMT News Clipping pipeline — scrapes Google News and direct sources,
+  categorises headlines by sector and ticker via Claude, and generates a PDF report.
+  Covers: Telecom LatAm, Telecom Brazil, IT Services, Software & AI, Ecommerce,
+  Hardware, Streaming. News window: today and yesterday.
+
+trigger_phrases:
+  - "run the clipping"
+  - "gera o clipping"
+  - "rodar o clipping"
+  - "run clipping"
+  - "make the clipping"
+  - "run tmt"
+
+steps:
+  - name: Run pipeline
+    action: run_bat
+    file: run_clipping.bat
+
+  - name: Open PDF
+    action: open_file
+    pattern: "output/TMT_News_Clipping_*.pdf"
+    description: Open the generated PDF for the user
+
+on_success: >
+  The clipping is ready. PDF saved to the output folder and opened for you.
+
+on_error: >
+  Something went wrong. Check that:
+  1. ANTHROPIC_API_KEY environment variable is set
+  2. Python and reportlab are installed (pip install reportlab tqdm)
+  3. You have internet access

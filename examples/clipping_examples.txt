@@ -1,0 +1,309 @@
+# Real TMT News Clipping Examples — April 2026
+# Source: Rafael Oliveira (UBS LatAm TMT), shared Apr-May 2026
+#
+# Use these examples to understand:
+#   - Which ticker tags are used (TEF-BZ not VIVT3; TIM not TIMS3; ACN, COG, INFY, AMZN, MSFT)
+#   - Multi-ticker format: AMX/TEF-BZ/TIM, GLOB/CINT, VTEX/LWSA, TOTVS/Sage
+#   - Read-across tag style: "TOTVS: MSFT: Microsoft..." (covered ticker / peer ticker / headline)
+#   - Sell-side section for broker rating changes
+#   - What is material vs. Other News vs. Omit
+#
+# NOTE: These are past examples. They complement editorial judgment — not a prediction template.
+
+==============================================================
+TMT News Clipping — 28/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+AMX: Promtel: Inyecciones de Capex para operadores de proximidad llegarán en el segundo semestre de 2026
+AMX: CRT fija para mayo la consulta pública sobre la primera subasta de espectro 5G industrial
+AMX: Altán Redes suprime los biométricos para agilizar los registros del padrón de telefonía de la CRT
+Sector: Colombia avanza en modernización del espectro para impulsar la conectividad móvil
+
+Telecom Brazil:
+TEF-BZ: Vivo e Ecovias vão ativar internet na BR-050 entre Goiás e MG
+TEF-BZ: Vivo nomeia María Rotondo Urcola para o conselho de administração
+TEF-BZ: Vivo lança roaming para Pré e Controle em viagens aos EUA, Canadá e México
+Sector: Justiça suspende transferência de outorgas de 5G da Ligga para o Amazônia 5G e Unifique
+Sector: Justiça autoriza venda da Oi Soluções e marca leilão para junho
+
+IT Services:
+[empty]
+
+Software and AI:
+AMZN: Amazon targets mass hiring with agentic software, goal to humanise AI
+AMZN: Amazon Launches AI Productivity Software for Office Workers
+AMZN: Amazon is already offering new OpenAI products on AWS
+Sector: The Jevons Employment Effect From AI
+Sector: Lovable launches its vibe-coding app on iOS and Android
+
+Ecommerce:
+VTEX/LWSA: Tráfego de IA no e-commerce dos EUA cresce 393% e supera conversão tradicional
+VTEX: VTEX chama Michel Tauil para o topo
+Sector: Mais de 5 mil produtos brasileiros terão tarifa zero no mercado europeu a partir de maio
+Sector: Amazon acelera expansão no Brasil e chega à marca de 300 centros logísticos
+
+==============================================================
+TMT News Clipping — 29/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+AMX: México acelera flexibilización del espectro para redes privadas
+AMX: 5G de Claro ya está en 63 territorios de Colombia
+AMX: México anuncia plano nacional de licitações de espectro para 2026
+TEF-MX: Telefónica supera 1.3 millones de conexiones IoT en medio de su transición hacia Oxio
+Sector: Telefónica e Sateliot avançam em 5G via satélite
+Sector: Zaaz quer superar 1 milhão de clientes em fibra com aquisições em 2026
+
+Telecom Brazil:
+AMX/TEF-BZ/TIM/ISPs: Justiça impõe restrições à participação de empresas em leilão de telefonia móvel
+AMX/TEF-BZ/TIM: Sky acelera triple play com Sky Móvel e internet satelital via Amazon Leo
+AMX: Claro renova mandatos de presidente, CEO e RI até 2029
+DESK: R$5mn dividend announced
+
+IT Services:
+COG: Cognizant forecasts quarterly revenue below estimates on cautious IT spending
+COG: Cognizant to cut 4,000 jobs as AI push, weak demand weigh on outlook
+Sector: Enterprises still chase incremental, not transformational, AI gains
+
+Software and AI:
+SAP: SAP 2027 deadline for S/4HANA out of reach for most customers
+Sector: Amazon conduz recrutamento com agentes de IA
+Sector: Oracle NetSuite announces AI coding skills for SuiteCloud developers
+
+Ecommerce:
+VTEX/LWSA: Migração de plataforma deixou de ser risco e virou estratégia de crescimento no varejo
+VTEX: Magalu expande portfólio e lança campanha para vendedores
+Sector: E-commerce LATAM 2026: IA e maturidade transformam o mercado
+Sector: Visa lança no Brasil programa de testes para pagamentos agênticos
+
+==============================================================
+TMT News Clipping — 30/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+MX: Neutralidad y competencia: La estrategia de Altán para potenciar el mercado mayorista y los OMV en México
+TEO: 30 días para el pronunciamiento de la autoridad de Competencia de Argentina sobre Telecom-Telefónica
+TIGO: Movistar Colombia recibe multa por fallas en portabilidad numérica
+Sector: OMVs en Latam representaron 8% del total de líneas móviles en 2025
+Sector: IA exige redes ópticas mais escaláveis e resilientes, diz Nokia
+
+Telecom Brazil:
+TIM: TIM vai implantar rede 4G em instalações da Cerradão
+Sector: TRF-3 derruba suspensão e libera leilão de 700 MHz
+Sector: Unifique e Brisanet derrubam liminar da Telcomp e leilão de 700 MHz poderá ser retomado
+Sector: Anatel confirma abertura das propostas do 700 MHz para dia 4
+
+IT Services:
+Sector: IT cuts mid-tier, expands AI-smart entry level in new hiring playbook
+Sector: Enterprises still chase incremental, not transformational, AI gains
+
+Software and AI:
+TOTVS: MSFT: Microsoft Pushes Usage-Based Pricing as AI Eats into Cloud Margins
+TOTVS/Sage: Sage expands AI agents across finance, HR and operations to automate workflows
+Sector: Sectors Embracing AI Are Seeing a Surge in New Business Formation
+Sector: After dissing Anthropic for limiting Mythos, OpenAI restricts access to Cyber, too
+OpenAI: OpenAI announces new advanced security for ChatGPT accounts
+
+Ecommerce:
+Sector: Nuvemshop inaugura centro logístico em SC com foco na redução de prazos de entrega
+Sector: Correios criam sistema que simplifica envio internacional para PMEs
+
+==============================================================
+TMT News Clipping — 27/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+TIGO: Gobierno colombiano finaliza segunda etapa de venta de participación de Coltel (Movistar)
+MX: Desconexión regulatoria de más de 100 millones de líneas móviles
+TEO: Redes privadas, fusión Telecom-Telefónica y financiamiento TIC: la agenda de Enacom según Ozores
+TEO: Argentina mejora con 5G, pero persisten brechas regionales
+
+Telecom Brazil:
+AMX/TEF-BZ/TIM: Oracle vê telcos como base da nuvem soberana no Brasil
+Sector: DF, SC e SP lideram índice de conectividade da Anatel
+Sector: Avanço do setor requer expansão da conectividade
+
+IT Services:
+GLOB/CINT: Uber CTO says AI spending plans fall short as tools like Claude Code drive costs up
+Globant: Securities Fraud Investigation Into Globant S.A. (GLOB) Announced
+ACN: Accenture to roll out Copilot to all 743,000 employees in boost for Microsoft
+Sector: Cost pressures part of normal market evolution, says LTM CEO
+
+Software and AI:
+OpenAI: OpenAI could be making a phone with AI agents replacing apps
+OpenAI: OpenAI breaks off Microsoft exclusivity, Amazon CEO says OpenAI models coming to AWS soon
+Sector: NVIDIA e Google Cloud reforçam infraestrutura para IA na indústria
+
+Ecommerce:
+Anthropic: Anthropic created a test marketplace for agent-on-agent commerce
+Sector: Buscas via IA cortam mais de 95% do tráfego para sites, mostra estudo
+
+Hardware:
+INTB: INTELBRAS BUYS LAND IN MANAUS, TO INVEST BRL200M OVER 18 MONTHS
+
+Sell-side:
+TIMB: Tim SA downgraded to Neutral from Outperform at Bradesco BBI
+VIV: Telefonica Brasil downgraded to Neutral from Outperform at Bradesco BBI
+
+Next Results/Events:
+Televisa reports TODAY
+Televisa Univision reports TODAY
+Walmex (BAIT) to report TODAY
+Cognizant to report on April-29 (before market open)
+Grid Dynamics April-30
+Shopify to report on May-5
+EPAM to report on May-7
+TEF-MC to report on May-14
+AMX Investor Day May-27
+
+==============================================================
+TMT News Clipping — 26/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+TIGO: Millicom consolida control de Movistar Colombia tras compra de acciones del Estado
+AMX: México lanza Plan Nacional de Conectividad 2026-2030
+AMX: How 'unfeasible' GPU costs limit Claro's AI business
+AMX: Claro Argentina invertirá 500 mdd en 2026
+TEF: Brasil responde por quase R$ 13 bi em tributos da Telefónica
+TEO: Queda na receita impulsiona alianças com OTT, satélites e IA, diz CEO da Telecom Argentina
+TEO: Personal se propone terminar el año con más de 2,000 sitios 5G y 300,000 clientes FWA
+
+Telecom Brazil:
+AMX/TEF-BZ/TIM: Telecom enfrenta alta de preços de equipamentos e risco de escassez
+AMX: Claro Brasil mantiene los precios de dispositivos y apuesta por la Nube
+AMX: Claro Brasil anuncia fibra de hasta 10 Giga y alianzas con Google y Apple
+AMX: Claro avalia entrada no mercado de energia, diz CEO
+Sector: S&P projeta crescimento de 2,9% ao ano na receita móvel no Brasil até 2032
+
+IT Services:
+GLOB: Globant Named Adobe Customer Experience Orchestration Partner of the Year for LATAM
+GLOB: Globant Wins 2026 Google Cloud Country Partner of the Year Award For Argentina
+Sector: Indian IT firms near-term outlook muted as clients cut spending, AI risks mount
+Sector: IT majors' shares fall following mixed results, weak outlook
+
+Software and AI:
+TOTVS: SAP afirma que Brasil está entre os países com melhor desempenho no seu negócio de nuvem
+Anthropic: Google to invest up to $40B in Anthropic in cash and compute
+Sector: Uber CTO says AI spending plans fall short as tools like Claude Code drive costs up
+Sector: Uber's Anthropic AI Push Hits A Wall — CTO Says Budget Struggles Despite $3.4B Spend
+OpenAI: OpenAI launches workspace agents in ChatGPT
+
+Ecommerce:
+LWSA: Buscas por agentes de IA crescem 22% no Brasil, aponta Locaweb
+
+==============================================================
+TMT News Clipping — 22/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+AMX: How 'unfeasible' GPU costs limit Claro's AI business
+AMX: Nuevo padrón de telefonía de la CRT borra 1 millón de líneas de prepago en Telcel y AT&T
+TIGO/TEF: Colombia deberá pagar más de 500 mde a Telefónica; Gobierno continuará defensa
+Sector: El modelo telco se reinventa para financiar la infraestructura digital del futuro
+Sector: WhatsApp lança recarga de celular pré-pago na Índia
+
+Telecom Brazil:
+AMX: Marques, da Claro, diz que Redata é essencial para implantar capacidade local de IA
+Sector: V.tal levará infraestrutura móvel 4G e 5G ao Mané Garrincha
+
+IT Services:
+Sector: Tech Services Buyer Survey: Betting Big on AI and Resilience
+INFY: India's Infosys forecasts weak revenue growth as AI-driven caution dents IT spending
+Sector: Gartner ups IT spending growth to 13.5% in revised forecast
+
+Software and AI:
+TOTVS: Software stocks plunge on ServiceNow, IBM results as AI fears escalate
+TOTVS: AI deepens US tech divide as IBM, ServiceNow spark software selloff
+OpenAI: OpenAI releases GPT-5.5, bringing company one step closer to an AI 'super app'
+Sector: Meta tells staff it will cut 10% of jobs in push for efficiency
+Sector: AI Adoption Is Driving Business Formation
+Sector: Google pitches Agentic Data Cloud to help enterprises turn data into context for AI agents
+
+==============================================================
+TMT News Clipping — 21/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+AMX: El padrón de telefonía de la CRT opaca el mejor primer trimestre de AT&T desde 2023
+MX: Los planes mexicanos de Conectividad 2026-2030 todavía son perfectibles
+AT&T: AT&T cresce no 1º trimestre com fibra e 5G em expansão
+Sector: Deutsche Telekom negocia integração com a T-Mobile
+Sector: US Telecom Aims to Use Fintech to Build Mexican Prepaid Market
+Sector: Entel accelerates investments and commits US$650mn in Chile and Peru
+
+Telecom Brazil:
+Sector: IA pressiona modernização do Wi-Fi corporativo, diz Cisco
+Sector: Pesquisa aponta liderança de TIM, Claro e Vivo nas favelas
+
+IT Services:
+COG: Cognizant and Google Cloud Bring Agentic AI to Retail
+INFY: OpenAI teams up with Infosys to bring AI tools to more businesses
+Sector: HCLTech's $4.5 billion wipeout sparks broad IT selloff
+Sector: The $6 trillion reinvention: Why IT services firms must start underwriting outcomes
+
+Software and AI:
+Sector: Most companies are stuck on AI chat
+SAP: SAP and Google Cloud Expand Partnership to Deploy Multi-Agent AI
+SAP: The gap between SAP and its customers must not widen further
+Sector: Software makers' best may not be good enough as AI fears mount
+
+==============================================================
+TMT News Clipping — 20/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+AMX: CRT lanza campaña por nuevo Panaut ante caída del 15% en registros
+MX: ¿Habrá prórroga para el registro celular en México?
+MX: México y EU acuerdan iniciar conversaciones sobre revisión del T-MEC a finales de mayo
+TIGO: Colombia define la privatización de Coltel en medio de la fusión con Tigo
+Sector: La capacidad de adaptación de la red en tiempo real es más crítica que nunca: Nokia
+Sector: US Telecom Aims to Use Fintech to Build Mexican Prepaid Market
+
+Telecom Brazil:
+AMX/TEF-BZ/TIM: Em ERBs 5G por habitante, Vitória lidera e São Paulo é antepenúltima
+Sector: Por R$ 1,4 bi: Grupo Oi estrutura venda da unidade B2B
+Sector: Alares avança em São Paulo e prepara rede "AI-ready"
+
+IT Services:
+GLOB/CINT: OpenAI leans on global consultancies to expand Codex use in large companies
+
+Software and AI:
+TOTVS: BlackRock raises stake in Brazil's Totvs to 10%
+TOTVS: Software stock dogs have joined market rally
+Anthropic: Amazon to invest up to another $25 billion in Anthropic
+Sector: Adobe CEO Shantanu Narayen: The bears have it all wrong on software
+
+==============================================================
+TMT News Clipping — 19/Apr/2026
+==============================================================
+
+Telecom LatAm and World:
+TIGO: Millicom (Tigo) subsidiary Telefónica Celular del Paraguay announces intent to redeem Senior Notes due 2027
+MX: La venta de equipo RAN para redes privadas telecom se enfrió al cierre del año 2025
+TEO: Argentina acelera su conectividad con más accesos y mayor velocidad
+Sector: CRC se reúne con industria digital colombiana para construir marcos regulatorios más flexibles
+Sector: Movistar Venezuela despliega la red 5G más grande del país con 168 estaciones
+
+Telecom Brazil:
+TIM: TIM moderniza infraestrutura de rede em Brasília e na Grande BH
+V.tal: V.tal vai levar infraestrutura 4G e 5G ao Mané Garrincha
+Sector: Anatel acelera análise de contratos de postes e envia 1.248 processos à Aneel
+Sector: Anatel nega recurso e mantém transferência de frequências da Ligga para a Unifique
+Sector: Anatel recebeu mais de 2 mil contratos de postes em três meses
+
+IT Services:
+Sector: How poor data foundations can undermine AI success
+Sector: Most companies are stuck on AI chat
+
+Software and AI:
+Anthropic: Anthropic launches Claude Design, a new product for creating quick visuals
+Sector: LinkedIn's AI Agent Product Becomes a Surprise Bright Spot for Microsoft
+Sector: Cursor in talks to raise $2B+ at $50B valuation as enterprise growth surges
+TOTVS: Continued Rise in Business Formation
+
+Ecommerce:
+VTEX: VTEX lança soluções com Inteligência Artificial para o varejo
+LWSA: LWSA investe R$ 122,9 milhões em IA
+Sector: Amazon, Krispy Kreme e Bagaggio aceleram logística com adoção de IA
