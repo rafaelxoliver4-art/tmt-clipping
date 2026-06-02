@@ -166,6 +166,14 @@ SECTORS = {
             "ISP Brasil", "ISP consolidacao Brasil", "MVNO Brasil",
             "Anatel regulacao fibra", "5G cobertura Brasil",
             "cabos submarinos Brasil",
+            # ── Fiber costs / infrastructure economics (added 2026-06-02) ──
+            "custo da fibra óptica", "custo da fibra ótica", "custo de fibra óptica",
+            "custo de implantação de fibra", "custo de rede de fibra",
+            "investimento em fibra óptica", "custo de expansão de rede de fibra",
+            # Pole access — the core fiber-cost / regulatory driver in Brazil
+            # (the Aneel/Anatel/AGU pole-sharing fight drives ISP/telco fiber capex)
+            "compartilhamento de postes", "Aneel postes provedores",
+            "aluguel de postes telecom", "ocupação de postes fibra",
         ],
     },
 
