@@ -309,6 +309,17 @@ def main():
     except Exception as e:
         print(f"  [WARN] freshness verification failed: {e}")
 
+    # Skip delivery entirely if the digest ended up empty (e.g. a quiet morning
+    # where cross-run dedup + freshness left nothing material). Prevents emailing
+    # an empty clipping to the team. (2026-06-03)
+    _total_items = sum(len(v) for k, v in report.items()
+                       if k != "_raw" and isinstance(v, list))
+    if _total_items == 0 and not events:
+        print("\n  Digest empty after filters — no email sent, no vault write.")
+        elapsed = (datetime.now(LOCAL_TZ) - start).total_seconds()
+        banner(f"Done in {elapsed:.0f}s  (empty digest — nothing sent)")
+        return
+
     if NO_EMAIL:
         import json
         print("\n── JSON Report ──────────────────────────────────────────")

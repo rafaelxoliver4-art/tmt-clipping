@@ -7,3 +7,7 @@ output/
 logs/
 cloud/
 .vscode/
+
+# backup snapshots + diagnostic probes (git history is the backup)
+*_backup_*.py
+_probe_*.py

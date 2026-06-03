@@ -467,9 +467,11 @@ DIRECT_SOURCES = [
         # 2026-06-01: section RSS now 404s + page JS-rendered → was returning
         # 0 items. Repointed to the live canonical Valor feed (Valor Impresso
         # below carries the print tech/telecom deep-dives).
+        # 2026-06-03: pointed at Valor's dedicated TECH section feed (pox, 100
+        # items) instead of the general feed — de-redundifies vs Geral/Tele.
         "name": "Valor Econômico Tech",
         "url":  "https://valor.globo.com/empresas/tecnologia/",
-        "rss":  "https://valor.globo.com/rss/valor",
+        "rss":  "https://pox.globo.com/rss/valor/empresas/tecnologia",
         "sector": "Software and AI",
     },
     {
