@@ -412,9 +412,11 @@ def enforce_covered_inclusion(report: dict, raw_rows: list, max_add: int = 10,
             continue
         added_keys.add(tk)
         per_ticker[ticker] = per_ticker.get(ticker, 0) + 1
-        # Force-add to a "Forced inclusion" sector — visible signal so the
-        # analyst can see the safety net fired.
-        sec_name = "Forced inclusion (covered name)"
+        # Place force-added covered-name items in their PROPER sector (2026-06-03)
+        # so covered-name news shows under its theme, not a catch-all section.
+        # (The "Covered-name guarantee: N force-added" console line keeps the
+        # dev-facing signal that the safety net fired.)
+        sec_name = _guess_sector(row)
         if sec_name not in report:
             report[sec_name] = []
         report[sec_name].append({

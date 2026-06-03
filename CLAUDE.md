@@ -95,6 +95,11 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-06-03 (pm)** — **Force-included covered-name items now land in their PROPER
+  sector** (e.g. a covered-name story shows under its theme) instead of a catch-all
+  "Forced inclusion (covered name)" section that made themes look empty. Mirrors the
+  same fix on the H&E pipeline. Touched `merge_and_clean.py`
+  (`enforce_covered_inclusion` → `sec_name = _guess_sector(row)`).
 - **2026-06-03** — Audit fixes: skip empty-digest send; block company-own-site
   force-include (e.g. "Globant Newsroom" marketing); repointed **Valor Tech** to
   its dedicated pox section feed (de-redundified vs Geral/Tele); committed the
