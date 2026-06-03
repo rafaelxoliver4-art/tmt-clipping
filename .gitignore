@@ -11,3 +11,7 @@ cloud/
 # backup snapshots + diagnostic probes (git history is the backup)
 *_backup_*.py
 _probe_*.py
+_test_*.py
+_run_*.py
+_analyze_*.py
+_verify_*.py
