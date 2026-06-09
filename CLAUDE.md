@@ -152,3 +152,9 @@ This self-maintenance rule is itself part of the doc — do not drop it.
 
 ## Backup / version control
 Private GitHub repo: **https://github.com/rafaelxoliver4-art/tmt-clipping** (branch `master`).
+
+**Moving to a new PC?** See **`MIGRATION.md`** — step-by-step rebuild (Python, deps,
+`.env`, importing the scheduled tasks). The Windows task definitions are saved as XML
+in **`scheduler/`** (3 clipping + 2 Anatel), dependencies in **`requirements.txt`**.
+The only secret (`.env`, Gmail app password) is gitignored — copy it from the old PC
+by hand.

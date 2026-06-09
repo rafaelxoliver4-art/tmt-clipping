@@ -1,0 +1,4 @@
+# TMT News Clipping — Python dependencies
+# Everything else used by the pipeline is the Python standard library.
+reportlab   # PDF/figure generation in the digest
+tzdata      # IANA timezone DB for zoneinfo on Windows (BRT handling)
