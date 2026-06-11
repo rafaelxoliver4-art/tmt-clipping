@@ -428,6 +428,17 @@ DIRECT_SOURCES = [
         "sector": "Software and AI",
     },
     {
+        # Added 2026-06-10 as an Intelbras (INTB) channel. Canaltech covers
+        # Brazilian consumer/hardware tech (cameras, routers, solar, gadgets),
+        # overlapping Intelbras's segments. Feed is broad (gadgets/entertainment
+        # too); the covered-name safety net + curator keep only material items.
+        # RSS is the FeedBurner feed linked from the homepage (the /rss/ paths 404).
+        "name": "Canaltech",
+        "url":  "https://canaltech.com.br/",
+        "rss":  "https://feeds2.feedburner.com/canaltechbr",
+        "sector": "Hardware",
+    },
+    {
         "name": "Fusões e Aquisições",
         "url":  "https://fusoesaquisicoes.com/acontece-no-setor/",
         "rss":  "https://fusoesaquisicoes.com/feed/",

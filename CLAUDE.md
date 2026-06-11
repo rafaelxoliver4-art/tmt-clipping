@@ -95,6 +95,11 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-06-10** — Added **Canaltech** as a direct source (sector `Hardware`) to widen
+  **Intelbras (INTB)** coverage — Brazilian consumer/hardware tech (cameras, routers,
+  solar, gadgets). RSS = the FeedBurner feed `feeds2.feedburner.com/canaltechbr`
+  (the site's `/rss/` paths 404; found via the homepage `<link>` tag). Feed is broad,
+  so noise is contained by the covered-name safety net + curator. Touched `config.py`.
 - **2026-06-03 (pm)** — **Force-included covered-name items now land in their PROPER
   sector** (e.g. a covered-name story shows under its theme) instead of a catch-all
   "Forced inclusion (covered name)" section that made themes look empty. Mirrors the
