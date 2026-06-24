@@ -95,6 +95,19 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-06-23/24** — **DIRECT-first source mix + fix for direct news being dropped.**
+  (1) Raised the EXT (non-direct/Google-News) cap from **2 → 5**: `run_daily.py`
+  `enforce_ext_cap(max_ext=5)` + curator prompt in `claude_reasoning.py` ("AT MOST 5
+  <EXT>"). (2) **Root-cause fix:** `source_type` ("direct"/"gnews") was discarded
+  before curation, so `enforce_ext_cap` re-guessed direct-vs-EXT by string-matching
+  the curator's free-text source label against `DIRECT_SOURCES` — any direct item
+  whose label didn't match (abbrev/translation/added words) was mislabelled EXT and
+  dropped by the low cap. Fix: `reattach_links` now stamps the matched raw row's
+  `source_type` back onto each curated item (high-confidence tiers only), and
+  `enforce_ext_cap` reads it instead of forcing `""`. So genuine DIRECT items are
+  never misclassified/dropped. Change is provably additive (can't drop a direct item;
+  admits ≤3 more EXT). Verified on real CSV: direct item w/ mangled label rescued,
+  EXT capped at 5. (Diagnosed via 5-agent workflow.)
 - **2026-06-10** — Added **Canaltech** as a direct source (sector `Hardware`) to widen
   **Intelbras (INTB)** coverage — Brazilian consumer/hardware tech (cameras, routers,
   solar, gadgets). RSS = the FeedBurner feed `feeds2.feedburner.com/canaltechbr`

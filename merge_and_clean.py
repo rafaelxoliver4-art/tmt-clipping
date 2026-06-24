@@ -467,7 +467,7 @@ def enforce_ext_cap(report: Dict, raw_rows: List[Dict], max_ext: int = 5) -> Dic
         if sector == "_raw" or not isinstance(items, list):
             continue
         for idx, it in enumerate(items):
-            if _is_direct({"source": it.get("source",""), "source_type": ""}, direct_names):
+            if _is_direct({"source": it.get("source",""), "source_type": it.get("source_type","")}, direct_names):
                 counters["direct_kept"] += 1
             else:
                 ext_locations.append((sector, idx, it))
@@ -485,7 +485,7 @@ def enforce_ext_cap(report: Dict, raw_rows: List[Dict], max_ext: int = 5) -> Dic
             continue
         kept = []
         for it in items:
-            if _is_direct({"source": it.get("source",""), "source_type": ""}, direct_names):
+            if _is_direct({"source": it.get("source",""), "source_type": it.get("source_type","")}, direct_names):
                 kept.append(it)
             elif id(it) in to_keep:
                 kept.append(it)
@@ -547,12 +547,15 @@ def reattach_links(report: Dict, raw_rows: List[Dict]) -> Dict[str, int]:
             source   = (it.get("source") or "").strip().lower()
             t = _norm_title(headline)
             hit = by_title_source.get((t, source))
+            high_conf = False
             if hit:
                 counters["matched"] += 1
+                high_conf = True
             else:
                 hit = by_title.get(t)
                 if hit:
                     counters["headline_only"] += 1
+                    high_conf = True
                 else:
                     hit = _substring_lookup(t)
                     if hit:
@@ -561,6 +564,15 @@ def reattach_links(report: Dict, raw_rows: List[Dict]) -> Dict[str, int]:
                 it["link"] = hit.get("link", "")
                 if hit.get("source_url"):
                     it["source_url"] = hit["source_url"]
+                # Recover the upstream source_type from the matched raw row so
+                # enforce_ext_cap can recognise a genuine DIRECT item even when
+                # the curator's free-text source label doesn't string-match a
+                # configured direct source (abbreviation/translation/added words).
+                # Only trust the two high-confidence tiers, not the loose
+                # substring fallback. (2026-06-23 — fixes direct news being
+                # mislabelled EXT and dropped by the cap.)
+                if high_conf and hit.get("source_type"):
+                    it["source_type"] = hit["source_type"]
             else:
                 counters["unmatched"] += 1
                 it.setdefault("link", "")

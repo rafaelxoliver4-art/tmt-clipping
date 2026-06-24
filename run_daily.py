@@ -251,10 +251,11 @@ def main():
                   f"{rc['unmatched']} unmatched (of {total} items)")
         # Enforce the "max 5 EXT items" rule as a safety net in case the
         # curator overshoots the prompt directive.
-        ec = enforce_ext_cap(report, merged_rows, max_ext=2)
+        _ext_cap = 5   # 2026-06-23: DIRECT-first digest, allow up to 5 EXT items
+        ec = enforce_ext_cap(report, merged_rows, max_ext=_ext_cap)
         print(f"  Source mix: {ec['direct_kept']} DIRECT, "
               f"{ec['ext_kept']} EXT kept, "
-              f"{ec['ext_dropped']} EXT dropped (cap=2)")
+              f"{ec['ext_dropped']} EXT dropped (cap={_ext_cap})")
     except Exception as e:
         print(f"  [WARN] link re-attach / ext cap failed: {e}")
 

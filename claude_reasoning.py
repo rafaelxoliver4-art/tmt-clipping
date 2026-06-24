@@ -382,10 +382,11 @@ CURATION RULES:
      dated EXT items on the materiality bar.
 
    RULES — <EXT> items:
-   - You MAY include AT MOST 2 <EXT> items TOTAL across the entire digest
-     (all sectors combined). Two is a hard cap, not a target. Lowered from
-     5 on 2026-05-22 — analyst preferred even fewer EXT items after
-     reviewing several digests with noise from non-reliable outlets.
+   - You MAY include AT MOST 5 <EXT> items TOTAL across the entire digest
+     (all sectors combined). Five is a hard cap, not a target. Raised from
+     2 back to 5 on 2026-06-23 per analyst request — the digest should be
+     built primarily from DIRECT sources, with up to 5 high-materiality EXT
+     items allowed. Prefer DIRECT items; use EXT only to fill genuine gaps.
    - An <EXT> item is allowed ONLY if it is EXTREMELY material to a covered
      name — e.g. a covered-ticker earnings beat/miss, an M&A announcement,
      a regulatory decision with concrete P&L mechanism, or a competitive
