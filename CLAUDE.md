@@ -95,6 +95,17 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-06-24** — **ROOT CAUSE of "almost no important news" clippings: the Claude
+  CLI lost authentication.** `claude.exe` (the VS Code extension binary the curator
+  spawns) was returning `401 Invalid authentication credentials`; the curator silently
+  turned that non-JSON reply into an EMPTY report, so digests fell back to
+  covered-name-only force-include = junk. **Fix #1 (user):** re-authenticate —
+  `claude login` (or `/login` in the `claude` REPL); refreshes `~/.claude/.credentials.json`.
+  **Fix #2 (code, `claude_reasoning.py` `categorise_headlines`):** retry once, then
+  **FAIL LOUDLY** (raise → run aborts, sends NO email) instead of shipping a junk
+  clipping. Added `benchmarks/reference_clippings.md` (analyst-approved digests) as the
+  quality bar to cross-check every run against. ⚠️ If clippings ever go thin/junk again,
+  FIRST check `claude.exe` auth (run the curator diagnostic / `claude login`).
 - **2026-06-23/24** — **DIRECT-first source mix + fix for direct news being dropped.**
   (1) Raised the EXT (non-direct/Google-News) cap from **2 → 5**: `run_daily.py`
   `enforce_ext_cap(max_ext=5)` + curator prompt in `claude_reasoning.py` ("AT MOST 5

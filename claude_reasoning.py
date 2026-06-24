@@ -535,20 +535,39 @@ def categorise_headlines(claude_input: str) -> Dict:
     # propagate immediately to the very next run.
     system_with_watchlist = _inject_watchlist(CATEGORISE_SYSTEM)
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if api_key:
-        # Direct API path (billed separately)
-        resp     = _call_claude_api([{"role": "user", "content": user_message}],
+    def _one_call() -> str:
+        api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+        if api_key:
+            # Direct API path (billed separately)
+            resp = _call_claude_api([{"role": "user", "content": user_message}],
                                     system_with_watchlist, max_tokens=4000)
-        raw_text = _extract_text(resp)
-    else:
+            return _extract_text(resp)
         # CLI path — uses Max plan subscription, no extra billing
-        raw_text = _call_claude_cli(user_message, system_with_watchlist, timeout=1500)
+        return _call_claude_cli(user_message, system_with_watchlist, timeout=1500)
 
-    try:
-        return json.loads(_clean_json(raw_text))
-    except json.JSONDecodeError:
-        return {"_raw": raw_text}
+    # Call with one retry. A non-JSON reply usually means the Claude CLI is NOT
+    # AUTHENTICATED (returns "401 Invalid authentication credentials") or timed
+    # out. This used to be silently swallowed into an empty report ({"_raw": ...}),
+    # so the digest fell back to covered-name-only items and a junk clipping went
+    # out with no warning. Now: retry once for transient errors, then FAIL LOUDLY
+    # so the caller aborts the run and sends NO email rather than ship garbage.
+    # (2026-06-24 — root cause of "almost no important news" clippings.)
+    last_raw = ""
+    for _attempt in range(2):
+        last_raw = _one_call()
+        try:
+            return json.loads(_clean_json(last_raw))
+        except json.JSONDecodeError:
+            low = (last_raw or "").lower()
+            # Auth/credential errors won't fix themselves on retry — stop early.
+            if any(s in low for s in ("authenticate", "api error", "401", "unauthorized")):
+                break
+    snippet = (last_raw or "").strip().replace("\n", " ")[:200]
+    raise RuntimeError(
+        "Curator (Claude CLI) returned non-JSON — the CLI is most likely NOT "
+        "AUTHENTICATED. Run `claude login` in a terminal, then re-run. "
+        f"CLI output: {snippet!r}"
+    )
 
 
 # ── Job 2: Upcoming earnings & events ─────────────────────────────────────────
