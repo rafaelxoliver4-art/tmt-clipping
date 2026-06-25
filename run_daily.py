@@ -363,6 +363,16 @@ def main():
             print(f"  [ERROR] Email send: {e}")
             sys.exit(1)
 
+        # Commit cross-run dedup memory ONLY now that the email actually sent, and
+        # only for the items that shipped — so a failed/aborted/empty run never
+        # suppresses undelivered news on the next run. (2026-06-24)
+        try:
+            from merge_and_clean import commit_delivered_seen
+            _seen_n = commit_delivered_seen(report)
+            print(f"  -> Dedup memory: {_seen_n} delivered item(s) marked seen")
+        except Exception as e:
+            print(f"  [WARN] dedup commit skipped: {e}")
+
         # ── Closing the loop: save clipping to Obsidian vault as markdown ──
         # The News Writer project consumes this directly to draft the daily.
         try:

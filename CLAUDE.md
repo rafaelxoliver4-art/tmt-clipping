@@ -95,6 +95,20 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-06-24 (pm)** — **Deferred cross-run dedup commit (audit rank #6) + full
+  pipeline audit.** The "seen" set was persisted during MERGE (before curation /
+  delivery), so any run that failed, aborted, or emptied still marked news as seen
+  and suppressed it for 24h — made acute by the new auth-abort path (every failed
+  auth run was eating the next run's news). Fix: `_cross_run_dedupe` is now
+  READ-ONLY (filter only); new `commit_delivered_seen(report)` persists ONLY items
+  that actually shipped, called from `run_daily.py` after a successful send (so
+  --no-email/--dry-email/empty/aborted runs no longer pollute). Unit-tested. Reset
+  the polluted seen cache so the first re-authenticated run is full. A 43-agent
+  pipeline audit found 33 issues; the dominant theme is "silently degrade + WARN +
+  exit 0" with no delivery gate. Remaining high-value fixes still TODO: cap_per_sector
+  relevance ordering (covered gnews items capped out pre-curation), finish source_type
+  / strict direct match + regulator EXT exemption, materiality-ordered EXT cap,
+  scrape-failure delivery gate, freshness timezone-offset handling.
 - **2026-06-24** — **ROOT CAUSE of "almost no important news" clippings: the Claude
   CLI lost authentication.** `claude.exe` (the VS Code extension binary the curator
   spawns) was returning `401 Invalid authentication credentials`; the curator silently

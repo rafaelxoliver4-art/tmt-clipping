@@ -679,27 +679,49 @@ def _save_seen(seen_t: Dict[str, str], seen_u: Dict[str, str]) -> None:
 
 
 def _cross_run_dedupe(rows: List[Dict]) -> Tuple[List[Dict], int]:
-    """Drop rows whose normalized title OR canonical URL was already seen in
-    the last _SEEN_TTL_DAYS days. The URL check catches paraphrased re-runs
-    of the same article (e.g. Globant buyback story under a new headline)."""
+    """FILTER ONLY: drop rows whose normalized title OR canonical URL was already
+    seen (i.e. previously DELIVERED) in the last _SEEN_TTL_DAYS days. Does NOT
+    persist anything — the seen-set is committed AFTER a successful send via
+    commit_delivered_seen(). Previously this marked + saved every surviving row
+    here, BEFORE curation/delivery, so a run that later failed, aborted, or
+    produced an empty digest still recorded the news as 'seen' and suppressed it
+    on the next run for 24h. (2026-06-24 fix — interacts with the auth-abort path.)"""
     seen_t, seen_u = _load_seen()
-    today = datetime.now(LOCAL_TZ).strftime("%Y-%m-%d")
     kept: List[Dict] = []
     dropped = 0
     for row in rows:
         key  = _norm_key(row.get("title", ""))
         ukey = _norm_url_key(row.get("link", ""))
-        # Drop if EITHER title or URL was previously seen
+        # Drop if EITHER title or URL was previously DELIVERED
         if (key and key in seen_t) or (ukey and ukey in seen_u):
             dropped += 1
             continue
-        if key:
-            seen_t[key] = today
-        if ukey:
-            seen_u[ukey] = today
         kept.append(row)
-    _save_seen(seen_t, seen_u)
     return kept, dropped
+
+
+def commit_delivered_seen(report: Dict) -> int:
+    """Persist the cross-run dedup memory AFTER a successful send, recording ONLY
+    the items that actually shipped (the final report) — not every merged row.
+    Companion to _cross_run_dedupe's read-only filter: a run that failed, aborted,
+    or had an empty digest never reaches here, so it can't suppress undelivered
+    news. (2026-06-24)"""
+    seen_t, seen_u = _load_seen()
+    today = datetime.now(LOCAL_TZ).strftime("%Y-%m-%d")
+    n = 0
+    for sec, items in report.items():
+        if sec == "_raw" or not isinstance(items, list):
+            continue
+        for it in items:
+            key  = _norm_key(it.get("headline", "") or it.get("title", ""))
+            ukey = _norm_url_key(it.get("link", "") or "")
+            if key and key not in seen_t:
+                seen_t[key] = today
+                n += 1
+            if ukey and ukey not in seen_u:
+                seen_u[ukey] = today
+    _save_seen(seen_t, seen_u)
+    return n
 
 
 def _cross_dedupe(rows: List[Dict]) -> List[Dict]:
