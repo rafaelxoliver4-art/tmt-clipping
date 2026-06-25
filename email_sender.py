@@ -501,6 +501,32 @@ def send(report: Dict, events: List[Dict],
     return _count_items(report)
 
 
+def send_alert(subject: str, body: str, to: Optional[List[str]] = None) -> bool:
+    """Send a short PLAIN-TEXT operational alert (e.g. curation / Claude-CLI auth
+    failure) so a broken run actively notifies the operator, instead of only
+    being noticed later as a missing or degraded clipping. Returns True if sent.
+    (2026-06-25)"""
+    from config import ALERT_EMAIL
+    _load_env()
+    from_email = os.environ.get("FROM_EMAIL", "").strip()
+    password   = os.environ.get("EMAIL_APP_PASSWORD", "").strip()
+    to_list    = to or ALERT_EMAIL
+    if not from_email or not password or not to_list:
+        return False
+    msg = MIMEText(body, "plain", "utf-8")
+    msg["Subject"] = subject
+    msg["From"]    = from_email
+    msg["To"]      = ", ".join(to_list)
+    try:
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as server:
+            server.ehlo(); server.starttls(); server.ehlo()
+            server.login(from_email, password)
+            server.send_message(msg, from_addr=from_email, to_addrs=to_list)
+        return True
+    except Exception:
+        return False
+
+
 def run(report: Dict, events: List[Dict],
         recipients: List[str] = None,
         notes: Optional[List[str]] = None) -> int:

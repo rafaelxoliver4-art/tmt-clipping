@@ -961,3 +961,10 @@ EMAIL_RECIPIENTS = [
     # switch to Gmail SMTP (sender is now ibotatom@gmail.com).
     "rafael.oliveira@ubs.com",
 ]
+
+# ── Operational ALERT recipients ──────────────────────────────────────────────
+# Where to send a heads-up when a run FAILS (e.g. the Claude CLI lost its login
+# and curation can't run). Kept separate from the digest list so a broken run
+# actively pings you to re-login, instead of only being noticed as a degraded
+# or missing clipping. Edit freely. (2026-06-25)
+ALERT_EMAIL = ["rafael.oliveira@ubs.com", "rafaelxoliver4@gmail.com"]

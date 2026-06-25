@@ -15,3 +15,4 @@ _test_*.py
 _run_*.py
 _analyze_*.py
 _verify_*.py
+CLIPPING_FAILED.txt

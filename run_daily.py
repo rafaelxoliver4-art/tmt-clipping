@@ -117,6 +117,42 @@ SAMPLE_ROWS = [
 ]
 
 
+# ── Failure alerting (2026-06-25) ─────────────────────────────────────────────
+# A run that can't curate (most often: the Claude CLI lost its login) now writes
+# a visible flag file AND emails an alert, so a broken pipeline pings you to
+# re-login instead of only being noticed as a degraded/missing clipping.
+_FAIL_FLAG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CLIPPING_FAILED.txt")
+
+def _alert_failure(subject: str, detail: str) -> None:
+    ts = datetime.now(LOCAL_TZ).strftime("%Y-%m-%d %H:%M %Z")
+    body = (
+        f"{subject}\n\nWhen: {ts}\n\nWhat happened:\n{detail}\n\n"
+        "MOST LIKELY CAUSE & FIX: the Claude CLI lost its login. In a terminal run:\n"
+        "    claude        (then type /login and sign in with your Max account)\n\n"
+        "The next scheduled run will then work again. (This flag file is deleted "
+        "automatically on the next successful run.)\n"
+    )
+    try:
+        with open(_FAIL_FLAG, "w", encoding="utf-8") as f:
+            f.write(body)
+    except OSError:
+        pass
+    try:
+        from email_sender import send_alert
+        sent = send_alert(f"[ACTION NEEDED] {subject}", body)
+        print(f"  [ALERT] failure email {'SENT' if sent else 'could NOT be sent'}; "
+              f"flag written -> {_FAIL_FLAG}")
+    except Exception as e:
+        print(f"  [ALERT] alert send error: {e}")
+
+def _clear_failure_flag() -> None:
+    try:
+        if os.path.exists(_FAIL_FLAG):
+            os.remove(_FAIL_FLAG)
+    except OSError:
+        pass
+
+
 def main():
     start = datetime.now(LOCAL_TZ)
 
@@ -237,6 +273,7 @@ def main():
             report, events, notes = claude_run(claude_input, write_notes=write_notes)
     except Exception as e:
         print(f"  [ERROR] Claude: {e}")
+        _alert_failure("TMT clipping FAILED — curation could not run", str(e))
         sys.exit(1)
 
     # Re-attach links (and source_url) to curator output by headline match.
@@ -372,6 +409,9 @@ def main():
             print(f"  -> Dedup memory: {_seen_n} delivered item(s) marked seen")
         except Exception as e:
             print(f"  [WARN] dedup commit skipped: {e}")
+
+        # Healthy delivery — clear any prior failure flag. (2026-06-25)
+        _clear_failure_flag()
 
         # ── Closing the loop: save clipping to Obsidian vault as markdown ──
         # The News Writer project consumes this directly to draft the daily.

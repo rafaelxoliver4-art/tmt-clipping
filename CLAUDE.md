@@ -95,6 +95,16 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-06-25** — **Failure ALERTS so a broken run is never silent.** When curation
+  can't run (almost always: the Claude CLI login expired → 401), the pipeline now
+  (a) emails an `[ACTION NEEDED]` alert to `config.py → ALERT_EMAIL`, (b) writes a
+  `CLIPPING_FAILED.txt` flag in the project root (auto-deleted on next success), and
+  (c) sends NO digest (never filler). New `email_sender.send_alert()`; `run_daily`
+  `_alert_failure()` / `_clear_failure_flag()`. See `ALERTS_AND_HEALTH.md`. Also:
+  re-authenticated the CLI (`claude /login`) and removed the temporary
+  `ANTHROPIC_API_KEY` from `.env` → back on the **free Max-plan CLI**. Per-run API
+  cost logging (`[API cost] …`) added earlier remains for if the paid bridge is ever
+  used again.
 - **2026-06-24 (pm)** — **Deferred cross-run dedup commit (audit rank #6) + full
   pipeline audit.** The "seen" set was persisted during MERGE (before curation /
   delivery), so any run that failed, aborted, or emptied still marked news as seen
