@@ -7,6 +7,29 @@
 
 ---
 
+## 📍 Current status (2026-06-25) — read this first
+- **Running FREE** on the Max-plan Claude CLI — there is **no `ANTHROPIC_API_KEY`**
+  in `.env` (if one is present, the curator switches to the paid API at ~$0.15/run;
+  remove it to go back to free).
+- **Scheduled** weekdays BRT **06:40 / 16:30 / 18:00** (Windows Task Scheduler, enabled).
+- **⚠️ #1 failure mode — the CLI login expires.** Every few days the Max-plan token can
+  lapse → the curator gets `401 Invalid authentication credentials` → the run **aborts,
+  emails an `[ACTION NEEDED]` alert (to `config.py → ALERT_EMAIL`), writes
+  `CLIPPING_FAILED.txt`, and sends NO digest** (never filler). **Fix: open a terminal,
+  run `claude`, type `/login`, sign in with the Max account.** Full guide in
+  **`ALERTS_AND_HEALTH.md`**. (This is what caused the June 2026 "almost no important
+  news" clippings — it was a silent auth expiry, now made loud.)
+- **Hardened:** curation parse/auth failure now fails LOUDLY (alert + no email) instead
+  of silently shipping covered-name filler; cross-run dedup commits "seen" only after a
+  successful send.
+- **Optional TODO** (quality polish, not blocking): tighten cross-run dedup key matching;
+  the broader coverage fixes from the 2026-06-24 pipeline audit (see change log).
+- **Backed up:** GitHub `tmt-clipping` + Google Drive `Clipping-Pipelines-Backup`.
+- **Quality benchmark:** `benchmarks/reference_clippings.md` (analyst-approved digests to
+  cross-check automated runs against).
+
+---
+
 ## ⚠️ Operating principles (do not violate)
 
 1. **Never make the clipping worse.** Both clippings (this one and H&E) were
