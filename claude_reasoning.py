@@ -21,6 +21,21 @@ from wiki_context import ANALYST_CONTEXT
 API_URL    = "https://api.anthropic.com/v1/messages"
 MODEL      = "claude-sonnet-4-6"
 
+# Approx claude-sonnet-4-6 USD price per 1M tokens — for cost transparency when
+# running on the PAID API-key path (the Max-plan CLI path is free). (2026-06-24)
+_PRICE_PER_M = {"in": 3.0, "out": 15.0, "cache_write": 3.75, "cache_read": 0.30}
+
+def _log_api_cost(label: str, usage: dict) -> None:
+    if not usage:
+        return
+    i  = usage.get("input_tokens", 0)
+    o  = usage.get("output_tokens", 0)
+    cw = usage.get("cache_creation_input_tokens", 0)
+    cr = usage.get("cache_read_input_tokens", 0)
+    cost = (i * _PRICE_PER_M["in"] + o * _PRICE_PER_M["out"]
+            + cw * _PRICE_PER_M["cache_write"] + cr * _PRICE_PER_M["cache_read"]) / 1_000_000
+    print(f"  [API cost] {label}: in={i} cache_read={cr} cache_write={cw} out={o}  ~${cost:.3f}")
+
 # Claude Code CLI — used as fallback when ANTHROPIC_API_KEY is not set.
 # Runs against the user's Max plan subscription (no extra billing).
 CLAUDE_CLI = r"C:\Users\Rafael\AppData\Roaming\Claude\claude-code\2.1.111\claude.exe"
@@ -541,6 +556,7 @@ def categorise_headlines(claude_input: str) -> Dict:
             # Direct API path (billed separately)
             resp = _call_claude_api([{"role": "user", "content": user_message}],
                                     system_with_watchlist, max_tokens=4000)
+            _log_api_cost("curation", resp.get("usage", {}))
             return _extract_text(resp)
         # CLI path — uses Max plan subscription, no extra billing
         return _call_claude_cli(user_message, system_with_watchlist, timeout=1500)
