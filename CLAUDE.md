@@ -7,7 +7,7 @@
 
 ---
 
-## 📍 Current status (2026-06-25) — read this first
+## 📍 Current status (2026-06-26) — read this first
 - **Running FREE** on the Max-plan Claude CLI — there is **no `ANTHROPIC_API_KEY`**
   in `.env` (if one is present, the curator switches to the paid API at ~$0.15/run;
   remove it to go back to free).
@@ -19,6 +19,17 @@
   run `claude`, type `/login`, sign in with the Max account.** Full guide in
   **`ALERTS_AND_HEALTH.md`**. (This is what caused the June 2026 "almost no important
   news" clippings — it was a silent auth expiry, now made loud.)
+- **#2 failure mode (FIXED 2026-06-26) — curator loaded `CLAUDE.md` and editorialised.**
+  `claude.exe` ran in this folder and auto-loaded this very file as memory, so the model
+  began commenting on the payload (*"...the silent-failure pattern your CLAUDE.md warns
+  about"*) instead of returning JSON → curation crashed (and the alert fired correctly).
+  **Fix:** the curator CLI now runs with **`--safe-mode`** (disables CLAUDE.md / skills /
+  plugins / hooks / MCP, but keeps free Max OAuth — unlike `--simple`, which would force
+  `ANTHROPIC_API_KEY`) in `claude_reasoning.py → _call_claude_cli`. **Do not remove that flag.**
+- **Recipients (rule, 2026-06-26):** PRODUCTION emails → **work address only**
+  (`rafael.oliveira@ubs.com`); TEST emails → **personal gmail only**
+  (`rafaelxoliver4@gmail.com`); **never both in one list.** Applies to `EMAIL_RECIPIENTS`
+  AND `ALERT_EMAIL` here (and to the H&E + Anatel pipelines).
 - **Hardened:** curation parse/auth failure now fails LOUDLY (alert + no email) instead
   of silently shipping covered-name filler; cross-run dedup commits "seen" only after a
   successful send.

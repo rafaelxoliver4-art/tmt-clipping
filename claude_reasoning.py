@@ -89,6 +89,12 @@ def _call_claude_cli(user_message: str, system: str,
     # "<<< SYSTEM >>>" / "<<< USER >>>" delimiters in one stdin payload.
     SAFE_ARG_THRESHOLD = 6000   # well under Windows CMD limit, leaves headroom
 
+    # --safe-mode disables CLAUDE.md auto-discovery, skills, plugins, hooks, MCP
+    # and custom agents (CLAUDE_CODE_SAFE_MODE=1) WITHOUT forcing API-key auth, so
+    # the curator stays on the free Max plan. Critical: without it, claude.exe
+    # loads this folder's CLAUDE.md as memory and the model starts editorialising
+    # ("...the silent-failure pattern your CLAUDE.md warns about") instead of
+    # returning JSON, which crashes curation. (Root cause of the 2026-06-26 break.)
     if len(system) > SAFE_ARG_THRESHOLD:
         # Fold system into stdin with explicit delimiters
         combined = (
@@ -98,11 +104,12 @@ def _call_claude_cli(user_message: str, system: str,
             "<<< USER MESSAGE >>>\n"
             f"{user_message}"
         )
-        cmd = [claude_exe, "-p", "--output-format", "text", "--no-session-persistence"]
+        cmd = [claude_exe, "-p", "--output-format", "text", "--no-session-persistence",
+               "--safe-mode"]
         user_bytes = combined.encode("utf-8")
     else:
         cmd = [claude_exe, "-p", "--output-format", "text", "--no-session-persistence",
-               "--system-prompt", system]
+               "--safe-mode", "--system-prompt", system]
         user_bytes = user_message.encode("utf-8")
 
     if tools:
