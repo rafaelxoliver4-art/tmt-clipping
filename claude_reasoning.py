@@ -10,6 +10,7 @@ import json
 import os
 import re
 import subprocess
+import time
 import urllib.request
 import urllib.error
 from datetime import datetime
@@ -568,28 +569,48 @@ def categorise_headlines(claude_input: str) -> Dict:
         # CLI path — uses Max plan subscription, no extra billing
         return _call_claude_cli(user_message, system_with_watchlist, timeout=1500)
 
-    # Call with one retry. A non-JSON reply usually means the Claude CLI is NOT
-    # AUTHENTICATED (returns "401 Invalid authentication credentials") or timed
-    # out. This used to be silently swallowed into an empty report ({"_raw": ...}),
-    # so the digest fell back to covered-name-only items and a junk clipping went
-    # out with no warning. Now: retry once for transient errors, then FAIL LOUDLY
-    # so the caller aborts the run and sends NO email rather than ship garbage.
-    # (2026-06-24 — root cause of "almost no important news" clippings.)
+    # Call with retries. A non-JSON reply has two very different causes:
+    #   • AUTH failure ("401 Invalid authentication credentials") — won't fix on
+    #     retry, so abort fast and tell the user to re-login.
+    #   • TRANSIENT API/stream error ("API Error: Stream idle timeout - partial
+    #     response received", overloaded, rate limit) — usually succeeds on a retry,
+    #     so back off and try again a few times.
+    # Either way, if we ultimately can't parse JSON we FAIL LOUDLY (the caller
+    # aborts the run and sends NO email) rather than ship covered-name filler.
+    # (2026-06-24 fail-loud; 2026-06-26 split auth vs transient — DON'T match the
+    # bare substring "api error", it also appears in transient stream-timeout text
+    # and was aborting the whole run on a retryable hiccup.)
+    AUTH_MARKERS = ("401", "unauthorized", "invalid authentication",
+                    "authentication_error", "not authenticated", "please log in")
+    MAX_ATTEMPTS = 4
     last_raw = ""
-    for _attempt in range(2):
-        last_raw = _one_call()
+    auth_failure = False
+    for _attempt in range(MAX_ATTEMPTS):
         try:
+            last_raw = _one_call()
             return json.loads(_clean_json(last_raw))
         except json.JSONDecodeError:
-            low = (last_raw or "").lower()
-            # Auth/credential errors won't fix themselves on retry — stop early.
-            if any(s in low for s in ("authenticate", "api error", "401", "unauthorized")):
-                break
+            pass  # non-JSON reply — classify below
+        except Exception as e:  # transient subprocess/network error (timeout, etc.)
+            last_raw = f"{type(e).__name__}: {e}"
+        low = (last_raw or "").lower()
+        if any(s in low for s in AUTH_MARKERS):
+            auth_failure = True
+            break  # auth won't fix itself on retry
+        if _attempt < MAX_ATTEMPTS - 1:
+            time.sleep(5 * (_attempt + 1))  # 5s, 10s, 15s backoff before retrying
+
     snippet = (last_raw or "").strip().replace("\n", " ")[:200]
+    if auth_failure:
+        raise RuntimeError(
+            "Curator (Claude CLI) is NOT AUTHENTICATED. Open a terminal, run "
+            "`claude`, type `/login`, sign in with the Max account, then re-run. "
+            f"CLI output: {snippet!r}"
+        )
     raise RuntimeError(
-        "Curator (Claude CLI) returned non-JSON — the CLI is most likely NOT "
-        "AUTHENTICATED. Run `claude login` in a terminal, then re-run. "
-        f"CLI output: {snippet!r}"
+        f"Curator (Claude CLI) returned non-JSON after {MAX_ATTEMPTS} attempts — "
+        "likely a transient API/stream error (e.g. 'stream idle timeout'). Re-run; "
+        f"if it persists, run `claude` then `/login`. CLI output: {snippet!r}"
     )
 
 

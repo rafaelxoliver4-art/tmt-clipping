@@ -30,9 +30,11 @@
   (`rafael.oliveira@ubs.com`); TEST emails → **personal gmail only**
   (`rafaelxoliver4@gmail.com`); **never both in one list.** Applies to `EMAIL_RECIPIENTS`
   AND `ALERT_EMAIL` here (and to the H&E + Anatel pipelines).
-- **Hardened:** curation parse/auth failure now fails LOUDLY (alert + no email) instead
-  of silently shipping covered-name filler; cross-run dedup commits "seen" only after a
-  successful send.
+- **Hardened:** curation failure now fails LOUDLY (alert + no email) instead of silently
+  shipping covered-name filler; **transient curator errors** (e.g. `API Error: Stream idle
+  timeout`) are now **retried up to 4× with backoff** and only a genuine AUTH error aborts
+  the run (2026-06-26 — a transient stall used to abort because the message contained "api
+  error"); cross-run dedup commits "seen" only after a successful send.
 - **Optional TODO** (quality polish, not blocking): tighten cross-run dedup key matching;
   the broader coverage fixes from the 2026-06-24 pipeline audit (see change log).
 - **Backed up:** GitHub `tmt-clipping` + Google Drive `Clipping-Pipelines-Backup`.
