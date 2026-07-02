@@ -138,6 +138,30 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-07-02** — **PC-wake hardening + curator BRAIN repair.** (a) The 06:40 run
+  fired as the PC woke, DNS wasn't up → all 284 sources `getaddrinfo failed` → 0
+  headlines, digest lost, no alert. Fixes: `run_daily.py` waits up to 10 min for the
+  network before scraping; a 0-headline scrape now alerts + flags (was silent); the
+  3 tasks got `WakeToRun` (AC wake timers confirmed on) + auto-restart 3×/5 min;
+  `scheduler/` XMLs re-exported. PC must be plugged in + asleep (not shut down).
+  User chose to stay on the free local setup (cloud options declined). (b) Discovered
+  `wiki_context.py`'s ANALYST_CONTEXT had been overwritten with a literal 401 error
+  string during the June auth outage (committed at 2ce6f50) and self-recovered on
+  07-01 with a leaked reasoning preamble. Cleaned it (starts at the `## UBS LatAm TMT`
+  anchor; all learned content preserved, 60k chars) and added `learn._validate_new_context`:
+  auto-trims preambles, rejects error strings and >30% shrinkage — corruption of the
+  curator's context can no longer be written to disk.
+- **2026-06-26** — **Curator ran with `--safe-mode`; retry split auth vs transient;
+  recipients rule.** (a) NEW failure mode: `claude.exe` auto-loaded this very CLAUDE.md
+  as memory and editorialised about the payload instead of returning JSON → curation
+  crashed (alert fired correctly). Fix: `_call_claude_cli` passes `--safe-mode`
+  (disables CLAUDE.md/skills/plugins/hooks/MCP but keeps free Max OAuth — do NOT use
+  `--simple`, it forces an API key). Verified on the real failed input: 25 items, valid
+  JSON. (b) `categorise_headlines` retries transient API/stream errors (4 attempts,
+  5/10/15s backoff) and aborts fast only on real auth failures — a "Stream idle
+  timeout" no longer kills a run. (c) RECIPIENTS RULE: production → work address only;
+  tests → personal gmail only; NEVER both in one list (`EMAIL_RECIPIENTS` + `ALERT_EMAIL`
+  here, and the H&E + Anatel pipelines).
 - **2026-06-25** — **Failure ALERTS so a broken run is never silent.** When curation
   can't run (almost always: the Claude CLI login expired → 401), the pipeline now
   (a) emails an `[ACTION NEEDED]` alert to `config.py → ALERT_EMAIL`, (b) writes a
