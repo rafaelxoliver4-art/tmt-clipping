@@ -7,7 +7,14 @@
 
 ---
 
-## 📍 Current status (2026-06-26) — read this first
+## 📍 Current status (2026-07-02) — read this first
+- **#3 failure mode (FIXED 2026-07-02) — PC asleep / network not ready.** The 06:40 run
+  fired as the PC woke and every source failed DNS (`getaddrinfo failed`) → 0 headlines,
+  no digest, and (worse) no alert. Fixes: **(a)** tasks now `WakeToRun` (PC wakes from
+  sleep if plugged in — wake timers are enabled on AC) **(b)** tasks auto-**restart 3× every
+  5 min** on failure **(c)** `run_daily.py` now **waits up to 10 min for the network** before
+  scraping **(d)** a scrape that returns **0 headlines alerts loudly** (email + flag) instead
+  of dying silently. PC must be plugged in + asleep (not shut down) for wake to work.
 - **Running FREE** on the Max-plan Claude CLI — there is **no `ANTHROPIC_API_KEY`**
   in `.env` (if one is present, the curator switches to the paid API at ~$0.15/run;
   remove it to go back to free).

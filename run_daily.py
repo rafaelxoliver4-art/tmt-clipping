@@ -189,6 +189,32 @@ def main():
         print(f"  -> {len(gnews_rows)} gnews + {len(direct_rows)} direct = {len(all_cached)} total")
 
     else:
+        # ── Network gate (2026-07-02) ────────────────────────────────────────
+        # When the task fires right as the PC wakes, DNS may not be up yet —
+        # on 2026-07-02 every source failed with "getaddrinfo failed" and the
+        # morning digest was lost. Wait up to 10 min for the network instead
+        # of scraping into a wall. If still down, alert loudly and abort
+        # (Task Scheduler retries the run 3x every 5 min on failure).
+        import socket, time as _time
+        _net_ok = False
+        for _try in range(21):                      # 0..20 → up to ~10 min
+            try:
+                socket.getaddrinfo("news.google.com", 443)
+                _net_ok = True
+                if _try:
+                    print(f"  Network up after ~{_try * 30}s wait.")
+                break
+            except OSError:
+                if _try == 0:
+                    print("\n  [WAIT] Network/DNS not ready — waiting up to 10 min...")
+                _time.sleep(30)
+        if not _net_ok:
+            msg = ("No network/DNS after waiting 10 minutes — cannot scrape. "
+                   "The scheduled retry will try again in 5 minutes.")
+            print(f"  [ERROR] {msg}")
+            _alert_failure("TMT clipping FAILED — no internet connection", msg)
+            sys.exit(1)
+
         print("\n[Step 1/2]  Scraping Google News RSS...")
         try:
             from gnews_scraper import run as gnews_run
@@ -207,8 +233,17 @@ def main():
 
         all_rows = gnews_rows + direct_rows
         if not all_rows:
+            # Zero headlines = systemic scrape failure (network died mid-run,
+            # both scrapers broken). Alert loudly instead of dying silently.
             print("\n  No headlines found. Try --test to verify setup.")
+            _alert_failure("TMT clipping FAILED — scrape returned 0 headlines",
+                           "Google News AND direct sources returned nothing — "
+                           "likely the internet dropped during the run. "
+                           "The scheduled retry will try again in 5 minutes.")
             sys.exit(1)
+        if len(all_rows) < 300:      # normal is ~4,000; <300 = partially broken
+            print(f"\n  [WARN] Only {len(all_rows)} raw headlines "
+                  f"(normal ≈ 4,000) — sources may be partially down; continuing.")
 
         save_csv(all_rows, csv_path)
         print(f"\n  CSV saved: {os.path.abspath(csv_path)}")
