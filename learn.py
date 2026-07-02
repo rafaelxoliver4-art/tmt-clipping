@@ -442,9 +442,49 @@ def _read_current_context() -> str:
     return m.group(1)
 
 
+_CONTEXT_ANCHOR = "## UBS LatAm TMT"
+
+def _validate_new_context(new_context: str, current: str) -> str:
+    """Guard the curator's brain (added 2026-07-02).
+
+    The auto-learn loop has twice corrupted ANALYST_CONTEXT: once overwriting it
+    with a literal '401 Failed to authenticate' error string, and twice leaking
+    the model's own reasoning preamble ("I don't need to edit files...") into
+    the string fed to the curator every run. This validator makes both
+    impossible:
+      1. auto-trims anything before the canonical anchor header;
+      2. rejects error-message payloads;
+      3. rejects suspicious shrinkage (>30% smaller than the current context).
+    On rejection the learn cycle is skipped — the old context stays in place.
+    """
+    if _CONTEXT_ANCHOR not in new_context:
+        raise RuntimeError(
+            "learn: new ANALYST_CONTEXT rejected — anchor header "
+            f"{_CONTEXT_ANCHOR!r} missing (likely an error string or junk)."
+        )
+    # Trim leaked preamble: keep from the anchor onwards.
+    new_context = new_context[new_context.index(_CONTEXT_ANCHOR):]
+    low = new_context[:2000].lower()
+    if any(s in low for s in ("failed to authenticate", "api error", "401 ",
+                              "invalid authentication")):
+        raise RuntimeError(
+            "learn: new ANALYST_CONTEXT rejected — contains an error message."
+        )
+    if current and len(new_context) < 0.7 * len(current):
+        raise RuntimeError(
+            f"learn: new ANALYST_CONTEXT rejected — shrank from "
+            f"{len(current)} to {len(new_context)} chars (>30% loss)."
+        )
+    return new_context
+
+
 def _apply_update(new_context: str) -> None:
     with open(WIKI_CONTEXT_PATH, encoding="utf-8") as f:
         original = f.read()
+
+    # Validate + auto-clean before touching the file (see _validate_new_context).
+    m = re.search(r'ANALYST_CONTEXT\s*=\s*"""([\s\S]*?)"""', original)
+    new_context = _validate_new_context(new_context, m.group(1) if m else "")
 
     # Build updated content
     updated = re.sub(
