@@ -7,14 +7,20 @@
 
 ---
 
-## 📍 Current status (2026-07-02) — read this first
-- **#3 failure mode (FIXED 2026-07-02) — PC asleep / network not ready.** The 06:40 run
-  fired as the PC woke and every source failed DNS (`getaddrinfo failed`) → 0 headlines,
-  no digest, and (worse) no alert. Fixes: **(a)** tasks now `WakeToRun` (PC wakes from
-  sleep if plugged in — wake timers are enabled on AC) **(b)** tasks auto-**restart 3× every
-  5 min** on failure **(c)** `run_daily.py` now **waits up to 10 min for the network** before
-  scraping **(d)** a scrape that returns **0 headlines alerts loudly** (email + flag) instead
-  of dying silently. PC must be plugged in + asleep (not shut down) for wake to work.
+## 📍 Current status (2026-07-06) — read this first
+- **#3 failure mode (FIXED 2026-07-02/06) — PC asleep / network not ready / run killed.**
+  Layers now in place: **(a)** `run_daily.py` waits up to 10 min for the network before
+  scraping (a wake-up run no longer dies on DNS) **(b)** a 0-headline scrape or failed
+  email send **alerts loudly** (email + flag) **(c)** tasks auto-restart 3×/5 min on
+  failure **(d)** a running pipeline **holds the PC awake** until it finishes
+  (`SetThreadExecutionState`) **(e)** **DELIVERY WATCHDOG** — `watchdog.py` + 3 tasks
+  (08:15 / 17:20 / 18:50 weekdays) check `output/last_delivery.json`; if a slot passed
+  with no digest, the watchdog re-runs the pipeline itself (grace-waits 12 min first to
+  avoid duplicating an in-flight catch-up run). **Every slot ends in a digest or an
+  alert — never silence.** NOTE: `WakeToRun` was tried (07-02) and **REVERTED** (07-06):
+  an unattended wake goes back to sleep ~2 min later and KILLED the 16:30 run mid-scrape
+  (result 0x40010004, no alert possible). Missed slots are instead caught up on wake
+  (`StartWhenAvailable`) + guaranteed by the watchdog. Do NOT re-enable WakeToRun.
 - **Running FREE** on the Max-plan Claude CLI — there is **no `ANTHROPIC_API_KEY`**
   in `.env` (if one is present, the curator switches to the paid API at ~$0.15/run;
   remove it to go back to free).
@@ -138,6 +144,20 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-07-06** — **DELIVERY WATCHDOG + WakeToRun reverted.** The 16:30 run was
+  KILLED mid-scrape (0x40010004): WakeToRun woke the sleeping PC at 16:30, the
+  unattended-wake policy put it back to sleep ~2 min later, and the frozen process
+  was terminated — no digest, and no alert possible from a dead process (the 07:00
+  slot that day was fine: caught up at 07:10 on user wake and delivered). Changes:
+  (a) WakeToRun REVERTED on all 3 tasks — catch-up-on-wake (`StartWhenAvailable`)
+  is the model, as before; (b) `run_daily.py` holds the PC awake while running
+  (`SetThreadExecutionState ES_SYSTEM_REQUIRED`); (c) after every successful send it
+  writes `output/last_delivery.json`; (d) NEW `watchdog.py` + 3 tasks (08:15/17:20/
+  18:50 weekdays, `--since 06:30/16:20/17:50`): if a slot passed with no delivery
+  stamp, grace-wait 12 min (in-flight catch-up run), then re-run the pipeline —
+  recovery failure triggers run_daily's own alert; (e) email-send failure now also
+  fires `_alert_failure`. Guarantee: every slot → digest or [ACTION NEEDED] alert.
+  Scheduler XMLs re-exported (incl. the 3 watchdogs).
 - **2026-07-02** — **PC-wake hardening + curator BRAIN repair.** (a) The 06:40 run
   fired as the PC woke, DNS wasn't up → all 284 sources `getaddrinfo failed` → 0
   headlines, digest lost, no alert. Fixes: `run_daily.py` waits up to 10 min for the

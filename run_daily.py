@@ -156,6 +156,16 @@ def _clear_failure_flag() -> None:
 def main():
     start = datetime.now(LOCAL_TZ)
 
+    # Keep the PC awake while a run is in flight (Windows). A run that started
+    # right before a sleep transition was frozen/killed mid-scrape and the
+    # 2026-07-06 16:30 digest was lost that way. ES_CONTINUOUS|ES_SYSTEM_REQUIRED
+    # holds sleep off until this process exits (display may still turn off).
+    try:
+        import ctypes
+        ctypes.windll.kernel32.SetThreadExecutionState(0x80000001)
+    except Exception:
+        pass
+
     # Lookback window — resolved automatically by config.current_max_age_hours()
     # at every filter call. 24h normally, 72h on Monday to catch Fri PM + weekend.
     from config import current_max_age_hours, current_gnews_when
@@ -433,6 +443,7 @@ def main():
             print(f"  -> Sent {count} items + {len(notes)} note(s) to: {', '.join(EMAIL_RECIPIENTS)}")
         except Exception as e:
             print(f"  [ERROR] Email send: {e}")
+            _alert_failure("TMT clipping FAILED — email could not be sent", str(e))
             sys.exit(1)
 
         # Commit cross-run dedup memory ONLY now that the email actually sent, and
@@ -447,6 +458,17 @@ def main():
 
         # Healthy delivery — clear any prior failure flag. (2026-06-25)
         _clear_failure_flag()
+
+        # Delivery stamp — watchdog.py checks this after every slot to verify a
+        # digest actually went out, and re-runs the pipeline if not. (2026-07-06)
+        try:
+            import json as _json
+            with open(os.path.join(OUTPUT_DIR, "last_delivery.json"), "w",
+                      encoding="utf-8") as f:
+                _json.dump({"sent_at": datetime.now(LOCAL_TZ).isoformat(timespec="seconds"),
+                            "items": count}, f)
+        except OSError as e:
+            print(f"  [WARN] delivery stamp not written: {e}")
 
         # ── Closing the loop: save clipping to Obsidian vault as markdown ──
         # The News Writer project consumes this directly to draft the daily.
