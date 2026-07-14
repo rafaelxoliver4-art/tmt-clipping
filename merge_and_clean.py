@@ -80,32 +80,107 @@ def assign_sectors(rows: List[Dict]) -> List[Dict]:
     return rows
 
 
-def cap_per_sector(rows: List[Dict]) -> List[Dict]:
-    """Keep at most MAX_HEADLINES_PER_SECTOR per sector, total ≤ MAX_TOTAL_HEADLINES.
+# No single feed may hog a sector's slots (2026-07-14: 13 recurring Ookla
+# boilerplate rows were monopolizing Telecom LatAm every day).
+_PER_SOURCE_CAP = 12
+# Of the total cap, always keep at least this many slots for the best gnews
+# (EXT) rows — otherwise heavy direct-feed days starve covered-ticker gnews
+# stories out of the curator's input entirely (2026-07-14 cross-check: 20 of
+# 49 benchmark misses were lost at this stage).
+_EXT_MIN_SLOTS = 60
 
-    PRIORITY RULE (added 2026-05-22): direct-source rows are sorted first so
-    they are NEVER displaced by EXT items when the cap is reached. The curator
-    then sees all material direct-source items even when raw input is heavy
-    on EXT noise. EXT items fill the remaining capacity.
+
+def cap_per_sector(rows: List[Dict]) -> List[Dict]:
+    """Keep at most current_max_per_sector() per sector, total ≤ current_max_total().
+
+    PRIORITY RULES:
+    - direct-source rows still outrank EXT rows (2026-05-22 principle kept),
+      but WITHIN each group the most relevant rows (covered ticker > keyword
+      match > generic) are admitted first, so caps trim generic noise instead
+      of material items (2026-07-14).
+    - max _PER_SOURCE_CAP rows per source, so boilerplate-heavy feeds can't
+      monopolize a sector (2026-07-14).
+    - at least _EXT_MIN_SLOTS of the total stay available to EXT rows so the
+      curator always sees the best gnews stories too (2026-07-14).
+    - caps are Monday-aware: 72h-lookback runs get a wider funnel
+      (config.current_max_total / current_max_per_sector).
     """
+    from config import current_max_total, current_max_per_sector
+
     # Build direct-source recognition info once
     direct_info = _direct_source_names()
 
     def _row_is_direct(r):
         return _is_direct(r, direct_info)
 
-    # Stable sort: direct first, then the rest. Within each group preserve
-    # incoming order (which is roughly recency-ordered).
-    rows_sorted = sorted(rows, key=lambda r: 0 if _row_is_direct(r) else 1)
+    # Stable sort: direct first, then relevance within each group. Incoming
+    # (roughly recency) order is preserved among equals.
+    rows_sorted = sorted(rows, key=lambda r: (0 if _row_is_direct(r) else 1,
+                                              _relevance_score(r)))
+
+    max_total     = current_max_total()
+    max_sector    = current_max_per_sector()
+    direct_budget = max_total - _EXT_MIN_SLOTS
+    # Per-sector EXT reservation: direct rows may take at most this many of a
+    # sector's slots in pass 1, so the sector's best EXT rows always get a look
+    # (2026-07-14: 'Software and AI' filled all 80 slots with direct rows and a
+    # relevance-0 TOTVS gnews story never reached the curator). Unused reserved
+    # slots are backfilled with direct rows in pass 2 — nothing is wasted.
+    direct_sector_budget = max(1, max_sector - 12)
 
     counts: Dict[str, int] = {}
+    per_source: Dict[str, int] = {}
+    dir_counts: Dict[str, int] = {}
     out: List[Dict] = []
+    skipped: List[Dict] = []
+    n_direct = 0
+
+    # Pass 1 — direct rows limited per sector and globally; EXT rows get a
+    # GUARANTEED per-sector allotment (the 12 reserved slots), so every
+    # sector's best gnews stories reach the curator regardless of how much
+    # direct volume other sectors produce.
+    ext_counts: Dict[str, int] = {}
     for row in rows_sorted:
+        if len(out) >= max_total:
+            skipped.append(row)
+            continue
         sec = row.get("sector", "General")
-        counts.setdefault(sec, 0)
-        if counts[sec] < MAX_HEADLINES_PER_SECTOR and len(out) < MAX_TOTAL_HEADLINES:
-            out.append(row)
-            counts[sec] += 1
+        src = ((row.get("source") or "").strip().lower(), sec)  # cap per source PER SECTOR
+        if counts.get(sec, 0) >= max_sector:
+            continue
+        if per_source.get(src, 0) >= _PER_SOURCE_CAP:
+            continue
+        is_dir = _row_is_direct(row)
+        if is_dir and (n_direct >= direct_budget
+                       or dir_counts.get(sec, 0) >= direct_sector_budget):
+            skipped.append(row)
+            continue
+        if not is_dir and ext_counts.get(sec, 0) >= 12:
+            skipped.append(row)   # sector's EXT reservation used; retry pass 2
+            continue
+        out.append(row)
+        counts[sec] = counts.get(sec, 0) + 1
+        per_source[src] = per_source.get(src, 0) + 1
+        if is_dir:
+            dir_counts[sec] = dir_counts.get(sec, 0) + 1
+            n_direct += 1
+        else:
+            ext_counts[sec] = ext_counts.get(sec, 0) + 1
+
+    # Pass 2 — backfill remaining capacity (EXT rows didn't claim their
+    # reservation) with the rows deferred above, same order, normal caps.
+    for row in skipped:
+        if len(out) >= max_total:
+            break
+        sec = row.get("sector", "General")
+        src = ((row.get("source") or "").strip().lower(), sec)
+        if counts.get(sec, 0) >= max_sector:
+            continue
+        if per_source.get(src, 0) >= _PER_SOURCE_CAP:
+            continue
+        out.append(row)
+        counts[sec] = counts.get(sec, 0) + 1
+        per_source[src] = per_source.get(src, 0) + 1
     return out
 
 

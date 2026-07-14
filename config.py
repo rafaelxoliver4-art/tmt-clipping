@@ -40,7 +40,9 @@ COVERED_NAME_ALIASES = {
     "AMX":     ["America Movil", "América Móvil", "AMX", "Claro Brasil",
                 "Claro Mexico", "Claro México", "Claro Colombia", "Claro Chile",
                 "Claro Peru", "Claro Argentina", "Telcel", "Telmex", "Sites LatAm",
-                "Telesites", "Sitios LatAm", "A1", "Carlos Slim"],
+                "Telesites", "Sitios LatAm", "A1", "Carlos Slim",
+                # 2026-07-14 benchmark cross-check: AMX's Chilean JV was invisible
+                "ClaroVTR", "Claro VTR"],
     "TIGO":    ["Millicom", "Tigo", "TIGO", "Tigo Colombia", "Tigo Bolivia",
                 "Tigo Guatemala", "Tigo Paraguay", "Tigo Honduras", "Tigo El Salvador",
                 "Xavier Niel", "Iliad Millicom", "Atlas Investissement"],
@@ -140,6 +142,11 @@ SECTORS = {
             # corporate action he takes lands in the TMT clipping.
             "Xavier Niel", "Niel Iliad", "Iliad Millicom", "Atlas Investissement",
             "Atlas Investissement Millicom", "Niel TIGO", "Niel Tigo",
+            # 2026-07-14 benchmark cross-check: country/entity holes found vs the
+            # analyst's manual clippings (Paraguay unqueried; ClaroVTR Chile,
+            # CFE Internet MX, Osiptel data, rating actions, 5G Advanced trials)
+            "Conatel Paraguay", "5G Paraguay", "ClaroVTR", "CFE Internet",
+            "Osiptel", "Fitch Millicom", "5G Advanced",
         ],
     },
 
@@ -174,6 +181,9 @@ SECTORS = {
             # (the Aneel/Anatel/AGU pole-sharing fight drives ISP/telco fiber capex)
             "compartilhamento de postes", "Aneel postes provedores",
             "aluguel de postes telecom", "ocupação de postes fibra",
+            # 2026-07-14 benchmark cross-check: Oi labor/operational angle and
+            # regional-ISP consolidation stories were invisible
+            "operadora Oi", "Brasil TecPar",
         ],
     },
 
@@ -209,6 +219,11 @@ SECTORS = {
             "Cognizant tokenised pricing", "Cognizant token framework",
             "IT services consumption pricing",
             "AI pricing model IT services", "AI billing IT services",
+            # 2026-07-14 benchmark cross-check: the India IT workforce beat
+            # (headcount adds, exec hires, salary rounds, GCC shift) is a core
+            # GLOB/CINT read-across the analyst tracks — was entirely unqueried
+            "Indian IT hiring", "Indian IT headcount", "Indian IT salary hike",
+            "global capability centres India",
         ],
     },
 
@@ -251,6 +266,8 @@ SECTORS = {
             "TikTok Shop", "e-commerce Brasil", "ecommerce Latin America",
             "marketplace Brasil", "Amazon Brasil", "D2C Brazil",
             "logistica ecommerce", "Magalu", "LWSA ecommerce",
+            # 2026-07-14 benchmark cross-check: Amazon's quick-commerce push in BR
+            "Amazon Now Brasil",
         ],
     },
 
@@ -344,6 +361,8 @@ _PT_MARKERS = (
     "omie", "senior sistemas", "sankhya", "software brasil", "streaming brasil",
     "telefonica brasil", "tim brasil", "claro brasil", "fibra optica",
     "5g cobertura", "5g brasil",
+    # 2026-07-14: new BR queries must route to the PT edition
+    "operadora oi", "tecpar", "amazon now",
 )
 
 _ES_MARKERS = (
@@ -355,6 +374,8 @@ _ES_MARKERS = (
     "despliegue fibra", "mvno mexico", "mvno colombia", "regulacion telecom",
     "telecomunicaciones", "starlink latin america", "starlink mexico",
     "5g rollout mexico",
+    # 2026-07-14: new LatAm queries must route to the ES edition
+    "paraguay", "conatel", "clarovtr", "cfe internet", "osiptel",
 )
 
 # Tickers & global names — fire across all 3 editions.
@@ -935,6 +956,15 @@ SOURCES_ALLOWLIST = [
 # ── Pre-filter caps (input to Claude; Claude does the final 50-item curation) ─
 MAX_HEADLINES_PER_SECTOR = 80
 MAX_TOTAL_HEADLINES      = 400
+
+# Monday runs look back 72h (≈3× the news volume) but were squeezed through the
+# SAME caps — the 2026-07-14 benchmark cross-check found 13 of 20 merge-stage
+# misses were dated Monday. Widen the funnel only on 72h runs. (2026-07-14)
+def current_max_total() -> int:
+    return 600 if current_max_age_hours() == 72 else MAX_TOTAL_HEADLINES
+
+def current_max_per_sector() -> int:
+    return 100 if current_max_age_hours() == 72 else MAX_HEADLINES_PER_SECTOR
 
 # Final Claude-curated digest cap.
 # 2026-05-25: set to 60. 50 was too tight; 80 was too loose (60 material

@@ -144,6 +144,27 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-07-14** — **Benchmark cross-check (4 analyst clippings, 07/07–14/07) → funnel
+  + curator + query fixes.** A 5-agent audit matched 85 analyst-picked items against
+  the pipeline's 3 layers: 36 delivered, 16 not scraped, 20 lost in MERGE, 12 curator
+  skips. Fixes, all additive: **(a) cap_per_sector rebuilt** — per-source cap
+  (12/source/sector, kills Ookla-boilerplate monopolies), guaranteed 12 EXT (gnews)
+  slots per sector + ≥60 globally (EXT starvation was the #1 loss: direct rows filled
+  sector caps before covered-ticker gnews stories were even considered), 2-pass
+  backfill so no slot is wasted; **(b) Monday-aware caps** — 72h-lookback runs now get
+  600 total / 100 per sector (13 of the 20 merge losses were Mondays;
+  `config.current_max_total()/current_max_per_sector()`); **(c) new queries** —
+  Paraguay (Conatel/5G), ClaroVTR (+AMX alias), CFE Internet, Osiptel, Fitch Millicom,
+  5G Advanced, India IT workforce beat (hiring/headcount/salary/GCC), operadora Oi,
+  Brasil TecPar, Amazon Now Brasil — with _ES/_PT marker routing so they hit the right
+  Google News edition; **(d) curator materiality additions** — frontier-AI vendor
+  PRODUCT/PRICING/DISTRIBUTION moves; regulator/research DATA releases (max 1-2/digest);
+  spectrum implementation + competitor capacity grants; credit-rating actions; plus
+  rules 10-11: sector tags are heuristics (re-file mis-bucketed items), dedupe by EVENT
+  not company. Validated on 07-14's cached scrape: previously-missed TOTVS/Exame and
+  TV 3.0 stories now reach the curator; Anthropic-India pricing now picked. Benchmarks
+  appended to `benchmarks/reference_clippings.md`. EXT≤5 digest cap and
+  MAX_DIGEST_ITEMS=60 unchanged.
 - **2026-07-06** — **DELIVERY WATCHDOG + WakeToRun reverted.** The 16:30 run was
   KILLED mid-scrape (0x40010004): WakeToRun woke the sleeping PC at 16:30, the
   unattended-wake policy put it back to sleep ~2 min later, and the frozen process

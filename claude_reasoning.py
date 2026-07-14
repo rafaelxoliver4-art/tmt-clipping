@@ -439,12 +439,35 @@ CURATION RULES:
 8. Within each sector: order by materiality, most important first.
 9. Prefer covered-ticker stories over peer stories; prefer fresh material events
    (earnings, M&A, regulatory decisions) over general sector color.
+10. The pre-assigned [Sector] tag on each input line is a HEURISTIC and is
+    sometimes wrong. Judge materiality from the TITLE itself; if a story is
+    material but mis-bucketed, include it and file it under the CORRECT sector.
+11. De-duplicate by EVENT, not by company: the same company may contribute 2-3
+    DISTINCT items in one digest (e.g. a lawsuit AND a product launch are both
+    eligible — only true duplicates of the same event collapse to one item).
 
 MATERIALITY BAR — include a story only if at least ONE is true:
 - Direct earnings / guidance / M&A for a covered name
 - Peer result or announcement with a clear read-across to a covered name
 - Regulatory / tax / spectrum event with a concrete mechanism to a covered stock
 - AI launch that reframes software-sector multiples (SAP / OpenAI / Anthropic class)
+- Major PRODUCT, PRICING or DISTRIBUTION moves by frontier-AI vendors (OpenAI,
+  Anthropic, Google, Microsoft, xAI): new consumer/enterprise apps, agent or voice
+  products, regional/localized pricing changes, platform expansions (mobile/web),
+  product shutdowns — material for TOTVS/LWSA/VTEX multiples even without an
+  earnings angle
+- Regulator or research-house DATA releases on covered markets — subscriber/
+  traffic/revenue statistics (Anatel, IFT, Osiptel, CRC, Conatel class), network-
+  quality benchmarks naming covered markets (Ookla class), and named retail/
+  consumption indices with a stated magnitude (ICVA, varejo ampliado class).
+  Include only the 1-2 MOST material such items per digest — never flood.
+- Spectrum / band-plan decisions INCLUDING implementation detail (band migration
+  plans, TV 3.0 / 250 MHz, 6 GHz consultations) and regulator authorizations that
+  expand a competitor's capacity in a covered market (Starlink capacity grants in
+  AMX/TIGO countries). Prefer the country-specific decision over regional roundups.
+- Credit-rating actions (Fitch / Moody's / S&P) on covered names — affirmations
+  with stable outlook are borderline; upgrades, downgrades and outlook changes
+  are always material
 - Macro data with a named transmission mechanism to a covered name
 - Sector consolidation / new entrants / competitive dynamics in covered markets
 - Story affects the competitive NARRATIVE or valuation multiple for a covered name,

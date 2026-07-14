@@ -11,6 +11,162 @@ Then fix and note it in `CLAUDE.md`.
 
 ---
 
+> NOTE: "Macro" and "UBS Reports" sections in the analyst's manual clippings are
+> MANUAL-ONLY buckets — the pipeline deliberately does not produce them. Ignore
+> them when cross-checking pipeline output.
+
+## Clipping 2026-07-14
+
+**Macro** *(manual-only)*
+- US: Bolsas caem em NY pressionadas por ações de tecnologia e falas de Waller, do Fed
+
+**Telecom LatAm and World**
+- AMX: Peru | Más de 3 millones de líneas móviles cambiaron de empresa operadora en el primer semestre de 2026
+- AMX: Telecomunicaciones, multa histórica
+- MX: Industria pide más espectro y extender a 20 años las concesiones para la subasta 5G industrial
+- Sector: Torrecom raises US$140mn, targets 2,550 towers across nine LatAm countries
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Oi formaliza venda da operação de telefonia fixa à Método por R$ 60,1 milhões
+- AMX/TEF-BZ/TIM: Anatel publica orientações para transparência em ofertas de telecom
+- AMX/TEF-BZ/TIM: Brasil | Anatel abre consultas sobre Starlink e reestruturação da banda S
+- TEF-BZ: Vivo vai trocar o "digite 1 para assistência" por IA que fala com cliente
+- TIM: TIM recebe uso secundário de 2,5 GHz em mais 18 cidades
+- Sector: Anatel define por estado como TV 3.0 ocupará a faixa de 250 MHz
+
+**IT Services**
+- GLOB/CINT: Tata Consultancy Services plans up to 8,900 AI deployment engineers, seeks AI acquisitions
+- GLOB/CINT: AI, Iran war risks weigh on Indian IT firms' earnings outlook
+- GLOB/CINT: TCS signs multi-million-dollar AI network deal with ABB; shares rally
+- Sector: IT hiring sees a boost as software development jobs slowly bounce back
+
+**Software and AI**
+- TOTVS: O que as empresas brasileiras já aprenderam sobre inteligência artificial
+- TOTVS/GLOB/CINT: The price is wrong: AI cost calculation has to consider task completion rates, not just token costs
+- Sector: Anthropic starts localizing Claude pricing for India, its biggest market after the US
+
+**Ecommerce**
+- VTEX/LWSA: Shein com ainda mais poder de fogo? Por que o IPO da asiática pode tornar a vida das varejistas brasileiras ainda mais difícil
+
+## Clipping 2026-07-13
+
+**Telecom LatAm and World**
+- TIGO: Fitch Affirms Millicom International Cellular S.A.'s Ratings at 'BB+'; Outlook Stable
+- TIGO: Tigo y Personal se postulan a segunda licitación 5G de Paraguay
+- AMX: América Móvil da inicio a un nuevo ciclo en Chile y dibuja su estrategia para ClaroVTR: "El foco actual es capitalizar todo lo construido"
+- AMX: Chile | ClaroVTR integra Netflix a sus planes
+- AMX: CFE Internet aumenta sus precios: cuánto pagarás y qué incluye el paquete de 35 pesos al mes
+- Sector: Proceso de licitación de espectro industrial en México inicia el 3 de agosto: CRT
+- Sector: Consumo de internet móvil en Perú se triplicó en cinco años
+- Sector: Telefónica lança serviço global de eSIM para IoT ao lado da Thales
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Anatel abre consultas sobre Starlink e reestruturação da banda S
+- AMX/TEF-BZ/TIM: Oi assina venda da unidade de serviços telefônicos para a Método Telecomunicações
+- TEF: Telefónica Deutschland is planning to lay off c15% of its workforce
+- TIM: TIM recebe uso secundário de 2,3 GHz em 299 cidades do Nordeste
+- Sector: Brasil TecPar prepara unificação de marcas e mira 1,8 milhão de clientes com expansão da infraestrutura
+- Sector: Sindicatos apontam risco de paralisação da Oi e pedem mesa com governo
+
+**IT Services**
+- COG: Cognizant to scale to 5,000 Frontier Certified Engineers and 10,000 Frontier Business Operators
+- TCS: TCS CEO: AI Could Reach 20% Revenue, Jobs Shift (Video)
+- TCS: TCS adds over 9,200 employees in Q1 FY27
+- Sector: IT midcaps hire executives to close AI strategy gap
+
+**Software and AI**
+- OpenAI: OpenAI unveils long-awaited "super app" as rivalry with Anthropic intensifies
+- OpenAI: OpenAI is shutting down Atlas, but its AI browser ambitions are still growing
+- OpenAI: OpenAI's newest AI model is 54% more token efficient on agentic coding, Altman tells CNBC
+- SAP: SAP loosens ERP maintenance and support rules
+- Sector: Cursor Is Developing an AI Agent to Compete With Claude Cowork
+
+**Ecommerce**
+- VTEX/LWSA: ICVA mostra queda real de 2,8% nas vendas no varejo em junho, pior desempenho desde a pandemia
+- Sector: Amazon eleva sortimento do Amazon Now no Brasil em 15%
+
+**Streaming**
+- TU: Disney+ is considering a free streaming tier, report says
+- Sector: Netflix could be planning "always-on" live TV channels
+
+## Clipping 2026-07-08
+
+**UBS Reports** *(manual-only)*
+- HOLT Emerging Markets View: Finding Growth with or without AI
+- Computacenter plc H1 26: AI demand continues
+- Space Exploration Technologies Corp Grok 4.5: Delivering frontier level performance more efficiently
+
+**Telecom LatAm and World**
+- AMX: Mexico Broadband Benchmarks: Fiber Speeds vs. Indoor Wireless Realities
+- TIGO: Despliegue de 5G en El Salvador requerirá hasta 2.000 nuevos sitios
+- Sector: Amazon consolida la tercera constelación satelital más grande en órbita
+- Sector: Ericsson, AT&T y MediaTek prueban 5G Advanced con movilidad de baja latencia
+- Sector: Panamá abre debate sobre banda de 6 GHz con 2 escenarios
+- Sector: Starlink, da SpaceX, coloca Verizon, AT&T e T-Mobile sob escrutínio
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Abratual contesta preço médio de R$ 5,46 do GB da Anatel
+- FIQE: Unifique traz Vitor Menezes e anuncia Erolf Schotten para liderar expansão
+- Sector: Mhnet conclui aquisição de provedor e amplia atuação em Santa Catarina
+
+**IT Services**
+- GLOB: Globant and Vercel Forge Strategic Alliance to Take Enterprises from Agentic AI to Full Production with AI Pods
+- COG: US launches major H-1B visa fraud investigation; official names Cognizant
+
+**Software and AI**
+- TOTVS: Grupo Panther adota soluções da Totvs
+- TOTVS: Consórcio Magalu aumenta em 43,5% as vendas digitais com integração entre marketing e vendas
+- OpenAI: OpenAI releases new voice models for more natural live conversations
+- Sector: Startups nativas de IA crecen al doble con la mitad del personal que el resto del ecosistema: AWS
+
+**Ecommerce**
+- VTEX/LWSA: Shopee changes seller rules as TikTok Shop raises fees by 50%
+- Sector: Automação reduz tempo de resposta e ganha espaço no e-commerce com integração de sistemas
+
+**Streaming**
+- TV: Paramount's Warner Bros. Deal Should Be Delayed, Oregon Says
+
+**Hardware**
+- Sector: Copa impulsiona TVs maiores e itens de torcida no Mercado Livre, mostra relatório
+
+## Clipping 2026-07-07
+
+**Macro** *(manual-only)*
+- MX: Exportaciones de México a Estados Unidos baten récord en mayo
+
+**Telecom LatAm and World**
+- AMX: México | Apagón de redes 2G y 3G choca con usuarios que aún no pueden comprar celulares 5G
+- AMX: Diri adquiere a las OMV Newww y Mi Móvil para fortalecer su presencia en el mercado mexicano
+- AMX: Servicios móviles lideran crecimiento de ingresos en telecom de Perú
+- Sector: Conatel autoriza mayor capacidad a Starlink para brindar Internet satelital en Paraguay
+
+**Telecom Brazil**
+- TIM: TIM e Way Brasil concluem cobertura 4G em rodovias de MS
+- AMX/TEF-BZ/TIM/TOTVS: Brasil é destaque em latência 5G, mas conexão com nuvem é gargalo para IA
+- AMX/TEF-BZ/TIM/TOTVS: Nenhuma operadora no mundo está preparada para IA multimodal com AR, alerta Ookla
+
+**IT Services**
+- COG: Cognizant expands partnership with Google Cloud to accelerate enterprise AI adoption with Gemini Enterprise and Google Workspace
+- MSFT: Microsoft betting that enterprise AI needs engineers, not bigger sales teams
+- Sector: IT corner offices land massive hikes, cubicles get single digits
+- Sector: Ageing Japan turns to Indian GCCs to bridge talent gap
+- Sector: IA e hiperpersonalización redefinen la hotelería y la experiencia del huésped
+
+**Software and AI**
+- SAP: SAP completes Dremio acquisition to unify enterprise data for AI workloads
+- MSFT: Microsoft joins AI cost-cutting trend by relying more on its own models
+- Sector: Claude Cowork expands to mobile and web
+
+**Ecommerce**
+- LWSA/VTEX: Magalu soma R$ 100 milhões em vendas via WhatsApp em menos de um ano
+- Sector: ChatGPT concentra 92% do tráfego de IA para sites, revela estudo
+- Sector: Varejo ampliado deve crescer 4,9% em julho, aponta projeção
+- Sector: Brasil é o terceiro maior comprador de produtos chineses no e-commerce
+
+**Hardware**
+- Sector: Laércio vê ReData na pauta do Senado só após as eleições
+- Sector: Energia se torna principal fator competitivo para data centers de IA, aponta estudo da FGV
+
 ## Clipping 2026-06-22
 
 **Telecom LatAm and World**
