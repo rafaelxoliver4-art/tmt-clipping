@@ -11,7 +11,7 @@
 import sys
 import csv
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from config import LOCAL_TZ, OUTPUT_DIR
 
 # Force UTF-8 stdout/stderr so Portuguese error chars don't crash on Windows cp1252
@@ -257,6 +257,24 @@ def main():
 
         save_csv(all_rows, csv_path)
         print(f"\n  CSV saved: {os.path.abspath(csv_path)}")
+
+        # Forensics (2026-07-14): also keep a per-RUN timestamped copy so
+        # benchmark cross-checks can inspect what EACH run scraped (the daily
+        # CSV is overwritten by later runs, which blinded the 07/14 audit to
+        # morning-run evidence). Purged after 14 days.
+        try:
+            import shutil, glob as _glob
+            run_csv = os.path.join(
+                OUTPUT_DIR, "runs",
+                f"headlines_{start.strftime('%Y-%m-%d_%H%M')}.csv")
+            os.makedirs(os.path.dirname(run_csv), exist_ok=True)
+            shutil.copyfile(csv_path, run_csv)
+            _cut = (datetime.now(LOCAL_TZ) - timedelta(days=14)).timestamp()
+            for old in _glob.glob(os.path.join(OUTPUT_DIR, "runs", "headlines_*.csv")):
+                if os.path.getmtime(old) < _cut:
+                    os.remove(old)
+        except Exception as _e:
+            print(f"  [WARN] per-run CSV copy failed: {_e}")
 
     all_rows = gnews_rows + direct_rows
     if not all_rows:

@@ -184,6 +184,37 @@ def _fetch_rss(source: Dict) -> List[Dict]:
     if not data:
         return []
     rows = _parse_rss(data, source["name"], source["sector"], source["url"])
+
+    # ── Shallow-feed pagination (2026-07-14) ─────────────────────────────────
+    # Some WordPress feeds expose only ~10 items (DPL News ≈ 2h of news!), so
+    # stories published between runs — and the whole weekend — scroll off
+    # before we ever fetch. For sources with "rss_pages": N in DIRECT_SOURCES,
+    # also fetch ?paged=2..N (WP returns progressively older posts). On 72h
+    # (Monday) windows the page count is tripled (capped at 15) to reach the
+    # weekend. Stops early once a whole page falls outside the lookback window.
+    pages = int(source.get("rss_pages", 1) or 1)
+    if pages > 1:
+        if current_max_age_hours() == 72:
+            pages = min(15, pages * 3)
+        sep = "&" if "?" in rss_url else "?"
+        seen_links  = {r.get("link", "") for r in rows}
+        seen_titles = {r.get("title", "") for r in rows}
+        for p in range(2, pages + 1):
+            data_p = _fetch(f"{rss_url}{sep}paged={p}", headers=HEADERS_RSS)
+            if not data_p:
+                break
+            page_rows = _parse_rss(data_p, source["name"], source["sector"],
+                                   source["url"])
+            fresh = [r for r in page_rows
+                     if r.get("link", "") not in seen_links
+                     and r.get("title", "") not in seen_titles]
+            if not page_rows:
+                # every item on this page is outside the window (or feed ended)
+                break
+            for r in fresh:
+                seen_links.add(r.get("link", ""))
+                seen_titles.add(r.get("title", ""))
+                rows.append(r)
     return rows
 
 

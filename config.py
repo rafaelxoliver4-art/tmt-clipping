@@ -643,6 +643,10 @@ DIRECT_SOURCES = [
         "name": "DPL News",
         "url":  "https://dplnews.com/category/dplnews/",
         "rss":  "https://dplnews.com/feed/",
+        # 2026-07-14: DPL's feed shows only 10 items (~2h of news) — the #1
+        # source of the analyst's manual picks was scrolling away between runs.
+        # Fetch 4 pages (~40 items ≈ 24h); Mondays auto-triple to 12 (~72h).
+        "rss_pages": 4,
         "sector": "Telecom LatAm and World",
     },
     {

@@ -171,6 +171,14 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
   bypassing curator judgment AND the EXT cap). Validation v2 caught it; v3 confirmed
   clean (force-adds 16→5, junk gone). **(f)** ALWAYS OMIT additions: price-action/
   technical-analysis listicles; routine "fora do ar" status-tracker blurbs.
+  **(g) DPL News feed pagination** — analyst confirmed his picks come almost entirely
+  from DIRECT sources; DPL's RSS exposes only 10 items (~2 HOURS of news), so stories
+  scrolled off between runs and the whole weekend was unreachable by Monday. url_scraper
+  now supports "rss_pages": N per source (WordPress ?paged= pagination, early-stop
+  outside the window); DPL set to 4 pages (~24h), auto-tripled to 12 on 72h Mondays.
+  Verified live: 40 rows / 22h coverage vs 10 rows / 2h before. **(h) per-run forensic
+  CSVs** — each run now saves output/runs/headlines_DATE_HHMM.csv (14-day retention) so
+  future benchmark audits see every run's scrape, not just the day's last.
 - **2026-07-06** — **DELIVERY WATCHDOG + WakeToRun reverted.** The 16:30 run was
   KILLED mid-scrape (0x40010004): WakeToRun woke the sleeping PC at 16:30, the
   unattended-wake policy put it back to sleep ~2 min later, and the frozen process
