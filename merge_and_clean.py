@@ -27,6 +27,21 @@ COVERED_LOWER = {
     for name in data["covered"]
 }
 
+# 2026-07-14 (June benchmark audit): also recognise full covered-name ALIASES
+# in titles ("Mercado Ads", "Claro Colombia", "TIM Brasil"...) — without this,
+# a direct-source story titled around an alias scored relevance 2 (generic)
+# and lost its input slot to noise. Ambiguous/short aliases are excluded
+# (the force-add ambiguity guard handles those contexts separately).
+try:
+    from config import COVERED_NAME_ALIASES as _CNA
+    COVERED_LOWER |= {
+        a.lower() for aliases in _CNA.values() for a in aliases
+        if len(a) >= 5 and a.lower() not in {"claro", "vivo", "personal",
+                                             "desktop", "sparkle"}
+    }
+except ImportError:
+    pass
+
 
 def _guess_sector(row: Dict) -> str:
     """Heuristically assign a sector using keyword + title scan."""
@@ -113,10 +128,39 @@ def cap_per_sector(rows: List[Dict]) -> List[Dict]:
     def _row_is_direct(r):
         return _is_direct(r, direct_info)
 
-    # Stable sort: direct first, then relevance within each group. Incoming
-    # (roughly recency) order is preserved among equals.
+    # Stable sort: direct first, then relevance within each group; within the
+    # same relevance, CORE trade feeds (the analyst's actual sources — DPL,
+    # Teletime, Mobile Time, TI Inside...) outrank generic high-volume feeds
+    # (2026-07-14 June audit: core-feed sector stories kept losing their input
+    # slot to TechCrunch/Verge-class volume by ordering luck). Incoming
+    # (roughly recency) order is preserved among remaining equals.
+    try:
+        from config import CORE_DIRECT_SOURCES as _CORE
+    except ImportError:
+        _CORE = frozenset()
+    try:
+        from config import SOURCES_ALLOWLIST as _ALLOW
+    except ImportError:
+        _ALLOW = []
+
+    def _norm_src(s):
+        return "".join(ch for ch in _strip_accents((s or "").lower())
+                       if ch.isalnum())
+
+    _allow_norm = [_norm_src(a) for a in _ALLOW if len(a) >= 4]
+
+    def _priority(r):
+        src = (r.get("source") or "").strip()
+        if src in _CORE:                       # direct core trade feed
+            return 0
+        srcn = _norm_src(src)                  # gnews outlet of a trusted brand
+        if srcn and any(a in srcn for a in _allow_norm):
+            return 0
+        return 1
+
     rows_sorted = sorted(rows, key=lambda r: (0 if _row_is_direct(r) else 1,
-                                              _relevance_score(r)))
+                                              _relevance_score(r),
+                                              _priority(r)))
 
     max_total     = current_max_total()
     max_sector    = current_max_per_sector()
@@ -145,10 +189,16 @@ def cap_per_sector(rows: List[Dict]) -> List[Dict]:
             skipped.append(row)
             continue
         sec = row.get("sector", "General")
-        src = ((row.get("source") or "").strip().lower(), sec)  # cap per source PER SECTOR
+        src_name = (row.get("source") or "").strip()
+        src = (src_name.lower(), sec)  # cap per source PER SECTOR
+        # Core trade feeds are curated and prolific (Mobile Time, TELETIME ≈
+        # 15-25 stories/day, near-zero boilerplate) — give them more room than
+        # generic/boilerplate-prone feeds (2026-07-14 June audit: an analyst
+        # pick was Mobile Time's 13th story of the day and got trimmed).
+        src_cap = 20 if src_name in _CORE else _PER_SOURCE_CAP
         if counts.get(sec, 0) >= max_sector:
             continue
-        if per_source.get(src, 0) >= _PER_SOURCE_CAP:
+        if per_source.get(src, 0) >= src_cap:
             continue
         is_dir = _row_is_direct(row)
         if is_dir and (n_direct >= direct_budget
@@ -173,10 +223,12 @@ def cap_per_sector(rows: List[Dict]) -> List[Dict]:
         if len(out) >= max_total:
             break
         sec = row.get("sector", "General")
-        src = ((row.get("source") or "").strip().lower(), sec)
+        src_name = (row.get("source") or "").strip()
+        src = (src_name.lower(), sec)
+        src_cap = 20 if src_name in _CORE else _PER_SOURCE_CAP
         if counts.get(sec, 0) >= max_sector:
             continue
-        if per_source.get(src, 0) >= _PER_SOURCE_CAP:
+        if per_source.get(src, 0) >= src_cap:
             continue
         out.append(row)
         counts[sec] = counts.get(sec, 0) + 1

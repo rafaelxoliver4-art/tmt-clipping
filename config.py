@@ -957,6 +957,21 @@ SOURCES_ALLOWLIST = [
     "Bloomberg Línea", "Bloomberg Linea",  # already direct — boost dedup priority
 ]
 
+# ── Core trade feeds (2026-07-14, June benchmark audit) ──────────────────────
+# The analyst's manual picks come overwhelmingly from these LatAm/BR trade
+# feeds. Their rows sort AHEAD of other direct rows at the same relevance in
+# cap_per_sector, so a core-feed sector story is never displaced by volume
+# from generic tech feeds (TechCrunch/Verge class). Names must match
+# DIRECT_SOURCES "name" exactly.
+CORE_DIRECT_SOURCES = frozenset({
+    "DPL News", "DPL News Redes", "Teletime", "TELA VIVA News", "Tele.Síntese",
+    "Mobile Time BR", "Mobile Time LAT", "TeleSemana", "BNAmericas Telecom",
+    "El Economista Telecom", "Expansión Tecnología", "TI Inside", "Baguete",
+    "Ecommerce Brasil", "Mercado & Consumo", "Convergência Digital",
+    "Valor Econômico Tele", "Valor Econômico Tech", "NeoFeed", "Brazil Journal",
+    "Anatel Notícias", "CADE Notícias", "Mobile World Live", "Ponto ISP",
+})
+
 # ── Pre-filter caps (input to Claude; Claude does the final 50-item curation) ─
 MAX_HEADLINES_PER_SECTOR = 80
 MAX_TOTAL_HEADLINES      = 400

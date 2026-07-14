@@ -144,6 +144,22 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-07-14 (pm)** — **JUNE benchmark cross-check (8 clippings, 06/17–06/26) →
+  core-feed priority + alias-aware relevance.** 8-agent audit vs 167 analyst items:
+  only 32 delivered (19%) — expected, the window spans the June auth outage AND
+  predates the morning's fixes. Replaying the June CSVs through the FIXED merge
+  rescued 6 of 12 sampled merge-losses; the remainder exposed two ordering flaws,
+  both fixed: **(a)** `_relevance_score` now also matches full covered-name ALIASES
+  in titles ("Mercado Ads", "Claro Colombia"… were scoring 2 = generic);
+  **(b)** new `config.CORE_DIRECT_SOURCES` (24 LatAm/BR trade feeds = where the
+  analyst's picks actually come from): their rows outrank generic-feed volume at
+  equal relevance, they get a per-source cap of 20 (vs 12 default; an analyst pick
+  was Mobile Time's 13th story of the day), and gnews rows from allowlisted outlets
+  (TELETIME News, E-Commerce Brasil…) get the same priority in the EXT pools.
+  **A/B-tested widening the funnel to 500/90: zero additional rescues → caps stay
+  400/80 (600/100 Mondays)** — don't widen it, it only dilutes the curator. June
+  benchmarks saved to `benchmarks/reference_clippings.md`. Curator-level live check:
+  the next scheduled run.
 - **2026-07-14** — **Benchmark cross-check (4 analyst clippings, 07/07–14/07) → funnel
   + curator + query fixes.** A 5-agent audit matched 85 analyst-picked items against
   the pipeline's 3 layers: 36 delivered, 16 not scraped, 20 lost in MERGE, 12 curator
