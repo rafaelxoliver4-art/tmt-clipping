@@ -454,6 +454,16 @@ def enforce_covered_inclusion(report: dict, raw_rows: list, max_add: int = 10,
                     hit_name = cn
         if not hit_name:
             continue
+        # 2026-07-14: force-add is DIRECT-only again. The 2026-05-28 extension
+        # to gnews existed because EXT starvation could hide covered stories
+        # from the curator entirely; cap_per_sector now GUARANTEES gnews slots
+        # per sector, so covered gnews stories reach the curator and must earn
+        # selection on materiality. Auto-injecting gnews rows shipped alias-
+        # collision junk straight into the digest (TASE:AMX = Automax Motors,
+        # "Posi Metallic" brake pads, Globant eSports, CINT price-action spam).
+        if not _is_direct(row, direct_info):
+            counter["skipped"] += 1
+            continue
         # Guard: don't force-include a company's OWN website / PR content (e.g.
         # "Globant Newsroom", a TOTVS blog). If the source name itself contains a
         # covered name, it's the company's own channel — marketing, not news.

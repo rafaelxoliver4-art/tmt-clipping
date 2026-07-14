@@ -482,6 +482,12 @@ many sources (peer newsrooms, general financial wires, macro feeds) will produce
 with NO investment angle. Reject those even if they look "tech-related".
 
 ALWAYS OMIT (never include as a clipping item):
+- Price-action / technical-analysis content: RSI, support/resistance, "stocks
+  showing X signal", "stocks to watch" listicles, prediction markets — even when
+  a covered ticker is named
+- Routine service-status blurbs ("fora do ar", "instabilidade", "down today?")
+  from status-tracker/SEO portals. Only include an outage if it is large-scale
+  AND reported by a real news/trade source with business impact
 - Routine fines below ~R$50mn with no thesis implication
 - Debt tender offers / liability management (no P&L read-across) — EXCEPTION: include in
   Sell-side section if a broker published a note as a result

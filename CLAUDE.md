@@ -164,7 +164,13 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
   not company. Validated on 07-14's cached scrape: previously-missed TOTVS/Exame and
   TV 3.0 stories now reach the curator; Anthropic-India pricing now picked. Benchmarks
   appended to `benchmarks/reference_clippings.md`. EXT≤5 digest cap and
-  MAX_DIGEST_ITEMS=60 unchanged.
+  MAX_DIGEST_ITEMS=60 unchanged. **(e) force-add reverted to DIRECT-only** — with
+  gnews now guaranteed curator slots, the 2026-05-28 all-sources force-add became a
+  junk injector (alias collisions: TASE:AMX=Automax, "Posi Metallic" brake pads,
+  Globant eSports, CINT price-action spam force-added straight into the digest,
+  bypassing curator judgment AND the EXT cap). Validation v2 caught it; v3 confirmed
+  clean (force-adds 16→5, junk gone). **(f)** ALWAYS OMIT additions: price-action/
+  technical-analysis listicles; routine "fora do ar" status-tracker blurbs.
 - **2026-07-06** — **DELIVERY WATCHDOG + WakeToRun reverted.** The 16:30 run was
   KILLED mid-scrape (0x40010004): WakeToRun woke the sleeping PC at 16:30, the
   unattended-wake policy put it back to sleep ~2 min later, and the frozen process
