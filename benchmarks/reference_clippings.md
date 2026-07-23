@@ -1,5 +1,16 @@
 # Reference clippings — quality benchmark for the TMT digest
 
+> **⚠️ EDITORIAL-DAY MAPPING (critical for cross-checks, per analyst 2026-07-23).**
+> The analyst's manual clipping dated **D** is compiled from the pipeline runs of the
+> **previous afternoon through that morning** — specifically the **D-1 16:30**, **D-1 18:00**,
+> and **D 06:40 (morning)** runs. It is NOT the calendar-D runs. So when cross-checking
+> clipping D, the "delivered" evidence = those three runs' digests + scrapes (per-run
+> archives in `output/digests/` and `output/runs/`), and DELIVERED counts if the story
+> appeared in ANY of them. Also: **ignore any run that failed or didn't fully digest**
+> (empty/aborted/stale-run/auth-outage) — a miss only counts if a HEALTHY run in the
+> window should have carried it.
+
+
 These are **analyst-approved clippings** (the standard the automated pipeline should
 match). Use them to cross-check each automated run: is the code+curator surfacing the
 same calibre of news, or letting material items slide? When a gap is found, trace it:

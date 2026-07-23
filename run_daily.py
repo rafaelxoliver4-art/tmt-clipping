@@ -483,6 +483,32 @@ def main():
             _alert_failure("TMT clipping FAILED — email could not be sent", str(e))
             sys.exit(1)
 
+        # Per-run DIGEST snapshot (2026-07-23). The vault .md keeps only the
+        # LAST run of a day, so the 16:30 digest was unrecoverable — which
+        # blinded benchmark cross-checks, because the analyst's clipping for
+        # day D is compiled from the D-1 16:30 + D-1 18:00 + D morning runs.
+        # Save exactly what shipped, per run. Purged after 30 days.
+        try:
+            import json as _json, glob as _glob
+            _dig_dir = os.path.join(OUTPUT_DIR, "digests")
+            os.makedirs(_dig_dir, exist_ok=True)
+            _dig_path = os.path.join(
+                _dig_dir, f"digest_{start.strftime('%Y-%m-%d_%H%M')}.json")
+            with open(_dig_path, "w", encoding="utf-8") as _f:
+                _json.dump({
+                    "run_started": start.isoformat(timespec="seconds"),
+                    "sent_at": datetime.now(LOCAL_TZ).isoformat(timespec="seconds"),
+                    "item_count": count,
+                    "recipients": list(EMAIL_RECIPIENTS),
+                    "report": report,
+                }, _f, ensure_ascii=False, indent=1)
+            _cut = (datetime.now(LOCAL_TZ) - timedelta(days=30)).timestamp()
+            for _old in _glob.glob(os.path.join(_dig_dir, "digest_*.json")):
+                if os.path.getmtime(_old) < _cut:
+                    os.remove(_old)
+        except Exception as _e:
+            print(f"  [WARN] per-run digest snapshot failed: {_e}")
+
         # Commit cross-run dedup memory ONLY now that the email actually sent, and
         # only for the items that shipped — so a failed/aborted/empty run never
         # suppresses undelivered news on the next run. (2026-06-24)

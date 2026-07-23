@@ -16,3 +16,5 @@ _run_*.py
 _analyze_*.py
 _verify_*.py
 CLIPPING_FAILED.txt
+
+output/digests/
