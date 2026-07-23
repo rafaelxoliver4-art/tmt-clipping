@@ -15,6 +15,236 @@ Then fix and note it in `CLAUDE.md`.
 > MANUAL-ONLY buckets — the pipeline deliberately does not produce them. Ignore
 > them when cross-checking pipeline output.
 
+## Clipping 2026-07-23
+
+**Telecom LatAm and World**
+- AMX: Registro telefónico frena el crecimiento de Telcel en prepago durante el segundo trimestre
+- AMX: América Móvil quer novas aquisições de fibra como Desktop e WOW Peru
+- TIGO/TEO: Conatel selecciona a Tigo y Personal para licitación 5G de Paraguay
+- TEO: Bonos y acciones de Argentina suben tras el upgrade de Moody's
+- Sector: Argentina | Chubut y el ENACOM firmaron un acuerdo para instalar el segundo cable submarino de fibra óptica del país
+- Sector: Promtel y Viasat firman acuerdo para impulsar la conectividad en México
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Anatel prorroga consultas públicas sobre uso da banda S
+- AMX/TEF-BZ/TIM: IA nas Telecomunicações: o que realmente está em discussão na Tomada de Subsídios nº 6 da Anatel?
+- AMX/TEF-BZ/TIM: Claro seguirá rivais em promoções mais agressivas
+- TIM: TIM Brasil partners with HCLTech to transform customer experience with South America's first cross-platform eSIM transfer capability
+- TIM: TIM Brasil preserva estratégia após venda de R$ 80 bilhões da controladora
+- TIM: CPFL fecha contrato de R$60mn com a TIM
+- TEF: Telefonica's German firm to cut up to 1,100 jobs
+
+**IT Services**
+- GLOB/CINT: Guidance cut expected? Infosys may not have good news for investors in Q1 results
+- GLOB/CINT: IBM Cuts Forecast, Bets on AI Coding Tool 'Bob' to Reverse Slide
+- GLOB/CINT: Weak macroeconomic conditions will continue to constrain IT spend for another three years, says S&P's Chi Yang Leong
+- CINT: CI&T Finds AI Agents are Now Used by the Majority of Consumers to Make Shopping Decisions
+- Sector: IT growth under pressure amid delayed deal ramp-ups
+
+**Software and AI**
+- TOTVS/GLOB/CINT: OpenAI is launching new corporate software that takes it beyond the AI model war
+- TOTVS: TOTVS expande roadshow sobre IA para o 2º semestre de 2026
+- TOTVS: Oracle expands Cloud@Customer with new database service for mid-sized workloads
+- MSFT: Copilot vs. raw API access: What are you actually paying for?
+- MSFT: Microsoft doubles down on sovereign AI with expanded Mistral partnership
+- TOTVS: ServiceNow Reports Accelerating Second Quarter Growth
+
+## Clipping 2026-07-22
+
+**Telecom LatAm and World**
+- AMX: Claro buys WOW outright to widen Peru broadband lead
+- AMX: Arranca tercera ronda de negociaciones bilaterales México-Estados Unidos sobre el T-MEC
+- AMX: El registro telefónico congela el crecimiento de Telcel en prepago durante segundo trimestre
+- AMX: Industry Calls for Changes to Mexico's 5G Auction
+- AMX: México | Telecomunicaciones repuntan pero la falta de 5G frena el potencial industrial de México — DPL Group
+- Sector: España reasigna espectro para impulsar nuevo sistema ferroviario y redes privadas 5G
+
+**Telecom Brazil**
+- TEF-BZ: Vivo negocia com SpaceX oferta D2D no Brasil
+- AMX/TEF-BZ/TIM: Anatel quer institucionalizar mediação de conflitos regulatórios
+- Unifique: Unifique vai pagar R$ 30 milhões em juros sobre capital próprio
+- Sector: Video online deve faturar US$ 14,4 bi no Brasil até 2029
+
+**IT Services**
+- GLOB/CINT/TOTVS: The latest Chinese AI models may indeed work for enterprises, but only in a handful of specific applications
+- Sector: AI powerful tailwind for accelerating HCLTech's growth: Chairperson Roshni Nadar
+
+**Software and AI**
+- TOTVS: Unimed SC monitora índice de desempenho com Totvs
+- SAP: SAP developers face education debt, user group warns
+- Sector: AWS standardizes more AI billing data to simplify cost analysis
+- Sector: Google apresenta modelos do Gemini mais leves e com menos consumo de tokens
+- Sector: AI's most important protocol is getting a little bit easier to use
+- Sector: OpenAI is scared of open-weight models. Should the US be?
+- Sector: Novo modelo de IA da China surpreende os EUA e rivaliza com o ChatGPT
+
+**Ecommerce**
+- Sector: Google vê IA agêntica como nova fronteira da relação com o consumidor
+
+**Hardware**
+- Sector: AI-driven memory crunch jolts India's smartphone market
+
+**Sell-side**
+- CI&T Faces Limited Upside, Rising Business Risks, Wedbush Says
+
+## Clipping 2026-07-21
+
+**Telecom LatAm and World**
+- AMX: América Móvil de Carlos Slim compra a empresa competidora WOW en Perú
+- AMX/LLA: LILA: Liberty Latin America to sell stake in WOW Tel to America Movil Peru
+- AMX: El análisis de Claro frente al proceso de consolidación de las telecomunicaciones en Colombia
+- MX: México simplifica pruebas a equipos de telecomunicaciones antes de revisión del T-MEC
+
+**Telecom Brazil**
+- TIM: Correios da Itália fazem oferta para Tim voltar a ser estatal
+- TIM: Conselho do Grupo TIM aprova oferta pública da Poste Italiane
+- AMX/TEF-BZ/TIM: Dados próprios ampliam papel estratégico das MVNOs
+- Sector: Algar reorganiza espectro e amplia capacidade móvel em 80 cidades
+
+**IT Services**
+- GLOB: Globant conquista a competência de IA Generativa da AWS em serviços de consultoria
+- GLOB/CINT: Gartner Survey Shows 45% of CFOs Say Their AI Investments Lean Toward Productivity
+- INFY: Q1 earnings this week: Infosys, Eternal, Bajaj Auto among 256 companies set to announce June quarter results
+
+**Software and AI**
+- Sector: After Moonshot's Kimi K3, China's Alibaba launches AI model 'challenging' Anthropic's Fable 5
+- Sector: Google Plans New 'Frozen' Chip to Run Its AI Models Much More Efficiently
+- Sector: China's Latest A.I. Breakthrough Threatens America's Lead
+
+**Ecommerce**
+- VTEX/LWSA: Agentes de IA geram a nova era do e-commerce e prometem transformar o varejo global
+
+**Hardware**
+- POSI: MDIC propõe mudanças nas regras de produção nacional de celulares
+
+**Sell-side**
+- CRM: Salesforce downgraded to Equal Weight from Overweight at Morgan Stanley
+- Salesforce Cut to Equal-Weight at Morgan Stanley; PT $185
+
+## Clipping 2026-07-20
+
+**Telecom LatAm and World**
+- AMX/TEF-BZ/TIM/TIGO/TEO: Latin American telcos trade growth for discipline as capex retreats — Fitch
+- AMX: AT&T pide a la CRT reglas que eviten mayor concentración de Telcel en la licitación de espectro 5G
+- AMX: Mexicanos eligen líneas pospago para controlar mejor sus gastos
+- Sector: Ecuador supera las 500 radiobases 5G desplegadas
+
+**Telecom Brazil**
+- TIM: TIM lança 'Ultracombo' de telefonia móvel, banda larga e streaming
+- Sector: G6 fecha parceria com iez! para oferecer 4G e 5G
+
+**IT Services**
+- GLOB/CINT/TOTVS: Claude Code and Codex Are Transforming the Profession of Coding
+- Sector: Moonshot AI anuncia Kimi K3 com 2,8 trilhões de parâmetros
+
+**Software and AI**
+- TOTVS: MKGV gere operação com Totvs
+- Sector: Ações de IA chinesas despencam após lançamento de modelo concorrente e declínio do setor de tecnologia
+- Sector: 'Sell-off' de ações de chips perde tração, mas ainda pressiona bolsas de NY
+- Sector: Salesforce's Agentforce product maturity questioned as KeyBanc cites weak customer traction
+
+**Ecommerce**
+- VTEX/LWSA: Amazon Now amplia pressão sobre varejistas brasileiras
+
+**Hardware**
+- Sector: Mercado mundial de smartphones cae 6.7% en el segundo trimestre de 2026
+
+**Sell-side**
+- SAP: SAP price target lowered to $210 from $230 at TD Cowen
+- Vivo ou TIM? O que esperar dos balanços do 2T e qual ação é a favorita dos bancos
+
+## Clipping 2026-07-17
+
+**Telecom LatAm and World**
+- TIGO: Tigo certifies design for data center expansion in Honduras
+- TIGO: Millicom reestructura la alta gerencia de Movistar tras avanzar en su adquisición
+- TIGO: Digital Metrics | Internet fijo en Uruguay crece 3.9% mientras la TV de paga sigue en caída libre
+- AMX/TIGO: Falla asumirá ministerio TIC de Colombia con desafío de atraer inversión
+- AMX: AT&T pide a la CRT reglas que eviten mayor concentración de Telcel en la licitación de espectro 5G
+- AMX: Telmex, Izzi, Totalplay y Megacable retiran casi 2,000 kilómetros de cableado en CDMX
+
+**Telecom Brazil**
+- TEF-BZ: Telefónica y Pontegadea acuerdan vender la firma de cable submarino Telxius por 1.200 millones de euros
+- TEF-BZ: Internet fibra de 1 Gb da Vivo fica mais barata e acirra concorrência com a Claro
+- TIM: TIM lança 'Ultracombo' de telefonia móvel, banda larga e streaming
+- TIM: Novo plano da TIM reduz conta em 40% e dá desconto maior na compra de celular
+- Sector: Brasil | TCU dá 15 dias para Anatel explicar gestão dos R$ 9,5 bilhões do leilão 5G voltados à conectividade
+- Sector: Streaming supera 90% del mercado brasileño y presiona a la TV de paga
+
+**IT Services**
+- GLOB/CINT: Wipro Q1 Results: Profit flat YoY at Rs 3,352 crore; co declares Rs 2/share dividend
+- GLOB/CINT: Tech Mahindra Q1 Results: Net profit rises 28% YoY to Rs 1,465 crore, revenue up 18%
+- Sector: CIOs must rethink operating models to unlock AI at scale
+
+**Software and AI**
+- TOTVS: Oracle introduces AI-Native builder experience to create and run agentic applications in Oracle Fusion applications
+- Sector: Anthropic Inches Toward a Mega-IPO
+- Sector: Microsoft is reportedly training salespeople to talk down OpenAI and Anthropic
+
+## Clipping 2026-07-16
+
+**Telecom LatAm and World**
+- TEO: Cambios en el organigrama del sector en Argentina: Enacom ahora depende directamente de la Jefatura de Gabinete de Ministros
+- AMX: Redes sociales concentraron 50% del tráfico móvil de AT&T México en el Mundial 2026
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Anatel vê mudanças no topo do 'oligopólio' da telefonia móvel
+- AMX/TEF-BZ/TIM: Anatel inicia consulta pública sobre spectrum cap
+- AMX/TEF-BZ/TIM: Anatel divulga Relatório de Monitoramento da Competição do segundo trimestre de 2026
+
+**IT Services**
+- CINT: CI&T and Mistral Partner to Power the Next Generation of Agentic Enterprises
+- GLOB/CINT: Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models
+- GLOB/CINT: AI changing economics of software engineering: Wipro's Premji
+- Sector: Outcome-based AI deals rising: TP CEO
+
+**Software and AI**
+- TOTVS: Oracle introduces AI-Native builder experience to create and run agentic applications in Oracle Fusion applications
+- TOTVS: Senior Roadshow 2026 percorrerá 12 estados *(analyst note: maybe worth offering an NDR with them, though this roadshow looks more sales- than investor-oriented)*
+- Sector: AI is paying off, but governance is lagging behind
+- Sector: "Falhamos", diz CEO da IBM. Ação desaba 25%
+
+**Ecommerce**
+- Sector: Reforma Tributária pode afetar caixa do e-commerce: Smart Online leva debate ao Fórum ECBR 2026
+
+## Clipping 2026-07-15
+
+**Telecom LatAm and World**
+- LatAm telcos: Ericsson to raise telecom equipment prices as AI boom drives up component costs
+- TIGO: Millicom shakes up Uruguay's mobile market with Tigo entry — BNamericas
+- AMX/TIGO: Colombia | CRC refuerza el monitoreo preventivo al mercado móvil para proteger la competencia y a los usuarios
+- AMX/TV: México | CFE invertirá 10,465 mdp para llevar WiFi gratuito a todo el país con recursos propios
+- AMX/TIGO: Movistar y CNT lideran ranking de internet móvil en Ecuador, según nPerf
+- Sector: Mercado chinês de smartphones cai pelo 5º trimestre e testa nova corrida por IA
+- Sector: Verizon planeja realizar nova rodada de demissões esta semana
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Anatel orienta operadoras a simplificar ofertas e proíbe inflar franquias com bônus — DPL News
+- TEF-BZ: Vivo derruba preço da fibra de 1 Giga com Gemini Premium — por tempo limitado
+- Sector: Investimentos da Anatel caem 54,8% no orçamento de 2026
+- Sector: Anatel define por estado como TV 3.0 ocupará a faixa de 250 MHz
+
+**IT Services**
+- GLOB/CINT: Infosys, Wipro ADRs crash up to 7% as IBM warning sends ripples across IT sector
+- GLOB/CINT: AI ROI is rising, but not where companies expected — CIO Dive
+
+**Software and AI**
+- TOTVS: Senior Sistemas permite que empresas criem agentes próprios de IA com Sara Studio
+- Sector: Salesforce e Nubank transformam colaboração com IA para 135 milhões de clientes na América Latina
+- Sector: Apple opens its new Siri AI to everyone with the iOS 27 public beta
+- Sector: DeepSeek reportedly in talks to raise $1.5B, then IPO
+- Sector: Spotify expands its AI push with a ChatGPT-like music assistant
+
+**Ecommerce**
+- VTEX/LWSA: TikTok Shop já responde por 6,5% das compras finalizadas online no Brasil, aponta estudo
+- Sector: Shein prepara IPO de até US$ 3 bilhões em Hong Kong para agosto
+- Sector: Varejo cresce 4,2% no segundo trimestre de 2026
+
+**Hardware**
+- INTB: Demanda supera capacidade e eleva tarifas de frete na América Latina
+- Sector: CEO da SK Hynix prevê a pior escassez de oferta de memória da história em 2027
+- Sector: Alta dos chips de memória encarece eletrônicos e derruba vendas globais
+
 ## Clipping 2026-07-14
 
 **Macro** *(manual-only)*

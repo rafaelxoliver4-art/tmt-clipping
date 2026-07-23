@@ -410,6 +410,25 @@ def main():
     except Exception as e:
         print(f"  [WARN] freshness verification failed: {e}")
 
+    # ── Stale-run guard (2026-07-23) ─────────────────────────────────────────
+    # If the PC sleeps mid-run the process is SUSPENDED, not killed: on
+    # 2026-07-20 the 07:14 Monday run resumed the next morning and finished
+    # "in 84570s" (23.5h), emailing day-old news and writing the digest under
+    # the WRONG DATE (2026-07-21.md for Monday's clipping). Happened 3x
+    # (9.5h / 9.7h / 23.5h runs). If we are far past the run's own scrape,
+    # the content is stale by definition: abort BEFORE sending, before the
+    # dedup memory is committed and before the vault write. Exit non-zero so
+    # Task Scheduler's restart-on-failure produces a FRESH run instead.
+    _run_age_h = (datetime.now(LOCAL_TZ) - start).total_seconds() / 3600.0
+    _MAX_RUN_AGE_H = 3.0
+    if _run_age_h > _MAX_RUN_AGE_H and not (NO_EMAIL or DRY_EMAIL or TEST_MODE):
+        print(f"\n  [STALE RUN] This run started {_run_age_h:.1f}h ago "
+              f"(limit {_MAX_RUN_AGE_H}h) — the PC almost certainly slept "
+              f"mid-run. The scraped news is no longer today's, so NOTHING is "
+              f"sent, no vault write, no dedup commit. A fresh run (scheduler "
+              f"retry / next slot / watchdog) will deliver current news.")
+        sys.exit(1)
+
     # Skip delivery entirely if the digest ended up empty (e.g. a quiet morning
     # where cross-run dedup + freshness left nothing material). Prevents emailing
     # an empty clipping to the team. (2026-06-03)
