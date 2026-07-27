@@ -1008,8 +1008,8 @@ SECTOR_ORDER = [
 EMAIL_RECIPIENTS = [
     # 2026-05-22: rafaelxoliver4@gmail.com removed at user request after the
     # switch to Gmail SMTP (sender is now ibotatom@gmail.com).
+    # 2026-07-27: cesar.davanco@santander.com.br removed at user request.
     "rafael.oliveira@ubs.com",
-    "cesar.davanco@santander.com.br",   # added 2026-07-14 at user request
 ]
 
 # ── Operational ALERT recipients ──────────────────────────────────────────────
