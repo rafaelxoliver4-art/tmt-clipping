@@ -82,7 +82,18 @@ def _parse_rss(xml_bytes: bytes, source_name: str, sector: str,
     results = []
     seen    = set()
 
-    def _make_row(title, link, pub_date_str):
+    def _clean_summary(raw, limit=220):
+        """Turn a raw RSS <description> (often leads with an <img>/<a> tag) into
+        a plain 1-2 sentence summary. HTML-strip is MANDATORY (2026-07-29)."""
+        if not raw:
+            return ""
+        import re as __re, html as __html
+        s = __re.sub(r"<[^>]+>", " ", raw)     # drop <img>/<a>/<font>… markup
+        s = __html.unescape(s)                  # &nbsp; &#8217; → chars
+        s = __re.sub(r"\s+", " ", s).strip()    # collapse whitespace/newlines
+        return s[:limit]
+
+    def _make_row(title, link, pub_date_str, description=""):
         title = title.strip()
         if not title or title in seen:
             return
@@ -98,6 +109,9 @@ def _parse_rss(xml_bytes: bytes, source_name: str, sector: str,
             "edition_lang":    "mixed",
             "edition_country": "mixed",
             "source_type":     "direct",
+            # 2026-07-29: 1-2 sentence article summary so the curator can "read
+            # when in doubt" (fintech-framed headlines hide the telecom angle).
+            "summary":         _clean_summary(description),
         })
 
     def _parse_pubdate(raw: str):
@@ -150,11 +164,12 @@ def _parse_rss(xml_bytes: bytes, source_name: str, sector: str,
             title   = item.findtext("title") or ""
             link    = item.findtext("link") or ""
             pub_raw = item.findtext("pubDate") or ""
+            desc    = item.findtext("description") or ""
             pub_str = _parse_pubdate(pub_raw)
             if pub_str == "TOO_OLD":
                 continue   # date parsed and old — drop
             # pub_str is either "" (date unknown) or "YYYY-MM-DD HH:MM"
-            _make_row(title, link, pub_str)
+            _make_row(title, link, pub_str, desc)
         return results
 
     # ── Atom ──────────────────────────────────────────────────────────────────
@@ -168,10 +183,12 @@ def _parse_rss(xml_bytes: bytes, source_name: str, sector: str,
         link    = (link_el.get("href", "") if link_el is not None else "")
         pub_raw = (entry.findtext("a:published", namespaces=ns)
                    or entry.findtext("a:updated", namespaces=ns) or "")
+        desc    = (entry.findtext("a:summary", namespaces=ns)
+                   or entry.findtext("a:content", namespaces=ns) or "")
         pub_str = _parse_pubdate(pub_raw)
         if pub_str == "TOO_OLD":
             continue
-        _make_row(title, link, pub_str)
+        _make_row(title, link, pub_str, desc)
 
     return results
 

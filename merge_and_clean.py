@@ -454,6 +454,12 @@ def format_for_claude(rows: List[Dict]) -> str:
         # differently (lean on title for freshness signal). Was: omit entirely.
         pub_tag  = f" ({pub})" if pub else " (date unknown)"
         lines.append(f"{i:3}. <{tag}> [{sector}] {source}{pub_tag}: {title}{lang_tag}")
+        # 2026-07-29: attach the 1-2 sentence article summary (DIRECT/RSS rows
+        # only carry one) on its own indented line so the curator can "read when
+        # in doubt" — the headline is primary, the summary disambiguates.
+        summ = (r.get("summary") or "").strip()
+        if summ:
+            lines.append(f"       ↳ {summ[:200]}")
     return "\n".join(lines)
 
 

@@ -144,6 +144,23 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-07-29 (pm-2)** — **MVNO delivery GUARANTEE + curator summary enrichment
+  ("read when in doubt").** The end-to-end test proved the headline-only curator is a
+  COIN-FLIP on fintech-framed MVNO stories (it picked the Nubank Croma story on one run,
+  dropped it on the next — the headline reads as a card/cashback product). Two fixes:
+  **(1) Guarantee** — `merge_and_clean.enforce_priority_inclusion()` (called in
+  `run_daily` right after the covered-name guarantee) force-delivers the single best
+  missed priority MVNO story into Telecom Brazil if the curator skipped it (0 if already
+  present, 0 if none that day). Safe: the hardened predicate has 0 false positives. So an
+  MVNO story now reaches the digest even if both the merge cap AND the curator would drop
+  it. **(2) Summary enrichment** — the RSS `<description>` (a real 1-2 sentence summary,
+  present on DIRECT/RSS rows, junk on gnews) was being discarded; now captured
+  (`url_scraper._clean_summary`, HTML-stripped — MANDATORY, WP feeds lead with an `<img>`),
+  passed to the curator as an indented `↳` line in `format_for_claude`, and the curator
+  prompt (rule 12) tells it to READ THE SUMMARY when the headline is ambiguous. Validated
+  live: Mobile Time 9/9 + Teletime 12/12 rows captured clean single-line summaries; format
+  renders correctly. Cost: ~2.5-3x curator INPUT tokens (~340 DIRECT summaries/run; free on
+  Max, higher latency). `summary` added to the CSV fieldnames so it persists to archives.
 - **2026-07-29 (pm)** — **Hardened the MVNO fix after a 6-agent adversarial audit.**
   The morning `_is_priority_title` fix worked for the flagged story but the audit
   found it BRITTLE + NOISY: (a) substring matching false-positived — "celular" inside

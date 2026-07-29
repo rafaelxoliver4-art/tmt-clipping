@@ -445,6 +445,12 @@ CURATION RULES:
 11. De-duplicate by EVENT, not by company: the same company may contribute 2-3
     DISTINCT items in one digest (e.g. a lawsuit AND a product launch are both
     eligible — only true duplicates of the same event collapse to one item).
+12. Some items carry a 1-2 sentence SUMMARY on the next line, prefixed "↳".
+    The headline is primary, but when the headline is AMBIGUOUS, READ THE SUMMARY
+    to judge materiality and the correct sector — a fintech/retail headline can
+    hide a telecom/MVNO angle (e.g. a "new card segment" that actually bundles a
+    mobile chip). When in doubt, let the summary decide, and file under the
+    sector the summary reveals.
 
 MATERIALITY BAR — include a story only if at least ONE is true:
 - Direct earnings / guidance / M&A for a covered name

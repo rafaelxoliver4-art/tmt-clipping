@@ -46,6 +46,7 @@ def save_csv(rows, path):
         writer = csv.DictWriter(f, fieldnames=[
             "title", "source", "link", "published_local",
             "keyword", "edition_lang", "edition_country", "source_type",
+            "summary",   # 2026-07-29: article summary for the "read when in doubt" curator
         ])
         writer.writeheader()
         for r in rows:
