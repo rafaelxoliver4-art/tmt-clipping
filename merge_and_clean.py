@@ -42,11 +42,42 @@ try:
 except ImportError:
     pass
 
+# Priority title terms — see config.PRIORITY_TITLE_TERMS (2026-07-29). Used by
+# _relevance_score to keep MVNO/competitor stories (NuCel/Nubank-Croma) out of
+# the "generic" bucket so they survive per-sector capping.
+try:
+    from config import PRIORITY_TITLE_TERMS as _PTT
+    _PRIORITY_TITLE_TERMS = tuple(t.lower() for t in _PTT)
+except ImportError:
+    _PRIORITY_TITLE_TERMS = ()
+
+# Mobile-context terms: a "Nubank" story is telecom-material only when paired
+# with a mobile signal (the Croma launch bundled a NuCel chip). This keeps pure
+# fintech Nubank news out while catching its MVNO moves. (2026-07-29)
+_MOBILE_CONTEXT_TERMS = ("croma", "nucel", "chip", "celular", "esim",
+                         "movel", "mvno", "operadora", "linha ")
+
+def _is_priority_title(title: str) -> bool:
+    """True if the title is a high-priority MVNO/competitor story that must
+    survive capping and route to Telecom Brazil, regardless of scrape keyword."""
+    t = _strip_accents((title or "").lower())
+    if any(term in t for term in _PRIORITY_TITLE_TERMS):
+        return True
+    if "nubank" in t and any(m in t for m in _MOBILE_CONTEXT_TERMS):
+        return True
+    return False
+
 
 def _guess_sector(row: Dict) -> str:
     """Heuristically assign a sector using keyword + title scan."""
     keyword  = (row.get("keyword") or "").lower()
     title    = (row.get("title")   or "").lower()
+
+    # 0. Priority MVNO/competitor stories → Telecom Brazil, overriding the
+    #    scrape keyword (which mis-filed the Nubank-Croma launch under Streaming
+    #    / Sell-side because those queries happened to surface it). 2026-07-29.
+    if _is_priority_title(title):
+        return "Telecom Brazil"
 
     # 1. Keyword directly in map
     if keyword in KW_TO_SECTOR:
@@ -84,6 +115,11 @@ def _relevance_score(row: Dict) -> int:
     for name in COVERED_LOWER:
         if len(name) >= 3 and re.search(r"\b" + re.escape(name) + r"\b", title):
             return 0
+    # Priority MVNO/competitor story (NuCel/Nubank-Croma etc.) → top priority so
+    # it always survives capping, regardless of the generic scrape keyword the
+    # direct feed gave it (2026-07-29 — user flagged the missed Nubank Croma).
+    if _is_priority_title(title):
+        return 0
     if keyword in KW_TO_SECTOR:
         return 1
     return 2

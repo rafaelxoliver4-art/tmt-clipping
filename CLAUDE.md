@@ -144,6 +144,21 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-07-29** — **Missed story fix: Nubank "Croma"/NuCel MVNO launch.** Analyst
+  flagged a material miss (Nubank launched the Croma segment bundling a NuCel mobile
+  chip = MVNO competition for VIVT3/TIMS3/Claro). Forensics: it WAS scraped (3 fintech-
+  framed versions) but scored **generic (rel 2)** and filed under **General/Streaming/
+  Sell-side** (its scrape keyword, not its telecom substance), so it was capped before
+  the curator. Root issue: `_guess_sector`/`_relevance_score` trusted the scrape keyword
+  ahead of the title. Fix: new `merge_and_clean._is_priority_title()` — `nucel` /
+  `nubank croma` / `c6 cel` / `surf telecom`, or `nubank`+mobile-context term — now
+  **overrides** sector→`Telecom Brazil` and relevance→0, so these survive capping
+  regardless of scrape query. Plus: NuCel/Nubank-mobile gnews queries + peers in
+  `config.SECTORS['Telecom Brazil']`, `nubank/nucel` added to `_PT_MARKERS` (BR edition),
+  `Mobile Time BR` gets `rss_pages:3` (its ~41h/20-item feed had dropped the NuCel
+  article), and a curator materiality bullet for fintech/retail MVNO moves. Validated on
+  the real 07-28 scrape: story now reaches the curator under Telecom Brazil (rel 0);
+  noise check = only 2 rows flagged in the whole scrape (both this story). `config.PRIORITY_TITLE_TERMS`.
 - **2026-07-14 (pm)** — **JUNE benchmark cross-check (8 clippings, 06/17–06/26) →
   core-feed priority + alias-aware relevance.** 8-agent audit vs 167 analyst items:
   only 32 delivered (19%) — expected, the window spans the June auth outage AND

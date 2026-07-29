@@ -470,6 +470,10 @@ MATERIALITY BAR — include a story only if at least ONE is true:
   are always material
 - Macro data with a named transmission mechanism to a covered name
 - Sector consolidation / new entrants / competitive dynamics in covered markets
+- MVNO / mobile moves by fintechs or retailers (Nubank/NuCel, C6, Surf, Mercado
+  Livre mobile, etc.) — new mobile plans, chip/eSIM bundles, subscriber
+  milestones, pricing — are MATERIAL for the covered Brazilian operators
+  (TIMS3 / VIVT3 / Claro-AMX) as MVNO competition; file under Telecom Brazil
 - Story affects the competitive NARRATIVE or valuation multiple for a covered name,
   even if direct financial impact is uncertain (e.g., AI-native startup formation
   threatening incumbents, government free-internet programs competing with a covered

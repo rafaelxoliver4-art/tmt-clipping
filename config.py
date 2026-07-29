@@ -156,6 +156,11 @@ SECTORS = {
             "TIM Brasil", "Claro Brasil", "V.tal", "Anatel", "Oi",
             "Vero Telecom", "Unifique", "Desktop Telecom", "Brisanet",
             "Desk3", "Ponto ISP", "Winity", "Algar Telecom",
+            # 2026-07-29: MVNO competitors from fintech/retail — their mobile
+            # moves are material competitive pressure on VIVT3/TIMS3/Claro.
+            # NuCel = Nubank's MVNO. (The 'Nubank Croma' launch bundled a NuCel
+            # chip and was missed because it scored generic + landed in General.)
+            "NuCel", "Nubank Croma", "C6 Cel", "Surf Telecom",
         ],
         "keywords": [
             # Covered
@@ -184,6 +189,11 @@ SECTORS = {
             # 2026-07-14 benchmark cross-check: Oi labor/operational angle and
             # regional-ISP consolidation stories were invisible
             "operadora Oi", "Brasil TecPar",
+            # 2026-07-29: fintech/retail MVNO mobile moves (Nubank NuCel launched
+            # the 'Croma' segment bundling a mobile chip — MVNO competition for
+            # the covered operators). Targeted so noise stays low.
+            "NuCel", "Nubank NuCel", "Nubank Croma", "Nubank chip",
+            "Nubank celular", "Nubank eSIM", "MVNO fintech Brasil",
         ],
     },
 
@@ -363,6 +373,8 @@ _PT_MARKERS = (
     "5g cobertura", "5g brasil",
     # 2026-07-14: new BR queries must route to the PT edition
     "operadora oi", "tecpar", "amazon now",
+    # 2026-07-29: Nubank/NuCel MVNO queries are Brazil-market
+    "nucel", "nubank", "c6 cel", "surf telecom",
 )
 
 _ES_MARKERS = (
@@ -715,6 +727,9 @@ DIRECT_SOURCES = [
         "name": "Mobile Time BR",
         "url":  "https://www.mobiletime.com.br/noticias/",
         "rss":  "https://www.mobiletime.com.br/feed/",
+        # 2026-07-29: core telecom source but its feed is shallow (~20 items /
+        # 41h) — the NuCel/Croma article wasn't captured. Paginate to ~24h+.
+        "rss_pages": 3,
         "sector": "Telecom Brazil",
     },
     {
@@ -971,6 +986,17 @@ CORE_DIRECT_SOURCES = frozenset({
     "Valor Econômico Tele", "Valor Econômico Tech", "NeoFeed", "Brazil Journal",
     "Anatel Notícias", "CADE Notícias", "Mobile World Live", "Ponto ISP",
 })
+
+# ── Priority title terms (2026-07-29) ────────────────────────────────────────
+# Distinctive entity names that lift a story out of "generic" (relevance 2 → 1)
+# when they appear in the TITLE, so it survives the per-sector cap even when a
+# direct feed tagged it generically. This is why the Nubank "Croma"/NuCel MVNO
+# launch was lost — scraped, but scored generic + filed under "General", so it
+# was capped before the curator saw it. Keep this list SPECIFIC (broad terms
+# would flood the curator). Accent-free lowercase; substring match.
+PRIORITY_TITLE_TERMS = (
+    "nucel", "nubank croma", "c6 cel", "surf telecom",
+)
 
 # ── Pre-filter caps (input to Claude; Claude does the final 50-item curation) ─
 MAX_HEADLINES_PER_SECTOR = 80
