@@ -654,6 +654,52 @@ def enforce_covered_inclusion(report: dict, raw_rows: list, max_add: int = 10,
     return counter
 
 
+def enforce_priority_inclusion(report: dict, raw_rows: list) -> dict:
+    """GUARANTEE that a priority MVNO/competitor story (NuCel / Nubank-Croma /
+    C6 mobile ...) is in the digest even if the curator skipped it (2026-07-29).
+
+    Why: these headlines are usually fintech-framed ("Nubank Croma, cartão
+    Platinum, cashback"), so the curator — which sees only the headline — is
+    unreliable on them (it picked the story on one run and dropped it on the
+    next). The hardened _is_priority_title has zero false positives, so forcing
+    the single best missed priority story into Telecom Brazil is safe.
+
+    Adds NOTHING if the curator already delivered a priority story (avoids
+    duplicates); otherwise force-adds exactly ONE — preferring a DIRECT/core row.
+    """
+    # Already delivered by the curator? then we're done.
+    for sec, items in report.items():
+        if sec == "_raw" or not isinstance(items, list):
+            continue
+        for it in items:
+            if _is_priority_title(it.get("headline", "")):
+                return {"added": 0, "already_present": 1}
+
+    cands = [r for r in raw_rows if _is_priority_title(r.get("title", ""))]
+    if not cands:
+        return {"added": 0, "already_present": 0}
+
+    direct_info = _direct_source_names()
+    try:
+        from config import CORE_DIRECT_SOURCES as _CORE
+    except ImportError:
+        _CORE = frozenset()
+    cands.sort(key=lambda r: (
+        0 if _is_direct(r, direct_info) else 1,
+        0 if (r.get("source") or "").strip() in _CORE else 1,
+        _relevance_score(r),
+    ))
+    best = cands[0]
+    report.setdefault("Telecom Brazil", []).append({
+        "ticker":   "MVNO",
+        "headline": best.get("title", ""),
+        "source":   best.get("source", ""),
+        "date":     best.get("published_local", ""),
+        "link":     best.get("link", ""),
+    })
+    return {"added": 1, "already_present": 0, "headline": best.get("title", "")}
+
+
 def _norm_title(s: str) -> str:
     """Normalise a title for fuzzy matching:
        NFKD-fold accents, lowercase, strip all non-alphanumeric.

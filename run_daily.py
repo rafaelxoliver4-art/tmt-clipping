@@ -370,6 +370,19 @@ def main():
     except Exception as e:
         print(f"  [WARN] covered-name guarantee failed: {e}")
 
+    # Priority MVNO guarantee (2026-07-29): fintech/retail MVNO stories are
+    # fintech-framed in the headline, so the headline-only curator is unreliable
+    # on them — force-deliver the best one if the curator missed it entirely.
+    try:
+        from merge_and_clean import enforce_priority_inclusion
+        pi = enforce_priority_inclusion(report, merged_rows)
+        if pi["added"]:
+            print(f"  MVNO guarantee: force-added 1 → {pi.get('headline','')[:70]}")
+        elif pi["already_present"]:
+            print("  MVNO guarantee: priority story already in digest")
+    except Exception as e:
+        print(f"  [WARN] MVNO guarantee failed: {e}")
+
     # Freshness verification + article-time enrichment (2026-05-28):
     # Fetch each curated item's article page to (a) correct the displayed time
     # to the precise value and (b) DROP items whose real pubdate is older than
