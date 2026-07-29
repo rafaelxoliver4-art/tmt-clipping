@@ -998,6 +998,22 @@ PRIORITY_TITLE_TERMS = (
     "nucel", "nubank croma", "c6 cel", "surf telecom",
 )
 
+# MVNO recognition, hardened after the 2026-07-29 adversarial audit. A story is
+# priority when a fintech/retail ISSUER co-occurs with a TELECOM-context term
+# (AND-gate) — this catches their MVNO moves while excluding pure fintech news
+# (credit lines, card chips). Both sides are WORD-BOUNDARY matched in
+# merge_and_clean, so "TudoCelular.com", "imóvel", "linha de crédito",
+# "chip do cartão" etc. cannot false-trigger.
+MVNO_ISSUERS = (
+    "nubank", "nucel", "roxinho", "banco roxinho",   # Nubank + its nicknames
+    "c6", "surf telecom", "picpay", "banco inter", "will bank",
+)
+MVNO_MOBILE_TERMS = (
+    "nucel", "croma", "mvno", "esim", "telefonia", "celular",
+    "operadora movel", "chip de celular", "plano de celular",
+    "linha movel", "rede movel", "telefonia movel", "servico movel",
+)
+
 # ── Pre-filter caps (input to Claude; Claude does the final 50-item curation) ─
 MAX_HEADLINES_PER_SECTOR = 80
 MAX_TOTAL_HEADLINES      = 400

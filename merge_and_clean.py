@@ -51,19 +51,37 @@ try:
 except ImportError:
     _PRIORITY_TITLE_TERMS = ()
 
-# Mobile-context terms: a "Nubank" story is telecom-material only when paired
-# with a mobile signal (the Croma launch bundled a NuCel chip). This keeps pure
-# fintech Nubank news out while catching its MVNO moves. (2026-07-29)
-_MOBILE_CONTEXT_TERMS = ("croma", "nucel", "chip", "celular", "esim",
-                         "movel", "mvno", "operadora", "linha ")
+# Fintech/retail MVNO recognition — see config.MVNO_ISSUERS / MVNO_MOBILE_TERMS.
+# Hardened 2026-07-29 after an adversarial audit found substring matching gave
+# false positives ("celular" inside "TudoCelular.com"; "chip"/"operadora"/
+# "linha" inside fintech phrases). Now WORD-BOUNDARY matched, with a trailing
+# " - Publisher" suffix stripped before the issuer/mobile test.
+try:
+    from config import MVNO_ISSUERS as _MVNO_ISSUERS
+    from config import MVNO_MOBILE_TERMS as _MVNO_MOBILE_TERMS
+    _MVNO_ISSUERS = tuple(t.lower() for t in _MVNO_ISSUERS)
+    _MVNO_MOBILE_TERMS = tuple(t.lower() for t in _MVNO_MOBILE_TERMS)
+except ImportError:
+    _MVNO_ISSUERS = ()
+    _MVNO_MOBILE_TERMS = ()
+
+def _wb(term: str, text: str) -> bool:
+    """Word-boundary containment (accent-free lowercase inputs)."""
+    return re.search(r"\b" + re.escape(term) + r"\b", text) is not None
 
 def _is_priority_title(title: str) -> bool:
     """True if the title is a high-priority MVNO/competitor story that must
-    survive capping and route to Telecom Brazil, regardless of scrape keyword."""
+    survive capping and route to Telecom Brazil, regardless of scrape keyword.
+      • a standalone always-telecom entity (NuCel / Nubank Croma / C6 Cel / …), OR
+      • a fintech/retail issuer + a telecom-context term (AND-gate).
+    """
     t = _strip_accents((title or "").lower())
-    if any(term in t for term in _PRIORITY_TITLE_TERMS):
+    # Drop a trailing " - Publisher" so an outlet name can't trigger a term.
+    core = t.rsplit(" - ", 1)[0] if " - " in t else t
+    if any(_wb(term, t) for term in _PRIORITY_TITLE_TERMS):
         return True
-    if "nubank" in t and any(m in t for m in _MOBILE_CONTEXT_TERMS):
+    if (any(_wb(iss, core) for iss in _MVNO_ISSUERS)
+            and any(_wb(m, core) for m in _MVNO_MOBILE_TERMS)):
         return True
     return False
 
@@ -215,12 +233,44 @@ def cap_per_sector(rows: List[Dict]) -> List[Dict]:
     skipped: List[Dict] = []
     n_direct = 0
 
+    # ── Pass 0: force-keep priority rows (2026-07-29) ────────────────────────
+    # MVNO/competitor stories (NuCel, Nubank-Croma, C6 mobile...) are admitted
+    # UNCONDITIONALLY, ahead of every cap, so a flagged story can never be
+    # capped out — mirroring the covered-name guarantee. The audit proved the
+    # explicit "plano NuCel" EXT row was otherwise dropped, leaving only a proxy.
+    # Bounded (_FORCE_KEEP_MAX) so a predicate over-fire can't flood; deduped by
+    # normalised title. These rows still count toward the caps below.
+    _forced_ids = set()
+    _forced_titles = set()
+    _FORCE_KEEP_MAX = 10
+    for row in rows_sorted:
+        if len(_forced_ids) >= _FORCE_KEEP_MAX:
+            break
+        if not _is_priority_title(row.get("title", "")):
+            continue
+        tkey = _strip_accents((row.get("title", "") or "").lower())[:90]
+        if tkey and tkey in _forced_titles:
+            continue
+        sec = row.get("sector", "General")
+        src = ((row.get("source") or "").strip().lower(), sec)
+        out.append(row)
+        _forced_ids.add(id(row))
+        if tkey:
+            _forced_titles.add(tkey)
+        counts[sec] = counts.get(sec, 0) + 1
+        per_source[src] = per_source.get(src, 0) + 1
+        if _row_is_direct(row):
+            dir_counts[sec] = dir_counts.get(sec, 0) + 1
+            n_direct += 1
+
     # Pass 1 — direct rows limited per sector and globally; EXT rows get a
     # GUARANTEED per-sector allotment (the 12 reserved slots), so every
     # sector's best gnews stories reach the curator regardless of how much
     # direct volume other sectors produce.
     ext_counts: Dict[str, int] = {}
     for row in rows_sorted:
+        if id(row) in _forced_ids:
+            continue                       # already force-kept in pass 0
         if len(out) >= max_total:
             skipped.append(row)
             continue

@@ -144,6 +144,24 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-07-29 (pm)** — **Hardened the MVNO fix after a 6-agent adversarial audit.**
+  The morning `_is_priority_title` fix worked for the flagged story but the audit
+  found it BRITTLE + NOISY: (a) substring matching false-positived — "celular" inside
+  "TudoCelular.com", and "chip"/"operadora"/"linha" inside fintech phrases (card chip,
+  operadora de crédito, linha de crédito) — routing pure fintech to Telecom Brazil at
+  rel 0; (b) the explicit "plano NuCel" EXT row was still capped out, so the story only
+  reached the curator via a DIRECT proxy with no mobile term in its title; (c) misses on
+  the "roxinho" nickname, "telefonia", and other fintech MVNOs (C6/Surf/PicPay). Fixes:
+  predicate now **word-boundary** matched + strips a trailing " - Publisher" suffix, and
+  generalised to an **issuer × telecom-term AND-gate** (`config.MVNO_ISSUERS` ×
+  `MVNO_MOBILE_TERMS`); and `cap_per_sector` now **force-keeps** priority rows (Pass 0,
+  bounded to 10, deduped) so a flagged story can never be capped out (mirrors the
+  covered-name guarantee). Validated: 6/6 adversarial false-positives now rejected, 7/7
+  recall cases caught, both Croma versions (incl. the explicit NuCel row) reach the
+  curator, digest stays 400 / no sector flooded. **Deferred (fast-follow):** RSS
+  summary-enrichment — pass the article's 1-2 sentence RSS description to the curator so
+  it can "read when in doubt" (DIRECT/RSS rows only, HTML-stripped, ~150 chars; ~2.5-3x
+  input tokens). Design captured; ship after this holds for a few days.
 - **2026-07-29** — **Missed story fix: Nubank "Croma"/NuCel MVNO launch.** Analyst
   flagged a material miss (Nubank launched the Croma segment bundling a NuCel mobile
   chip = MVNO competition for VIVT3/TIMS3/Claro). Forensics: it WAS scraped (3 fintech-
