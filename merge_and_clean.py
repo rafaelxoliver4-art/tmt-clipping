@@ -65,6 +65,12 @@ except ImportError:
     _MVNO_ISSUERS = ()
     _MVNO_MOBILE_TERMS = ()
 
+# Core trade feeds — used by _relevance_score (see the 2026-07-31 note there).
+try:
+    from config import CORE_DIRECT_SOURCES as _CORE_SOURCES
+except ImportError:
+    _CORE_SOURCES = frozenset()
+
 def _wb(term: str, text: str) -> bool:
     """Word-boundary containment (accent-free lowercase inputs)."""
     return re.search(r"\b" + re.escape(term) + r"\b", text) is not None
@@ -140,6 +146,18 @@ def _relevance_score(row: Dict) -> int:
         return 0
     if keyword in KW_TO_SECTOR:
         return 1
+    # ── 2026-07-31 NOTE (do not "fix" this by re-tiering) ────────────────────
+    # url_scraper._parse_rss stamps direct rows with keyword=<sector name>
+    # ("Telecom Brazil"), and sector NAMES are not keys in KW_TO_SECTOR, so
+    # direct-RSS rows without a covered ticker in the title land in tier 2.
+    # Measured 2026-07-30: only 17/649 direct-RSS rows (2.6%) reached the
+    # curator. PROMOTING THEM TO TIER 1 WAS TESTED AND REJECTED: it evicts the
+    # gnews tier-1 rows the curator actually uses — 32 previously-DELIVERED
+    # analyst picks lost vs only 10 recovered (net -31 against the real
+    # 24-31 Jul benchmark). The correct remedy is a WIDER FUNNEL (see
+    # current_max_total/current_max_per_sector), which is purely additive:
+    # the extra slots go to exactly these tier-2 direct-RSS rows with zero
+    # displacement. Keep relevance ordering as-is.
     return 2
 
 

@@ -144,6 +144,29 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-07-31** — **24-31 Jul benchmark audit (first with editorial-day windows):
+  104/147 delivered = 71%** (vs 19% in June, ~42% on 14 Jul). Misses: 26 merge-loss,
+  10 not-scraped, 7 curator-skip. **TWO CANDIDATE FIXES TESTED AND REJECTED — read this
+  before "fixing" the cap again:** the audit found direct-RSS rows carry
+  `keyword=<sector name>` (not a `KW_TO_SECTOR` key) so they score generic and only
+  **18/649 (2.6%)** reach the curator. (a) *Re-tiering* them to tier 1 → evicts the gnews
+  rows the curator uses: **−32 previously-DELIVERED analyst picks vs +10 recovered.**
+  (b) *Widening the funnel* → purely additive at the input layer (0 lost, +4 present at
+  700/130), BUT a **real curator A/B** showed no output gain: input 66K→127K chars,
+  digest 32→31 items, benchmark hits 8→7. Root reason both fail: core-outlet stories
+  already reach the curator via the **gnews path** (33 core-outlet rows vs 6 from the
+  direct scrape), so the direct scrape is largely redundant for them. **Caps stay
+  400/80 (600/100 Mondays).** SHIPPED instead (all additive): **(1) two dead feeds
+  repaired** — Baguete's RSS path was reversed (404) and CIO's was disabled by a stale
+  "multilingual" comment; both verified live and now yield rows *with summaries*;
+  **(2) CORE zero-yield alarm** in `url_scraper.run()` — a core feed returning 0 rows now
+  WARNs (Ecommerce Brasil returned 0 on exactly the two days the LWSA/Wake picks went
+  missing, silently); **(3) curator rules** — Brazilian tax-reform implementation
+  milestones and named-vendor AI cost/pricing economics (both capped 1-2/digest), plus
+  the DEDUPE-PREFERENCE bullet clarified as a TIE-BREAK, never a reason to omit (it had
+  dropped a 6 GHz consultation carried only by DPL); **(4) query gaps** — Microsoft AI
+  strategy, Oracle database/cloud, Snowflake AI, Amazon AI models, Apple services,
+  Televisa espectro/accionistas. 6 new benchmark clippings banked (26 total).
 - **2026-07-29 (pm-2)** — **MVNO delivery GUARANTEE + curator summary enrichment
   ("read when in doubt").** The end-to-end test proved the headline-only curator is a
   COIN-FLIP on fintech-framed MVNO stories (it picked the Nubank Croma story on one run,

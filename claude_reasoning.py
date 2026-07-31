@@ -378,6 +378,11 @@ CURATION RULES:
      specialists have deeper context, original quotes, and follow-up
      reporting. Pick DPL News only when it adds material that the
      Brazilian outlets don't have.
+     ⚠ This is a TIE-BREAK between versions of the same story that are BOTH in
+     your input — NEVER a reason to OMIT a story. If the only version of a
+     material Brazilian event in the input is the DPL News / Spanish-language
+     one, INCLUDE that one. (2026-07-31: a 6 GHz Wi-Fi consultation was dropped
+     this way because only the DPL version was present.)
    - For Spanish-LatAm stories (Mexico/Colombia/Argentina/Chile/Peru),
      reverse the preference: DPL News / BNAmericas / TeleSemana /
      Expansión / El Economista > generalist outlets.
@@ -480,6 +485,17 @@ MATERIALITY BAR — include a story only if at least ONE is true:
   Livre mobile, etc.) — new mobile plans, chip/eSIM bundles, subscriber
   milestones, pricing — are MATERIAL for the covered Brazilian operators
   (TIMS3 / VIVT3 / Claro-AMX) as MVNO competition; file under Telecom Brazil
+- Brazilian TAX-REFORM (Reforma Tributária / IBS-CBS / split payment)
+  IMPLEMENTATION milestones with a concrete deadline, transition phase, sector
+  carve-out or compliance-readiness statistic — these drive ERP and fiscal-
+  software demand for TOTVS/LWSA/VTEX and compliance cost for the telcos.
+  Industry-association positions on the RULES count; generic political
+  commentary about the reform does not. Max 1-2 per digest.
+- Named-vendor AI COST/PRICING economics for enterprise buyers (token costs vs
+  headcount, per-seat→consumption pricing shifts, an enterprise disclosing a
+  large AI-spend reduction) — direct read-across to TOTVS/GLOB/CINT margins and
+  to IT-services pricing models. Must name a company or carry a hard number;
+  generic "AI is expensive" think-pieces do not qualify. Max 1-2 per digest.
 - Story affects the competitive NARRATIVE or valuation multiple for a covered name,
   even if direct financial impact is uncertain (e.g., AI-native startup formation
   threatening incumbents, government free-internet programs competing with a covered

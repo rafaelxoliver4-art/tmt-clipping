@@ -594,6 +594,7 @@ def run(existing_headlines: List[Dict] = None) -> List[Dict]:
     total    = len(DIRECT_SOURCES)
     all_rows = []
     done     = 0
+    _yield_by_source: Dict[str, int] = {}   # for the CORE zero-yield alarm below
 
     print(f"  Direct scrape: {total} sources, {MAX_WORKERS} threads", flush=True)
 
@@ -608,11 +609,28 @@ def run(existing_headlines: List[Dict] = None) -> List[Dict]:
                 end="", flush=True,
             )
             try:
-                all_rows.extend(future.result())
+                rows_got = future.result()
+                all_rows.extend(rows_got)
+                _yield_by_source[src["name"]] = len(rows_got)
             except Exception as e:
+                _yield_by_source[src["name"]] = 0
                 print(f"\n  [WARN] {src['name']} -> {e}", file=sys.stderr)
 
     print()
+
+    # ── Zero-yield alarm for CORE trade feeds (2026-07-31) ───────────────────
+    # A core feed can die silently: Baguete's RSS path 404'd, CIO's was disabled
+    # by a stale comment, and Ecommerce Brasil returned 0 rows on exactly the two
+    # days the analyst's LWSA/Wake picks went missing — none of it raised a peep.
+    # A CORE source returning nothing is a defect, so say so loudly in the log.
+    try:
+        from config import CORE_DIRECT_SOURCES
+        dead = sorted(n for n in CORE_DIRECT_SOURCES if _yield_by_source.get(n, 0) == 0)
+        if dead:
+            print(f"  [WARN] CORE feeds returned ZERO rows ({len(dead)}): "
+                  f"{', '.join(dead)}  — check their RSS/HTML endpoints")
+    except Exception:
+        pass
 
     # Dedup against gnews + internally
     seen: set = set()

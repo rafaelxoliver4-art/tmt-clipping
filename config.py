@@ -147,6 +147,9 @@ SECTORS = {
             # CFE Internet MX, Osiptel data, rating actions, 5G Advanced trials)
             "Conatel Paraguay", "5G Paraguay", "ClaroVTR", "CFE Internet",
             "Osiptel", "Fitch Millicom", "5G Advanced",
+            # 2026-07-31 benchmark cross-check: Televisa ownership/spectrum
+            # stories were uncovered ("televisa" already routes ES via _ES_MARKERS)
+            "Televisa espectro", "Televisa accionistas",
         ],
     },
 
@@ -262,6 +265,12 @@ SECTORS = {
             "vibe coding", "AI ERP",
             "ERP cloud", "ERP Brasil", "Omie", "Senior Sistemas", "Sankhya",
             "software Brasil", "SaaS Latin America",
+            # 2026-07-31 benchmark cross-check: the analyst picks big-vendor
+            # enterprise-software/AI-strategy stories that had NO query at all
+            # (no "microsoft", no "oracle", no "snowflake", no bare "amazon").
+            # Qualified rather than bare-brand to keep consumer noise out.
+            "Microsoft AI strategy", "Oracle database", "Oracle cloud",
+            "Snowflake AI", "Amazon AI models", "Apple services",
         ],
     },
 
@@ -457,7 +466,9 @@ DIRECT_SOURCES = [
     {
         "name": "Baguete",
         "url":  "https://www.baguete.com.br/noticias",
-        "rss":  "https://www.baguete.com.br/noticias/rss",
+        # 2026-07-31: the old path (/noticias/rss) 404s — segments were reversed.
+        # Verified working: 16 items, ~46h depth.
+        "rss":  "https://www.baguete.com.br/rss/noticias/feed",
         "sector": "Software and AI",
     },
     {
@@ -504,7 +515,10 @@ DIRECT_SOURCES = [
     {
         "name": "CIO",
         "url":  "https://www.cio.com/news/",
-        "rss":  "",   # global RSS is multilingual (Korean/Japanese) — use HTML of English /news/ page
+        # 2026-07-31: the "multilingual RSS" note was stale — https://www.cio.com/feed/
+        # verified 100% English, 20 items, ~52h depth. RSS is more reliable than the
+        # HTML scrape and also carries article summaries for the curator.
+        "rss":  "https://www.cio.com/feed/",
         "sector": "IT Services",
     },
     {
@@ -1015,6 +1029,24 @@ MVNO_MOBILE_TERMS = (
 )
 
 # ── Pre-filter caps (input to Claude; Claude does the final 50-item curation) ─
+# 400/80 CONFIRMED CORRECT — do not raise. (2026-07-31, second A/B.)
+# The 24-31 Jul audit showed only 18/649 direct-RSS rows (2.6%) reach the curator
+# (they carry keyword=<sector name>, which is not a KW_TO_SECTOR key, so they
+# score "generic"). TWO candidate fixes were tested against the real runs and
+# BOTH REJECTED:
+#   1. Re-tier direct rows to tier 1 → evicts the gnews rows the curator actually
+#      uses: −32 previously-DELIVERED analyst picks vs +10 recovered. Net −31.
+#   2. Widen the funnel (700/130, 800/150…) → purely additive at the INPUT layer
+#      (0 delivered rows lost, +4 misses present), BUT a real curator A/B on the
+#      2026-07-31 run showed NO output gain: 400→700 took the input from 66K to
+#      127K chars and the digest went 32→31 items, benchmark hits 8→7. The
+#      curator picks ~31 items regardless of input size, so extra candidates only
+#      add reading load. This independently CONFIRMS the 2026-07-14 A/B.
+# Why the starvation is not the crisis it appears: core-outlet stories still
+# reach the curator via the GNEWS path (measured 2026-07-31: 33 core-outlet rows
+# via gnews vs 6 via direct scrape). The direct scrape is largely redundant with
+# gnews for these outlets, which is exactly why adding more of it changes nothing.
+# The real lever for the remaining misses is CURATION and FEED HEALTH, not cap size.
 MAX_HEADLINES_PER_SECTOR = 80
 MAX_TOTAL_HEADLINES      = 400
 
