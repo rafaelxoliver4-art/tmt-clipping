@@ -26,6 +26,233 @@ Then fix and note it in `CLAUDE.md`.
 > MANUAL-ONLY buckets — the pipeline deliberately does not produce them. Ignore
 > them when cross-checking pipeline output.
 
+## Clipping 2026-07-31
+
+**Telecom LatAm and World**
+- TV: BlackRock reports 5.2% ownership of Grupo Televisa common stock
+- TV: Televisa pide perfeccionar la subasta 5G industrial de CRT para atajar barreras financieras y asignaciones desfavorables
+- TV: Izzi apuesta por Starlink ante el avance del internet satelital directo a celulares
+- AMX: Registro de líneas celulares en México ya suma 68 millones; Sheinbaum niega control gubernamental
+- AMX: Claro supera 3 millones de usuarios 5G entre Costa Rica y Ecuador
+- TIGO/AMX: Altos custos do solo freiam a implantação de infraestrutura móvel no Chile
+- Sector: AT&T paga 23.000 mdd por licencias de espectro de EchoStar
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Starlink se aproxima de 10% da banda larga rural no país, aponta Ookla
+- AMX/TEF-BZ/TIM: Starlink tem recuo na velocidade de download no Brasil, aponta Ookla
+- AMX/TEF-BZ/TIM: Operadoras brasileiras entre líderes globais de internet fixa e móvel
+- TIM/BRISANET: TIM e Brisanet recebem licenças de espectro em caráter secundário
+- TIM: TIM vai inaugurar 80 lojas físicas em 2026
+- V.tal: V.tal e Meta iniciam ancoragem do cabo Malbec no RS
+- Sector: Brasil consultará sobre uso de banda de 6 GHz para WiFi em exteriores
+- Sector: Investimentos estrangeiros em telecomunicações batem recorde
+
+**IT Services**
+- GLOB/CINT: Forward-deployed engineers are the AI industry's latest talent obsession
+- Sector: Capgemini sees multi-year IT modernisation boom as firms prepare for AI
+- Sector: As token costs mount, leaders revise their AI plans
+
+**Software and AI**
+- TOTVS: How AI Is transforming SaaS pricing and shifting enterprise spending to labor budgets
+- TOTVS: Oracle to Make Gemini Models Available to Thousands of Enterprise Applications Customers
+- OpenAI: OpenAI cuts prices for two of its GPT-5.6 AI models as companies grow sensitive to costs
+- Sector: Microsoft is openly competing with OpenAI, Anthropic more than ever
+- Sector: Em seis meses, agentes autônomos do banco BV elevaram taxa de recuperação de crédito a 48%
+
+## Clipping 2026-07-30
+
+**Telecom LatAm and World**
+- TIGO: Honduras lanza subasta de espectro AWS para 4G y 5G
+- TIGO: Chile | El duro revés de Movistar ante la justicia: deberá pagar deuda de $3.746 millones con el Fisco en medio de su conversión a Tigo
+- TEO: Starlink y Enacom llevarán internet satelital a 6.000 escuelas argentinas
+- AMX: México | México retrocede en espectro radioeléctrico por costos elevados: AT&T
+- Sector: American Tower sees Brazil recovery, Latin America growth returning in 2027
+- Sector: IA elevará la demanda de redes y centros de datos
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Guerra de preços na telefonia: como Vivo, Claro e TIM se preparam para cenário de maior competição
+- AMX/TEF-BZ/TIM: Na zona rural, Starlink já tem mais clientes de internet que Claro e Vivo
+- AMX/TEF-BZ/TIM: Starlink se aproxima de 10% da banda larga rural no país, aponta Ookla
+- AMX/TEF-BZ/TIM: São Paulo é primeiro estado a atualizar lei de antenas em todos os municípios
+- AMX: Brasil | Claro Empresas lança plataforma com IA da Microsoft para automatizar resposta a incidentes
+- TIM/TEF-BZ: Ibovespa hoje sobe com IPCA-15 abaixo do esperado; TIM e Telefônica Brasil tombam após balanços — Estadão
+- TEF-BZ: Telefônica Brasil, dona da Vivo, procura parceiros para compartilhar torres e reduzir custos com infraestrutura
+
+**IT Services**
+- GLOB/CINT: Capgemini upgrades its 2026 outlook
+- GLOB/CINT: Capgemini lifts 2026 revenue growth target on AI transformation demand — The Economic Times
+- GLOB/CINT: Blog: Accenture Tokenomics Launched to Help Enterprises Manage AI Token Spend
+- Sector: Cognizant forecasts weak quarterly revenue amid cautious client spending — The Economic Times
+- Sector: Grid Dynamics Accelerates Enterprise AI-Native Transformation With Workforce Certification and GAIN Platforms Rollout
+- Sector: Cognizant lifts annual profit forecast on strong financial services growth
+- Sector/BZ: Cresce número de formados em TI, mas ainda há escassez de mão de obra
+
+**Software and AI**
+- TOTVS: Plataformas low-code barateiam e aceleram a criação de softwares
+- TOTVS: Reforma Tributária: quase metade das PMEs não se preparou para transição de setembro
+- TOTVS: B3 e TOTVS abrem inscrições para programas de estágio em tecnologia
+- OPENAI: OpenAI, Anthropic, and Cursor all localized pricing for India. Only two focused on value
+- Sector: Tivit espera expansão de dois dígitos no Brasil com impulso de serviços digitais
+- Sector: Oracle simplifies migrating legacy databases off IBM mainframes with support for EBCDIC
+- Sector: Snowflake launches AI agent governance layer to track activity, control costs
+
+**Ecommerce**
+- VTEX: VTEX aposta para digitalizar vendas B2B e crescer além do varejo online
+- VTEX/LWSA: IPO da Shein vem aí: como abertura de capital pode afetar ações de varejistas na B3?
+- Sector: Shopee aumenta em mais de 60% o número de Centros de Distribuição no Brasil em 2026
+- Sector: Agentic commerce exige arquitetura híbrida e controle de custos para evoluir, diz NVIDIA
+- Sector: E-commerce brasileiro fatura R$ 208,4 bilhões no primeiro semestre
+- Sector: Cielo agora tem pagamento por agentes da IA
+
+## Clipping 2026-07-29
+
+**Telecom LatAm and World**
+- AMX: América Móvil usará agentes de IA para controlar gastos y conocer mejor a sus clientes
+- Sector: Chile impulsará la conectividad satelital D2C con nuevas bandas y mayor competencia — Mobile Time Latinoamérica
+- Sector: Altos costos del suelo frenan el despliegue de infraestructura móvil en Chile
+- Sector: Compartir infraestructura no basta: American Tower pide nuevo modelo de colaboración
+
+**Telecom Brazil**
+- AMX/TEF-BZ/TIM: Brasileiro migra de operadora no pré-pago no 2º tri, mostram balanços de Vivo e TIM — Bloomberg Línea Brasil
+- TEF: Telefónica eleva projeção de caixa e volta a ter lucro no 2º trimestre
+- TIM/TEF-BZ: TIM e Vivo minimizam interesse na Oi Soluções
+- TIM: TIM Brasil não está à venda e é considerada uma 'joia' por novo controlador na Itália, diz CEO
+- TIM: Mercado teme que teles abandonem postura racional em favor da competitividade, diz CEO da TIM Brasil
+- TIM: TIM moderniza rede em Salvador e planeja cinco novas capitais em 2026
+- TIM: TIM fará aporte de capital de até R$ 670 milhões na I-Systems e V8.Tech
+- TEF-BZ: Vivo vê mercado mais competitivo com entrada das móveis regionais
+- TEF-BZ: Vivo será one stop shop de serviços de IA — Mobile Time
+- TEF-BZ: Vivo quer desligar redes 2G, 3G e 4G o "quanto antes"
+- TEF-BZ: Vivo terá agentes de IA atendendo chamadas no call center
+
+**IT Services**
+- GLOB/CINT: Top 5 IT services companies see 3.3% staff productivity boost in Q1; Wipro the only laggard as TCS, Infosys
+- GLOB/CINT: AI costs heat forcing vendors to rethink pricing, Pegasystems executive
+- Sector: Coforge shares surge 7% after Q1 profit spikes 63% YoY
+
+**Software and AI**
+- TOTVS: Earnings from SAP, ServiceNow, and IBM challenge the SaaSpocalypse narrative
+- TOTVS: Itaú reduziu em 65% seus gastos com IA generativa, revela diretor
+- Sector: Microsoft launches its first cybersecurity model, plus a new agentic cybersecurity system
+- Sector: Amazon winds down most flagship AI models in strategy overhaul, Business Insider reports
+- Sector: Anthropic's Dario Amodei responds: doesn't oppose open-weight models, but fears Chinese AI
+
+**Ecommerce**
+- LWSA: Bling quer ir além do ERP e ser one stop shop para PMEs
+- LWSA: Wake lança Córtex, orquestrador de agentes de IA no varejo
+- LWSA: Como criar uma loja virtual na Tray em minutos
+
+**Streaming**
+- TV: Incoming Apple CEO aims to build on movie and TV progress
+
+**Hardware**
+- Sector: Apple launches 'Upgrade' device leasing program in partnership with Klarna
+
+## Clipping 2026-07-28
+
+**Telecom LatAm and World**
+- AMX: CRT: Conectividad móvil durante el Mundial 2026 mejoró con el espectro temporal
+- TIGO: El duro revés de Movistar ante la justicia: deberá pagar deuda de $3.746 millones con el Fisco en medio de su conversión a Tigo Chile
+- TIGO: Honduras | Conatel informa sobre concurso de espectro de banda 1700/2100
+- TEO: Arrancó el proceso de desinversión de Telecom con la designación de una figura clave
+- Sector: Amazon planeja constelação de até 5.105 satélites para serviços de telefonia e dados
+- Sector: Antel Uruguay invertirá más de 750 millones de dólares hacia 2030
+- Sector: Chile impulsará la conectividad satelital D2C con nuevas bandas y mayor competencia
+
+**Telecom Brazil**
+- TEF-BZ: Telefônica Brasil quer se consolidar como varejista no segmento de eletrônicos, diz comando
+- TEF-BZ: Vivo pretende acelerar venda de cabos de cobre e imóveis
+- TIM: TIM fará aporte de capital de até R$ 670 milhões na I-Systems e V8.Tech
+- AMX/TEF-BZ/TIM: Tráfego dispara, mas redes sustentam transmissão da Copa na Internet
+- BRISANET: Brisanet levará 5G a 62 cidades de Goiás
+
+**IT Services**
+- GLOB/CINT/TOTVS: Gartner Survey Finds AI Automation Is Reducing Some Entry Level Hiring at Nearly One-Quarter of Organizations
+- GLOB/CINT: TCS, Infosys, Coforge, other IT stocks rally up to 10% after Nvidia-led chip rout. Is AI trade ending?
+- Sector: Cognizant and Anthropic expand partnership to embed Claude in Cognizant's industry platforms, helping clients close the gap between AI promise and business outcomes
+
+**Software and AI**
+- TOTVS: Senior anuncia o primeiro ERP da América Latina operável por ChatGPT e Claude
+- TOTVS: TOTVS acelera su crecimiento en México con inversión de más de 118 millones de dólares *(analyst note: source never seen before — worth asking them)*
+- TOTVS: SAP: Soluções em nuvem e IA impulsionam resultados da SAP na América Latina
+
+**Ecommerce**
+- VTEX/LWSA: Em meio a tarifaço dos EUA, Fiemg defende retomada da taxa das 'blusinhas'
+
+**Hardware**
+- INTB: Verisure investe R$ 1 bi por ano em nova geração de alarmes com videomonitoramento
+
+## Clipping 2026-07-27
+
+**Telecom LatAm and World**
+- AMX: Revolut lanza eSIM de viaje en su app para clientes en México
+- AMX: Claro tv+ cresce em audiência durante a Copa do Mundo de 2026
+- TV: Televisa vuelve a la banda de los 600 MHz para probar un 5G Broadcast en Ecatepec
+- TV: México ocupa el tercer lugar mundial en rendimiento de streaming móvil
+- TIGO: Tigo Business, el negocio B2B de Millicom con el que Xavier Niel se presentará en sociedad en Chile
+- TEO: Enacom Argentina modifica el valor de referencia de la Unidad de Tasación Radioeléctrica
+- Sector: FCC aprueba nueva subasta de espectro en banda C para 2027
+
+**Telecom Brazil**
+- TIM: TIM-backed VC fund invests in Brazilian legal AI unicorn
+- TEF-BZ: Clientes da Vivo poderão acessar Starlink pelo celular em breve
+- TIM/TEF-BZ: Ações da Telefônica (VIVT3), dona da Vivo, e da TIM (TIMS3) 'driblam' aversão a risco local à espera de balanço do 2T26 — Money Times
+
+**IT Services**
+- GLOB/CINT: IT firms Q1 growth not enough to offset AI's impact on traditional biz
+- GLOB/CINT: IT price wars squeeze Infosys out of three multi-million dollar accounts — The Economic Times
+- TOTVS/GLOB/CINT: Enterprises contend with mounting AI costs as tools sprawl — CIO Dive
+- Sector: GCCs now influence up to $55 billion of India's IT services exports — Deloitte
+
+**Software and AI**
+- TOTVS: TIVIT cresce 45% em cibersegurança com novo SOC
+- Sector: 86% do uso de IA conversacional é doméstico, aponta estudo do Google
+- Sector: Anthropic launches Opus 5
+- Sector: CEO da Nvidia defende modelos chineses de inteligência artificial
+
+**Ecommerce**
+- VTEX/LWSA: Facebook launches a dedicated Marketplace app for sellers, adds a free verification system
+- Sector: Vendas online no Brasil crescem 9% em 2025 e movimentam US$ 3,8 bi na América Latina
+
+**Hardware**
+- Sector: Abinee cobra novas medidas após EUA elevarem sobretaxa a 37,5% *(analyst note: possible read-across for Intelbras)*
+
+## Clipping 2026-07-24
+
+**Telecom LatAm and World**
+- AMX: Bait tiene menos usuarios nuevos pero genera 3,800 mdp para Walmart; logra ser rentable a pesar del registro — expansion.mx
+- TIGO: Panamá | Tigo invertirá hasta $6 millones en espectro 5G — DPL News
+- TV: México ocupa el tercer lugar mundial en rendimiento de streaming móvil
+- Sector: Telxius activa Punto de Presencia en República Dominicana
+
+**Telecom Brazil**
+- TEF: Digital Metrics | Caída de ingresos de Movistar redunda en baja de facturación minorista telco en España
+- V.tal: Nio compra a carteira de clientes da Onitel
+- Sector: Para Telcomp, especificidades do setor de telecom exigem atenção redobrada na implementação das novas regras tributárias
+- Sector: Anatel aprova fim da concessão de telefonia fixa da Sercomtel — TELETIME News
+
+**IT Services**
+- GLOB/CINT: India's IT giants grapple with weak growth despite resilient deal momentum — The Economic Times
+- Sector: As US AI costs soar, global businesses pivot to China's low-cost, open-weight models — The Star
+- ACN: Accenture eyes $350 million majority stake in ANSR at $1 billion valuation
+
+**Software and AI**
+- TOTVS: SAP trims 2026 profit goal, signalling cost of AI push — The Economic Times
+- TOTVS: OpenAI Presence raises new questions about enterprise automation and jobs
+- TOTVS: Adoção de nuvem cresce 77% e amplia integração com ERP — Valor Econômico
+- BZ: IA já está em 59% dos órgãos públicos e em 94% do Judiciário
+- Sector: Google's Gemini nears billion-user milestone
+- Sector: Smaller, smarter, safer: How to build agentic AI on the right foundation
+- Sector: Anthropic updates Claude voice mode with more capable models
+- Sector: Fluxo de caixa livre negativo do Google alimenta temores sobre gastos com IA
+
+**Ecommerce**
+- LWSA: Na era das buscas por IA, Tray leva "mapa de ação" e cases de sucesso ao Fórum E-Commerce Brasil 2026
+- MELI: Shopee e Mercado Livre travam corrida que já afeta o mercado de galpões — Economic News Brasil
+
+**Hardware**
+- POSI: Positivo Servers & Solutions lança solução integrada para adoção de IA on-premises nas empresas brasileiras — Data Center Dynamics
+
 ## Clipping 2026-07-23
 
 **Telecom LatAm and World**
