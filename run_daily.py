@@ -126,12 +126,42 @@ _FAIL_FLAG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "CLIPPING_
 
 def _alert_failure(subject: str, detail: str) -> None:
     ts = datetime.now(LOCAL_TZ).strftime("%Y-%m-%d %H:%M %Z")
+
+    # Diagnose from the actual error instead of always blaming the CLI login
+    # (2026-08-03: an SMTP "WinError 10053 connection aborted" alert told the
+    # owner to re-login, which was wrong and cost real time). Match the failure
+    # class and give the fix that actually applies.
+    low = f"{subject} {detail}".lower()
+    if any(s in low for s in ("not logged in", "/login", "401", "unauthorized",
+                              "invalid authentication", "not authenticated")):
+        fix = ("MOST LIKELY CAUSE & FIX — the Claude CLI lost its login.\n"
+               "    Open a terminal, run:  claude\n"
+               "    then type  /login  and sign in with your Max account.\n"
+               "    WAIT until the terminal itself prints 'Login successful'.")
+    elif any(s in low for s in ("email could not be sent", "smtp", "10053", "10054",
+                                "connection unexpectedly closed", "connection aborted",
+                                "timed out", "authentication failed")):
+        fix = ("MOST LIKELY CAUSE & FIX — the EMAIL SEND failed, not the AI.\n"
+               "    Curation almost certainly worked; Gmail/SMTP dropped the connection.\n"
+               "    This is usually transient (network/VPN/firewall). Just re-run:\n"
+               "        python run_daily.py\n"
+               "    If it repeats: check the internet connection, then confirm the\n"
+               "    Gmail app password in .env is still valid.")
+    elif any(s in low for s in ("no internet", "getaddrinfo", "0 headlines",
+                                "returned nothing", "dns")):
+        fix = ("MOST LIKELY CAUSE & FIX — no network when the run started.\n"
+               "    The PC was likely waking up. The scheduled retry (3x every 5 min)\n"
+               "    and the watchdog should recover it automatically; if not, re-run:\n"
+               "        python run_daily.py")
+    else:
+        fix = ("CAUSE UNCLEAR — see the error above and the run log in logs/.\n"
+               "    Most common fixes: (1) re-run  python run_daily.py\n"
+               "    (2) if it mentions login/401, run  claude  then  /login")
+
     body = (
         f"{subject}\n\nWhen: {ts}\n\nWhat happened:\n{detail}\n\n"
-        "MOST LIKELY CAUSE & FIX: the Claude CLI lost its login. In a terminal run:\n"
-        "    claude        (then type /login and sign in with your Max account)\n\n"
-        "The next scheduled run will then work again. (This flag file is deleted "
-        "automatically on the next successful run.)\n"
+        f"{fix}\n\n"
+        "(This flag file is deleted automatically on the next successful run.)\n"
     )
     try:
         with open(_FAIL_FLAG, "w", encoding="utf-8") as f:
