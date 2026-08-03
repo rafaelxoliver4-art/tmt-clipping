@@ -24,7 +24,7 @@
 - **Running FREE** on the Max-plan Claude CLI — there is **no `ANTHROPIC_API_KEY`**
   in `.env` (if one is present, the curator switches to the paid API at ~$0.15/run;
   remove it to go back to free).
-- **Scheduled** weekdays BRT **06:40 / 16:30 / 18:00** (Windows Task Scheduler, enabled).
+- **Scheduled** weekdays BRT **06:20 / 16:30 / 18:00** (morning moved 06:40→06:20 on 2026-08-03) (Windows Task Scheduler, enabled).
 - **⚠️ #1 failure mode — the CLI login expires.** Every few days the Max-plan token can
   lapse → the curator gets `401 Invalid authentication credentials` → the run **aborts,
   emails an `[ACTION NEEDED]` alert (to `config.py → ALERT_EMAIL`), writes
