@@ -144,6 +144,24 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-08-11** — **NO-REPEAT rule: fixed cross-run dedup (it was ~half broken)
+  + added a within-digest duplicate guard.** Analyst reported repeated news.
+  Measured across the last 8 digests: consecutive runs were repeating **39-54%** of
+  their items (08-07 16:30→18:00 = 21/42; 08-10 16:30→18:00 = 29/54;
+  08-10 18:00→08-11 morning = 22/56). ROOT CAUSE: `commit_delivered_seen` stores the
+  CURATOR's headline (outlet suffix already dropped) but `_cross_run_dedupe` filters
+  RAW SCRAPE rows, which still carry `" - DPL News"` etc. The old `_norm_key` did NOT
+  strip that suffix, so `"FCC propone… - DPL News"` and `"FCC propone…"` hashed
+  differently and the story was never blocked. FIX: `_norm_key` now strips the
+  trailing `" - Outlet"` / `" | Outlet"` tail and folds accents (same rule as
+  `_norm_title`). Measured on the real 08-11 morning scrape vs what 08-10 18:00
+  delivered: raw rows blocked **19 → 54**. Also added
+  `merge_and_clean.dedupe_within_digest()` (called in `run_daily` after the
+  covered-name and MVNO guarantees) — token-overlap ≥0.75 drops a same-event twin
+  from different outlets; threshold deliberately high, verified NOT to collapse
+  distinct stories about the same company (TIM fibra vs TIM results, Claro CO vs
+  Claro PE). NOTE: the seen-store keys change format, so ONE transitional run has
+  weaker dedup; it self-heals as the store refreshes (TTL 1 day).
 - **2026-07-31** — **24-31 Jul benchmark audit (first with editorial-day windows):
   104/147 delivered = 71%** (vs 19% in June, ~42% on 14 Jul). Misses: 26 merge-loss,
   10 not-scraped, 7 curator-skip. **TWO CANDIDATE FIXES TESTED AND REJECTED — read this

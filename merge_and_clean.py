@@ -742,6 +742,53 @@ def _norm_title(s: str) -> str:
     return _re.sub(r"[^a-z0-9]+", "", ascii_only.lower()).strip()
 
 
+_DEDUP_STOPWORDS = set(
+    "de da do das dos e a o as os em no na nos nas para por com que um uma "
+    "the of to in and for on at is its as by with from".split()
+)
+
+def dedupe_within_digest(report: Dict, threshold: float = 0.75) -> Dict[str, int]:
+    """Drop near-duplicate stories INSIDE one digest (2026-08-11).
+
+    The curator is told to de-duplicate by EVENT, and mostly does — but the same
+    story from two outlets occasionally slips through with different wording
+    (e.g. "Mercado Libre crece 50% en el 2Q26 impulsado por comercio y fintech"
+    vs "Mercado Libre crece 50% en ingresos en 2Q26 - Mobile Time"). This is the
+    code-level safety net.
+
+    Similarity = shared significant words / smaller set. `threshold` is
+    deliberately high (0.75) so genuinely distinct stories about the same
+    company are NOT collapsed — only true retellings of one event.
+    Keeps the FIRST occurrence (the curator orders by materiality).
+    """
+    def _sig(headline: str) -> set:
+        k = _norm_key(headline)          # accent-folded, outlet-suffix stripped
+        return {w for w in k.split() if len(w) > 3 and w not in _DEDUP_STOPWORDS}
+
+    kept: List[tuple] = []               # (sector, sigset)
+    dropped = 0
+    for sector, items in report.items():
+        if sector == "_raw" or not isinstance(items, list):
+            continue
+        survivors = []
+        for it in items:
+            sig = _sig(it.get("headline", ""))
+            if sig:
+                dup = False
+                for _sec, prev in kept:
+                    inter = len(sig & prev)
+                    if inter and inter / min(len(sig), len(prev)) >= threshold:
+                        dup = True
+                        break
+                if dup:
+                    dropped += 1
+                    continue
+                kept.append((sector, sig))
+            survivors.append(it)
+        report[sector] = survivors
+    return {"dropped": dropped}
+
+
 def enforce_ext_cap(report: Dict, raw_rows: List[Dict], max_ext: int = 5) -> Dict[str, int]:
     """
     Code-level safety net: if the curator emitted more than `max_ext` items
@@ -886,7 +933,29 @@ _SEEN_TTL_DAYS   = 1   # 2026-05-22: analyst chose 24h window. Items shipped in
 
 
 def _norm_key(title: str) -> str:
-    return re.sub(r"[^\w\s]", "", (title or "").lower()).strip()
+    """Cross-run dedup key.
+
+    2026-08-11 FIX — must strip the trailing " - Outlet" suffix and fold accents.
+    Why: `commit_delivered_seen` stores the CURATOR's headline (the curator, or
+    the source itself, usually drops the outlet suffix), while
+    `_cross_run_dedupe` filters RAW SCRAPE rows, which still carry it. The old
+    key kept the suffix, so
+        "FCC propone liberar espectro ... - DPL News"   (raw)
+        "FCC propone liberar espectro ..."              (delivered/stored)
+    produced DIFFERENT keys and the story sailed through to be re-delivered.
+    Measured on the real 2026-08-11 morning scrape against what the 08-10 18:00
+    run delivered: raw rows blocked went 19 → 54. Consecutive digests were
+    repeating 39-54% of their items before this.
+    """
+    import unicodedata as _u
+    if not title:
+        return ""
+    s = title.strip()
+    # Drop a trailing " - Outlet" / " | Outlet" tail (same rule as _norm_title)
+    s = re.sub(r"\s+[-–—|]\s+[^-–—|]{2,60}$", "", s)
+    nfkd = _u.normalize("NFKD", s)
+    ascii_only = "".join(c for c in nfkd if not _u.combining(c))
+    return re.sub(r"[^a-z0-9]+", " ", ascii_only.lower()).strip()
 
 
 def _norm_url_key(link: str) -> str:

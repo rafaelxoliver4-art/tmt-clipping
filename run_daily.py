@@ -414,6 +414,17 @@ def main():
     except Exception as e:
         print(f"  [WARN] MVNO guarantee failed: {e}")
 
+    # Within-digest near-duplicate guard (2026-08-11). Runs AFTER the two
+    # force-include steps, so a guaranteed item can't be injected as a twin of
+    # something the curator already picked.
+    try:
+        from merge_and_clean import dedupe_within_digest
+        dd = dedupe_within_digest(report)
+        if dd["dropped"]:
+            print(f"  Duplicate guard: dropped {dd['dropped']} repeated story(ies) in this digest")
+    except Exception as e:
+        print(f"  [WARN] duplicate guard failed: {e}")
+
     # Freshness verification + article-time enrichment (2026-05-28):
     # Fetch each curated item's article page to (a) correct the displayed time
     # to the precise value and (b) DROP items whose real pubdate is older than
