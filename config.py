@@ -81,7 +81,7 @@ COVERED_NAME_ALIASES = {
     "POSI":    ["Positivo Tecnologia", "POSI", "POSI3", "Positivo Casa Inteligente",
                 "Quantum smartphones"],
     "INTB":    ["Intelbras", "INTB", "INTB3"],
-    "MLAS":    ["Magazine Luiza", "Magalu", "MGLU", "MGLU3", "MLAS", "KaBuM",
+    "MLAS":    ["Magazine Luiza", "Magalu", "MGLU", "MGLU3", "KaBuM",
                 "Estante Virtual"],
 }
 
@@ -275,7 +275,7 @@ SECTORS = {
     },
 
     "Ecommerce": {
-        "covered": ["VTEX", "LWSA", "MLAS"],
+        "covered": ["VTEX", "LWSA", "Magazine Luiza"],
         "peers": [
             "Mercado Libre", "Shopify", "eBay", "TikTok Shop",
             "Amazon Brasil", "Magalu", "Via Varejo", "B2W",
@@ -291,13 +291,13 @@ SECTORS = {
     },
 
     "Hardware": {
-        "covered": ["POSI", "INTB", "MLAS"],
+        "covered": ["POSI", "INTB", "Magazine Luiza"],
         "peers": ["Apple", "Samsung", "Xiaomi", "Motorola", "IDC",
                   "Positivo Tecnologia", "Intelbras",
                   # Intelbras segment competitors (read-across)
                   "Hikvision", "Dahua", "TP-Link", "Growatt"],
         "keywords": [
-            "Positivo Tecnologia", "POSI", "Intelbras", "INTB", "MLAS",
+            "Positivo Tecnologia", "POSI", "Intelbras", "INTB",
             "Apple Brasil", "Samsung Brasil", "smartphones Brasil",
             "imposto smartphones", "tarifacao eletronicos",
             "IDC smartphones", "mercado hardware Brasil",
@@ -403,7 +403,7 @@ _ES_MARKERS = (
 _UNIVERSAL = (
     "amx", "tigo", "teo telecom", "millicom", "vivt3", "tims3", "brisanet",
     "cint", "globant", "ci&t", "totvs", "lwsa", "vtex", "posi", "intb",
-    "mlas", "meli", "mercado libre",
+    "meli", "mercado libre",
 )
 
 
@@ -502,8 +502,12 @@ DIRECT_SOURCES = [
     },
     {
         "name": "Ecommerce Brasil",
-        "url":  "https://www.ecommercebrasil.com.br/noticias",
-        "rss":  "https://www.ecommercebrasil.com.br/feed/",
+        # 2026-08-11: /feed/ now 404s on EVERY path and /noticias returns 500,
+        # so this CORE feed was yielding ~0-2 rows/day (it was silently dead on
+        # exactly the days the LWSA/Wake and Dia-dos-Pais picks went missing).
+        # Homepage HTML scrape verified live (HTTP 200).
+        "url":  "https://www.ecommercebrasil.com.br/",
+        "rss":  "",
         "sector": "Ecommerce",
     },
     {
@@ -529,7 +533,10 @@ DIRECT_SOURCES = [
         # items) instead of the general feed — de-redundifies vs Geral/Tele.
         "name": "Valor Econômico Tech",
         "url":  "https://valor.globo.com/empresas/tecnologia/",
-        "rss":  "https://pox.globo.com/rss/valor/empresas/tecnologia",
+        # 2026-08-11: the /tecnologia section feed is abandoned (newest item 21
+        # days old → age-filtered to zero). /empresas verified live: 100 items,
+        # 31.7h depth, newest 0.3h old.
+        "rss":  "https://pox.globo.com/rss/valor/empresas",
         "sector": "Software and AI",
     },
     {
@@ -547,7 +554,10 @@ DIRECT_SOURCES = [
     {
         "name": "Mercado & Consumo",
         "url":  "https://mercadoeconsumo.com.br/category/noticias/",
-        "rss":  "https://mercadoeconsumo.com.br/feed/",
+        # 2026-08-11: /feed/ newest item was 21 days old (silently HTML-fallback).
+        # Category feed is live but only ~6.6h deep → paginate past the run gap.
+        "rss":  "https://mercadoeconsumo.com.br/category/noticias/feed/",
+        "rss_pages": 5,
         "sector": "Ecommerce",
     },
     {
@@ -671,8 +681,9 @@ DIRECT_SOURCES = [
         "rss":  "https://dplnews.com/feed/",
         # 2026-07-14: DPL's feed shows only 10 items (~2h of news) — the #1
         # source of the analyst's manual picks was scrolling away between runs.
-        # Fetch 4 pages (~40 items ≈ 24h); Mondays auto-triple to 12 (~72h).
-        "rss_pages": 4,
+        # 2026-08-11: measured — 4 pages reach only ~18.7h, under the ~30h bar
+        # for a 3x/day cadence. 7 pages ≈ 30-45h; Mondays auto-triple (capped 15).
+        "rss_pages": 7,
         "sector": "Telecom LatAm and World",
     },
     {
@@ -690,7 +701,10 @@ DIRECT_SOURCES = [
     {
         "name": "Expansión Tecnología",
         "url":  "https://expansion.mx/tecnologia",
-        "rss":  "",   # general feed is off-topic; scrape the /tecnologia section directly
+        # 2026-08-11: had no RSS and relied on an HTML scrape that intermittently
+        # yields 0 (the CORE zero-yield alarm caught it). Feed verified live:
+        # 45 items, 287h depth, newest 1.6h old — and RSS carries summaries.
+        "rss":  "https://expansion.mx/rss/tecnologia",   # general feed is off-topic; scrape the /tecnologia section directly
         "sector": "Telecom LatAm and World",
     },
     {
@@ -748,8 +762,11 @@ DIRECT_SOURCES = [
     },
     {
         "name": "Ponto ISP",
-        "url":  "https://www.pontoisp.com.br/category/noticia/",
-        "rss":  "https://www.pontoisp.com.br/feed/",
+        # 2026-08-11: RSS abandoned (newest item 43 DAYS old, so _parse_rss
+        # age-filters everything to zero) and the /category/noticia/ page also
+        # returned 0 rows. Homepage verified HTTP 200 — use the HTML scrape.
+        "url":  "https://www.pontoisp.com.br/",
+        "rss":  "",
         "sector": "Telecom Brazil",
     },
     {

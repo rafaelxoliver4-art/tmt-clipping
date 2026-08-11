@@ -350,6 +350,14 @@ def _strip_accents(s: str) -> str:
     return "".join(c for c in nfkd if not _ud.combining(c))
 
 
+# Leading tokens too generic to identify a publisher — see _direct_source_names.
+_GENERIC_BRAND_TOKENS = frozenset({
+    "the", "portal", "data", "mobile", "money", "light", "brazil", "brasil",
+    "mexico", "valor", "seu", "apollo", "infor", "cinco", "ponto", "tela",
+    "news", "grupo", "canal", "diario", "jornal", "revista", "radio",
+})
+
+
 def _direct_source_names():
     """Returns a list of (name, brand, domain) tuples for each direct source.
        - name:   normalized full name (lowercase, accent-stripped)
@@ -382,6 +390,18 @@ def _direct_source_names():
             brand = ""
         elif len(words[0]) >= 3:
             brand = words[0]
+            # 2026-08-11: a GENERIC leading token must not become a brand.
+            # "The Verge"/"The Information" → brand "the" made rule (c)
+            # (src.startswith(brand + " ")) tag EVERY "The ..." outlet as a
+            # DIRECT source: The Times of India, The Hindu, The Manila Times,
+            # The Tribune… Same for "Portal ERP"/"Portal Solar" → "portal".
+            # Measured on the 08-11 run: 323 of 3,864 gnews rows (8.4%) were
+            # wrongly tagged DIRECT — they consumed the direct budget, sorted
+            # ahead of real trade-feed rows and bypassed the EXT cap.
+            # These publishers still match via rule (a) exact name and rule (d)
+            # domain, so nothing legitimate is lost.
+            if brand in _GENERIC_BRAND_TOKENS:
+                brand = ""
         elif len(words) >= 2:
             brand = words[0] + " " + words[1]
             if len(brand) < 4:

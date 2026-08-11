@@ -144,6 +144,38 @@ read "07-00"/"16-30"/"18-00 BRT" but the morning one fires **06:40**.
 - Editorial rules: `wiki_context.py` → `ANALYST_CONTEXT`.
 
 ## Change log (most recent first — APPEND here on every change)
+- **2026-08-11 (pm)** — **3-11 Aug benchmark audit: 136/174 delivered = 78%** (best yet;
+  71% late-Jul, 42% mid-Jul, 19% Jun). Per-day 59-91%. Misses: 26 merge-loss, 8 not-scraped,
+  3 curator-skip. Two DOMINANT bugs found and fixed, both measured before and after:
+  **(1) `_is_direct` brand-prefix false positives (21 misses).** `_direct_source_names()`
+  took `brand = words[0]`, so `"The Verge"`/`"The Information"` → brand **"the"** and
+  `"Portal ERP"` → **"portal"**. Rule (c) `src.startswith(brand + " ")` then tagged EVERY
+  "The …" outlet as a DIRECT source — The Times of India, The Hindu, The Manila Times,
+  The Tribune, The New Indian Express, Portal do Bitcoin… Measured: **323 of 3,864 gnews
+  rows (8.4%) wrongly DIRECT**, consuming the direct budget, sorting ahead of real trade
+  feeds and bypassing the EXT cap. Fix: `_GENERIC_BRAND_TOKENS` blanks the brand for
+  generic leading words; those publishers still match via rule (a) exact-name and (d)
+  domain. After: **0 false positives, 0 real sources lost, 323 → 100 tagged**.
+  **(2) bare `MLAS` ticker = Indian legislative politics.** `"MLAS"` sat in Hardware
+  keywords, two `covered` lists and `COVERED_NAME_ALIASES`, so it fired as a universal
+  gnews query AND scored relevance 0. Measured: **2,073 raw rows across August**
+  ("20 MLAs inducted into Karnataka cabinet"), 94 in a single run, all force-promoted to
+  the TOP tier. Fix: removed the bare 4-letter token everywhere (kept Magazine Luiza /
+  Magalu / MGLU). After: **0 reach the curator input**; those rows now score 2.
+  Also FEED REPAIRS (all verified live): **Ecommerce Brasil** RSS 404s on every path and
+  its HTML url returned 500 → repointed to the homepage (a CORE feed had been silently
+  dead, explaining 5 misses); **Valor Econômico Tech** section feed abandoned (newest item
+  21 days old) → `pox.globo.com/rss/valor/empresas` (100 items / 31.7h); **Mercado &
+  Consumo** main feed stale 21 days → live category feed + `rss_pages: 5`; **DPL News**
+  `rss_pages` 4 → 7 (4 pages reached only 18.7h, under the 30h bar). Feeds measured and
+  found HEALTHY (do not "fix"): Tele.Síntese 317h, Mobile Time BR 92.7h, Teletime 119h,
+  TI Inside 96h, Baguete 99h (the 07-31 repair holds), TELA VIVA 94h, TeleSemana 99h,
+  Mobile World Live 107h, CIO 103h. **6 of the 38 misses are attributable to the cross-run
+  dedup bug** fixed earlier the same day (repeats were eating digest slots), not to any
+  new rule. The new CORE zero-yield alarm then caught TWO MORE dead feeds on the
+  validation run: **Ponto ISP** (RSS newest item 43 days old + /category page empty →
+  homepage HTML, now 10 rows) and **Expansión Tecnología** (had NO rss and its HTML scrape
+  intermittently returned 0 → added its verified feed, 45 items/287h). Alarm works.
 - **2026-08-11** — **NO-REPEAT rule: fixed cross-run dedup (it was ~half broken)
   + added a within-digest duplicate guard.** Analyst reported repeated news.
   Measured across the last 8 digests: consecutive runs were repeating **39-54%** of
